@@ -2,744 +2,900 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Para Cleidis ❤️ Mi Amor Eterno</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Great+Vibes&family=Playfair+Display:ital@1&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #ff4d6d;
-            --secondary-color: #ff85a1;
-            --background-color: #fff0f3;
-            --text-color: #590d22;
-            --accent-color: #c9184a;
+            --primary: #ff4d6d;
+            --secondary: #ff85a1;
+            --bg: #fff0f3;
+            --text: #590d22;
+            --accent: #c9184a;
             --white: #ffffff;
             --book-cover: #a4133c;
-            --paper-color: #f8f1e5;
-            --shadow: 0 15px 45px rgba(0,0,0,0.15);
+            --paper: #fdf6e3;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            margin: 0;
-            padding: 0;
             font-family: 'Quicksand', sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            min-height: 100vh;
+            background-color: var(--bg);
+            color: var(--text);
             overflow-x: hidden;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
-        /* Navbar Elegante */
+        /* --- NAVEGACIÓN --- */
         .navbar {
             display: none;
             position: fixed;
             top: 0;
+            left: 0;
             width: 100%;
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
+            z-index: 1000;
             padding: 10px;
             box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-            z-index: 2000;
-            justify-content: center;
-            gap: 5px;
-            flex-wrap: wrap;
+            justify-content: flex-start;
+            gap: 8px;
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
         }
 
-        .navbar button {
+        .navbar::-webkit-scrollbar { display: none; }
+
+        .nav-btn {
             background: none;
             border: none;
-            color: var(--text-color);
+            padding: 8px 16px;
+            font-size: 0.85rem;
             font-weight: 600;
-            cursor: pointer;
-            padding: 8px 12px;
+            color: var(--text);
             border-radius: 20px;
+            cursor: pointer;
             transition: 0.3s;
-            font-size: 0.8rem;
+            flex-shrink: 0;
         }
 
-        .navbar button.active {
-            background: var(--primary-color);
+        .nav-btn.active {
+            background: var(--primary);
             color: white;
             box-shadow: 0 4px 10px rgba(255, 77, 109, 0.3);
         }
 
-        .container {
+        /* --- RAZONES --- */
+        .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+        }
+
+        .reason-card {
+            background: var(--bg);
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 77, 109, 0.1);
+            cursor: pointer;
+            transition: 0.4s;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .reason-card.revealed {
+            background: var(--white);
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 77, 109, 0.1);
+            color: var(--primary);
+        }
+
+        /* --- CUPONES --- */
+        .coupon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .coupon {
+            background: var(--white);
+            border: 2px dashed var(--primary);
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .coupon::before, .coupon::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--bg);
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .coupon::before { left: -12px; }
+        .coupon::after { right: -12px; }
+
+        .coupon.redeemed {
+            opacity: 0.5;
+            filter: grayscale(1);
+            pointer-events: none;
+        }
+
+        .coupon-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        /* --- TIMELINE --- */
+        .timeline {
+            position: relative;
+            max-width: 100%;
+            margin: 20px auto;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: var(--primary);
+            opacity: 0.3;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .timeline-item::before {
+            content: '❤️';
+            position: absolute;
+            left: -40px;
+            top: 0;
+            background: var(--bg);
+            border-radius: 50%;
+            padding: 5px;
+            font-size: 0.8rem;
+        }
+
+        .timeline-date {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .main-container {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
-            max-width: 900px;
-            margin: 0 auto;
             width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
         }
 
-        /* Hero */
-        .hero-screen {
-            height: 90vh;
+        /* --- PANTALLA DE INICIO (HERO) --- */
+        #hero {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            z-index: 2000;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: space-around; /* Distribución equitativa */
             align-items: center;
+            padding: 40px 20px;
             text-align: center;
+            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.8s;
         }
 
-        h1 {
+        .hero-title {
             font-family: 'Great Vibes', cursive;
-            font-size: 3.5rem;
-            color: var(--primary-color);
-            margin-bottom: 0; /* Quitamos el margen de abajo */
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
-            position: relative;
-            z-index: 100; /* Super arriba */
+            font-size: clamp(2.5rem, 10vw, 4.5rem);
+            color: var(--primary);
+            text-shadow: 2px 2px 10px rgba(255, 77, 109, 0.1);
+            margin-bottom: 20px;
         }
 
-        /* SOBRE 3D */
-        .envelope-wrapper {
-            cursor: pointer;
+        /* --- SOBRE 3D MEJORADO --- */
+        .envelope-container {
             perspective: 1000px;
-            margin-top: 120px; /* Agregamos un margen superior grande al sobre mismo */
-            position: relative;
-            z-index: 1;
+            cursor: pointer;
+            margin: 40px 0;
         }
 
         .envelope {
-            width: 220px;
-            height: 150px;
-            background: var(--primary-color);
+            width: 260px;
+            height: 180px;
+            background: var(--primary);
             position: relative;
             border-radius: 0 0 10px 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
             transform-style: preserve-3d;
-            transition: 0.5s;
+            transition: transform 0.6s;
         }
 
         .envelope::before {
             content: '';
             position: absolute;
-            top: -100px;
+            top: -120px;
             left: 0;
-            border-left: 110px solid transparent;
-            border-right: 110px solid transparent;
-            border-bottom: 100px solid var(--primary-color);
+            border-left: 130px solid transparent;
+            border-right: 130px solid transparent;
+            border-bottom: 120px solid var(--primary);
             z-index: 2;
         }
 
-        .heart-btn {
+        .heart-icon {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 3rem;
+            font-size: 3.5rem;
             z-index: 3;
             animation: pulse 1.5s infinite;
         }
 
         @keyframes pulse {
             0% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.1); }
+            50% { transform: translate(-50%, -50%) scale(1.15); }
             100% { transform: translate(-50%, -50%) scale(1); }
         }
 
-        /* SECCIONES */
+        .tap-hint {
+            font-weight: 600;
+            color: var(--primary);
+            margin-top: 20px;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        /* --- SECCIONES --- */
         .section {
             display: none;
             width: 100%;
             margin-top: 80px;
-            animation: fadeIn 0.8s ease;
+            animation: slideUp 0.8s ease forwards;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .card {
             background: var(--white);
-            border-radius: 30px;
-            padding: 40px 20px;
+            border-radius: 25px;
+            padding: 30px 20px;
             box-shadow: var(--shadow);
             text-align: center;
+            margin-bottom: 30px;
         }
 
-        /* LIBRO 3D REALISTA CORREGIDO */
-        .book-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-        }
-
-        .book {
-            width: 320px;
-            height: 450px;
-            position: relative;
-            transition: transform 0.5s;
-            transform-style: preserve-3d;
-            cursor: pointer;
-        }
-
-        .book:hover {
-            transform: rotateY(-10deg);
-        }
-
-        .page {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            transform-origin: left;
-            transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
-            transform-style: preserve-3d;
-            background: var(--paper-color);
-            border-radius: 5px 15px 15px 5px;
-            box-shadow: inset 3px 0 10px rgba(0,0,0,0.1);
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            backface-visibility: hidden;
-        }
-
-        /* Z-INDEX & Z-DEPTH FIX: Portada arriba, resto abajo */
-        /* Agregamos translateZ para forzar el orden en móviles */
-        #page-0 { z-index: 11; transform: translateZ(11px); }
-        #page-1 { z-index: 10; transform: translateZ(10px); }
-        #page-2 { z-index: 9; transform: translateZ(9px); }
-        #page-3 { z-index: 8; transform: translateZ(8px); }
-        #page-4 { z-index: 7; transform: translateZ(7px); }
-        #page-5 { z-index: 6; transform: translateZ(6px); }
-        #page-6 { z-index: 5; transform: translateZ(5px); }
-        #page-7 { z-index: 4; transform: translateZ(4px); }
-        #page-8 { z-index: 3; transform: translateZ(3px); }
-        #page-9 { z-index: 2; transform: translateZ(2px); }
-        #page-10 { z-index: 1; transform: translateZ(1px); }
-
-        .cover {
-            background: var(--book-cover);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-align: center;
-        }
-
-        .cover h3 {
-            font-family: 'Great Vibes', cursive;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-
-        .page.flipped {
-            transform: rotateY(-180deg) translateZ(0px) !important;
-            z-index: 0 !important;
-            pointer-events: none; /* Evita que las páginas volteadas bloqueen los clics */
-            opacity: 0.1; /* Opcional: desvanecer un poco para móviles */
-            transition: transform 1s, opacity 1s, z-index 1s;
-        }
-
-        .poetry-text {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.2rem;
-            line-height: 1.8;
-            font-style: italic;
-            color: #333;
-        }
-
-        .page-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            background: #e5d9c3;
-            transform: rotateY(180deg);
-            backface-visibility: hidden;
-            border-radius: 15px 5px 5px 15px;
-        }
-
-        /* PROMESAS */
-        .promises-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .promise-card {
-            background: var(--background-color);
-            padding: 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: 0.3s;
-            height: 120px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 0.9rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-
-        .promise-card:hover {
-            transform: translateY(-5px) scale(1.05);
-            background: var(--primary-color);
-            color: white;
-        }
-
-        /* MUSICA */
-        .music-card {
-            background: #000;
-            border-radius: 20px;
-            overflow: hidden;
-            margin: 20px 0;
-        }
-
-        /* GALERIA DE FOTOS */
-        .gallery-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 10px;
-        }
-
-        .photo-card {
-            background: white;
-            padding: 12px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            transition: 0.4s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .photo-card:hover {
-            transform: translateY(-10px) rotate(2deg);
-            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2);
-        }
-
-        .photo-card img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            border-radius: 10px;
-            display: block;
-        }
-
-        .photo-caption {
-            margin-top: 15px;
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.4rem;
-            color: var(--primary-color);
-        }
-
-        /* Efecto de cinta adhesiva en las fotos */
-        .photo-card::before {
-            content: '';
-            position: absolute;
-            top: -5px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 30px;
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(2px);
-            z-index: 2;
-        }
-
-        /* FOOTER */
-        footer {
-            padding: 40px;
-            text-align: center;
-            font-size: 0.8rem;
-            opacity: 0.6;
-        }
-
-        /* BOTONES */
-        .btn-action {
-            background: var(--primary-color);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-block;
-            margin-top: 20px;
-            transition: 0.3s;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn-action:hover {
-            background: var(--accent-color);
-            transform: scale(1.05);
-        }
-
-        /* CORAZONES */
-        .floating-heart {
-            position: fixed;
-            pointer-events: none;
-            z-index: 1;
-            animation: float 4s linear infinite;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
-        }
-
-        /* CONTADOR DETALLADO */
-        .timer-grid {
+        /* --- CONTADOR --- */
+        .timer-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin: 20px 0;
+            gap: 12px;
+            margin: 25px 0;
         }
 
-        .timer-item {
-            background: var(--background-color);
+        .timer-box {
+            background: var(--bg);
             padding: 15px;
-            border-radius: 20px;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 77, 109, 0.1);
         }
 
-        .timer-value {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--primary-color);
+        .timer-num {
             display: block;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
         }
 
-        .timer-label {
-            font-size: 0.8rem;
+        .timer-txt {
+            font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             opacity: 0.7;
         }
 
-        /* MOBILE */
-        @media (max-width: 480px) {
-            h1 { font-size: 2.5rem; }
-            .envelope-wrapper { margin-top: 100px; }
-            .book { width: 280px; height: 400px; }
-            .poetry-text { font-size: 1rem; }
-            .card { padding: 30px 15px; }
+        /* --- LIBRO 3D REESCRITO --- */
+        .book-wrap {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .book {
+            width: 300px;
+            height: 420px;
+            position: relative;
+            perspective: 1500px;
+        }
+
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            transform-origin: left;
+            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+            background: var(--paper);
+            border-radius: 5px 15px 15px 5px;
+            box-shadow: inset 5px 0 15px rgba(0,0,0,0.05), 5px 5px 15px rgba(0,0,0,0.1);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            cursor: pointer;
+            backface-visibility: hidden;
+        }
+
+        .page.flipped {
+            transform: rotateY(-180deg);
+        }
+
+        .page-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #f0e6d2;
+            transform: rotateY(180deg);
+            backface-visibility: hidden;
+            border-radius: 15px 5px 5px 15px;
+        }
+
+        .book-cover {
+            background: var(--book-cover);
+            color: white;
+            z-index: 100; /* Asegura que la portada esté arriba al inicio */
+        }
+
+        .book-cover h3 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+        }
+
+        .poetry-txt {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
+            line-height: 1.8;
+            font-style: italic;
+            color: #2c3e50;
+        }
+
+        /* --- GALERÍA POLAROID --- */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .polaroid {
+            background: white;
+            padding: 15px 15px 50px 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transform: rotate(-2deg);
+            transition: 0.4s;
+        }
+
+        .polaroid:nth-child(even) { transform: rotate(2deg); }
+
+        .polaroid:hover {
+            transform: scale(1.05) rotate(0deg);
+            z-index: 10;
+        }
+
+        .polaroid img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border: 1px solid #eee;
+        }
+
+        .caption {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            margin-top: 15px;
+            color: var(--primary);
+        }
+
+        /* --- PROMESAS REVELABLES --- */
+        .promises {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
+        }
+
+        .promise-btn {
+            background: var(--bg);
+            padding: 20px 10px;
+            border-radius: 15px;
+            border: 2px dashed var(--secondary);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100px;
+        }
+
+        .promise-btn.revealed {
+            background: var(--primary);
+            color: white;
+            border-style: solid;
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        /* --- MÚSICA --- */
+        .music-player {
+            background: #111;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 20px 0;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        /* --- BOTÓN ACCIÓN --- */
+        .btn {
+            background: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 15px;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* --- ELEMENTOS FLOTANTES --- */
+        .floating {
+            position: fixed;
+            pointer-events: none;
+            z-index: 500;
+            animation: floatUp 5s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(105vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        footer {
+            padding: 40px;
+            text-align: center;
+            opacity: 0.5;
+            font-size: 0.8rem;
+        }
+
+        /* --- RESPONSIVIDAD --- */
+        @media (max-width: 500px) {
+            .book { width: 270px; height: 380px; }
+            .hero-title { font-size: 2.8rem; }
+            .envelope { width: 220px; height: 150px; }
+            .envelope::before { top: -100px; border-left: 110px solid transparent; border-right: 110px solid transparent; border-bottom: 100px solid var(--primary); }
+            .poetry-txt { font-size: 1rem; }
         }
     </style>
 </head>
 <body>
 
+    <!-- PANTALLA DE INICIO -->
+    <div id="hero">
+        <h1 class="hero-title">Para mi hermosa Cleidis</h1>
+        <div class="envelope-container" onclick="unlockWeb()">
+            <div class="envelope">
+                <div class="heart-icon">❤️</div>
+            </div>
+            <p class="tap-hint">Toca para abrir mi corazón</p>
+        </div>
+        <p style="font-weight: 600; opacity: 0.7;">Hecho con amor infinito</p>
+    </div>
+
+    <!-- NAVBAR -->
     <nav class="navbar" id="navbar">
-        <button onclick="showSection('inicio')" id="nav-inicio" class="active">Inicio</button>
-        <button onclick="showSection('galeria')" id="nav-galeria">Nuestras Fotos</button>
-        <button onclick="showSection('poesia')" id="nav-poesia">Libro de Versos</button>
-        <button onclick="showSection('promesas')" id="nav-promesas">Mis Promesas</button>
-        <button onclick="showSection('musica')" id="nav-musica">Te Dedico</button>
-        <button onclick="showSection('historia')" id="nav-historia">Historia</button>
+        <button onclick="go('inicio')" class="nav-btn active" id="btn-inicio">Inicio</button>
+        <button onclick="go('galeria')" class="nav-btn" id="btn-galeria">Fotos</button>
+        <button onclick="go('poesia')" class="nav-btn" id="btn-poesia">Versos</button>
+        <button onclick="go('razones')" class="nav-btn" id="btn-razones">¿Por qué te amo?</button>
+        <button onclick="go('cupones')" class="nav-btn" id="btn-cupones">Cupones</button>
+        <button onclick="go('historia')" class="nav-btn" id="btn-historia">Nuestra Historia</button>
+        <button onclick="go('promesas')" class="nav-btn" id="btn-promesas">Promesas</button>
+        <button onclick="go('musica')" class="nav-btn" id="btn-musica">Canción</button>
     </nav>
 
-    <div class="container">
+    <div class="main-container">
         
-        <!-- HERO -->
-        <div id="hero" class="hero-screen">
-            <h1>Para mi hermosa Cleidis</h1>
-            <div class="envelope-wrapper" onclick="openEverything()">
-                <div class="envelope">
-                    <div class="heart-btn">❤️</div>
-                </div>
-            </div>
-            <p style="margin-top: 40px; font-weight: 600; color: var(--primary-color);">Toca el corazón para empezar</p>
-        </div>
-
         <!-- SECCIÓN: INICIO -->
-        <div id="inicio" class="section">
+        <section id="inicio" class="section">
             <div class="card">
-                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem;">Hola, mi vida</h2>
-                <p>Bienvenida a este pequeño rincón que hice pensando solo en ti. Aquí guardo un poquito de todo lo que te amo.</p>
-                <div style="font-size: 3rem; margin: 20px 0;">✨ 🌹 ✨</div>
-                <p>Llevamos amándonos:</p>
+                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary);">Hola, amor de mi vida</h2>
+                <p style="margin: 15px 0;">Este espacio es solo para nosotros. Un recordatorio de lo mucho que significas para mí.</p>
+                <div style="font-size: 2.5rem; margin: 20px 0;">✨ 🌹 ✨</div>
+                <p style="font-weight: 600;">Llevamos juntos:</p>
                 
-                <div class="timer-grid">
-                    <div class="timer-item">
-                        <span class="timer-value" id="timer-days">0</span>
-                        <span class="timer-label">Días</span>
+                <div class="timer-container">
+                    <div class="timer-box">
+                        <span class="timer-num" id="d">0</span>
+                        <span class="timer-txt">Días</span>
                     </div>
-                    <div class="timer-item">
-                        <span class="timer-value" id="timer-hours">0</span>
-                        <span class="timer-label">Horas</span>
+                    <div class="timer-box">
+                        <span class="timer-num" id="h">0</span>
+                        <span class="timer-txt">Horas</span>
                     </div>
-                    <div class="timer-item">
-                        <span class="timer-value" id="timer-minutes">0</span>
-                        <span class="timer-label">Minutos</span>
+                    <div class="timer-box">
+                        <span class="timer-num" id="m">0</span>
+                        <span class="timer-txt">Minutos</span>
                     </div>
-                    <div class="timer-item">
-                        <span class="timer-value" id="timer-seconds">0</span>
-                        <span class="timer-label">Segundos</span>
+                    <div class="timer-box">
+                        <span class="timer-num" id="s">0</span>
+                        <span class="timer-txt">Segundos</span>
                     </div>
                 </div>
-
-                <p style="font-style: italic; margin-top: 20px;">"Cada segundo a tu lado es un regalo del cielo."</p>
+                <p style="font-style: italic; opacity: 0.8;">"Desde el 10 de Febrero mi vida cambió para siempre."</p>
             </div>
-        </div>
+        </section>
 
-        <!-- SECCIÓN: GALERÍA DE FOTOS -->
-        <div id="galeria" class="section">
+        <!-- SECCIÓN: RAZONES -->
+        <section id="razones" class="section">
             <div class="card">
-                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem;">Nuestros Momentos</h2>
-                <p>Cada foto cuenta una parte de nuestra hermosa historia...</p>
-                <div class="gallery-container">
-                    <div class="photo-card">
-                        <img src="foto1.jpeg" alt="Cleidis y yo 1">
-                        <div class="photo-caption">Tu sonrisa es mi favorita ❤️</div>
-                    </div>
-                    <div class="photo-card">
-                        <img src="foto2.jpeg" alt="Cleidis y yo 2">
-                        <div class="photo-caption">A tu lado todo es mejor ✨</div>
-                    </div>
-                    <div class="photo-card">
-                        <img src="foto3.jpeg" alt="Cleidis y yo 3">
-                        <div class="photo-caption">Eres mi mundo entero 🌎</div>
-                    </div>
-                    <div class="photo-card">
-                        <img src="foto4.jpeg" alt="Cleidis y yo 4">
-                        <div class="photo-caption">Para siempre juntos 🌹</div>
-                    </div>
+                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary);">¿Por qué te amo?</h2>
+                <p style="margin-bottom: 20px;">Toca cada tarjeta para descubrir una razón...</p>
+                <div class="reasons-grid">
+                    <div class="reason-card" onclick="revealReason(this, 'Por tu sonrisa que ilumina mis días más oscuros ☀️')">❓</div>
+                    <div class="reason-card" onclick="revealReason(this, 'Por la forma en que me cuidas y me haces sentir seguro ❤️')">❓</div>
+                    <div class="reason-card" onclick="revealReason(this, 'Por tu inteligencia y la forma en que ves el mundo 🧠')">❓</div>
+                    <div class="reason-card" onclick="revealReason(this, 'Por cómo me haces reír incluso cuando no quiero hacerlo 😂')">❓</div>
+                    <div class="reason-card" onclick="revealReason(this, 'Por ser mi mejor amiga y mi compañera de aventuras 🗺️')">❓</div>
+                    <div class="reason-card" onclick="revealReason(this, 'Simplemente por ser tú, Cleidis, mi amor eterno 🌹')">❓</div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- SECCIÓN: LIBRO DE POESÍA 3D -->
-        <div id="poesia" class="section">
-            <div class="book-section">
-                <h2 style="margin-bottom: 40px;">Un libro para ti</h2>
-                <div class="book" id="book" onclick="flipPage()">
-                    <!-- Portada -->
-                    <div class="page cover" id="page-0">
-                        <h3>Poemas para Cleidis</h3>
-                        <p>Toca para abrir</p>
-                        <div style="font-size: 2rem;">📖</div>
-                    </div>
-                    
-                    <!-- Páginas de poemas (10 poemas) -->
-                    <div class="page" id="page-1">
-                        <div class="page-back"></div>
-                        <p class="poetry-text">"Podrá nublarse el sol eternamente; podrá secarse en un instante el mar... pero jamás en mí podrá apagarse la llama de tu amor."</p>
-                    </div>
-                    <div class="page" id="page-2">
-                        <div class="page-back"></div>
-                        <p class="poetry-text">"En tus ojos veo mi destino, en tus labios encuentro mi paz, y en tu corazón hallo mi hogar."</p>
-                    </div>
-                    <div class="page" id="page-3">
-                        <div class="page-back"></div>
-                        <p class="poetry-text">"Te quiero no por lo que eres, sino por lo que soy cuando estoy contigo. Eres mi refugio favorito."</p>
-                    </div>
-                    <div class="page" id="page-4">
-                        <div class="page-back"></div>
-                        <p class="poetry-text">"Eres la casualidad más hermosa de mi vida. No buscaba nada y en ti encontré todo."</p>
-                    </div>
-                    <div class="page" id="page-5">
-                        <div class="page-back"></div>
-                        <p class="poetry-text">"Si tuviera que elegir mi momento favorito, elegiría cualquiera en el que estés tú. Eres mi magia, Cleidis."</p>
-                    </div>
-                    <div class="page" id="page-6">
-                        <div class="page-back"></div>
-                        <p class="poetry-text">"No es solo amor, es la forma en que me haces sentir que todo es posible. Gracias por ser mi apoyo."</p>
-                    </div>
-                    <div class="page" id="page-7">
-                        <div class="page-back"></div>
-                        <p class="poetry-text">"Tu amor es como el viento, no puedo verlo pero puedo sentirlo en cada rincón de mi alma."</p>
-                    </div>
-                    <div class="page" id="page-8">
-                        <div class="page-back"></div>
-                        <p class="poetry-text">"Amarte es descubrir un mundo nuevo cada día. Gracias por enseñarme a ser feliz."</p>
-                    </div>
-                    <div class="page" id="page-9">
-                        <div class="page-back"></div>
-                        <p class="poetry-text">"Prometo cuidarte y amarte en cada paso que demos juntos. Eres mi mayor tesoro."</p>
-                    </div>
-                    <div class="page" id="page-10">
-                        <div class="page-back"></div>
-                        <p class="poetry-text">"Cleidis, mi amor por ti no tiene fin. Eres y serás siempre la única en mi vida. ❤️"</p>
-                    </div>
-                </div>
-                <p style="margin-top: 30px; font-size: 0.9rem; opacity: 0.7;" id="page-info">Toca el libro para pasar las páginas (0 / 10)</p>
-                <button class="btn-action" onclick="resetBook()">Volver a empezar</button>
-            </div>
-        </div>
-
-        <!-- SECCIÓN: PROMESAS -->
-        <div id="promesas" class="section">
+        <!-- SECCIÓN: CUPONES -->
+        <section id="cupones" class="section">
             <div class="card">
-                <h2>Mis Promesas</h2>
-                <p>Toca cada una para ver lo que te prometo hoy y siempre:</p>
-                <div class="promises-grid">
-                    <div class="promise-card" onclick="revealPromise(this, 'Estar siempre para apoyarte')">🤝 Apoyo</div>
-                    <div class="promise-card" onclick="revealPromise(this, 'Darte amor infinito cada día')">❤️ Amor</div>
-                    <div class="promise-card" onclick="revealPromise(this, 'Ser tu mejor amigo siempre')">👫 Amistad</div>
-                    <div class="promise-card" onclick="revealPromise(this, 'Cuidar de tu felicidad')">🌻 Cuidado</div>
-                    <div class="promise-card" onclick="revealPromise(this, 'Escucharte con el corazón')">👂 Escuchar</div>
-                    <div class="promise-card" onclick="revealPromise(this, 'Crecer juntos día a día')">🌱 Futuro</div>
+                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary);">Cupones de Amor</h2>
+                <p style="margin-bottom: 20px;">Válidos para canjear cuando quieras (toca para usar):</p>
+                <div class="coupon-grid">
+                    <div class="coupon" onclick="redeemCoupon(this)">
+                        <div class="coupon-title">Vale por un Beso Infinito</div>
+                        <p>Válido en cualquier momento y lugar ❤️</p>
+                    </div>
+                    <div class="coupon" onclick="redeemCoupon(this)">
+                        <div class="coupon-title">Vale por un Abrazo de 5 Minutos</div>
+                        <p>Para esos días que necesites cariño 🤗</p>
+                    </div>
+                    <div class="coupon" onclick="redeemCoupon(this)">
+                        <div class="coupon-title">Vale por una Cena Especial</div>
+                        <p>Yo invito y tú eliges el lugar 🍕</p>
+                    </div>
+                    <div class="coupon" onclick="redeemCoupon(this)">
+                        <div class="coupon-title">Vale por un Mensaje de Buenos Días</div>
+                        <p>Un texto lleno de amor al despertar ☀️</p>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <!-- SECCIÓN: MÚSICA -->
-        <div id="musica" class="section">
-            <div class="card">
-                <h2>Te dedico esta canción</h2>
-                <p>Escucha esto, Cleidis, te la dedico con todo mi amor...</p>
-                <div class="music-card">
-                    <iframe id="music-iframe" width="100%" height="200" src="https://www.youtube-nocookie.com/embed/cEp5KhMvedE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
-                <a href="https://www.youtube.com/watch?v=cEp5KhMvedE" target="_blank" class="btn-action">Escuchar en YouTube 🎵</a>
-            </div>
-        </div>
+        </section>
 
         <!-- SECCIÓN: HISTORIA -->
-        <div id="historia" class="section">
+        <section id="historia" class="section">
             <div class="card">
-                <h2>Momentos Clave</h2>
-                <p>10 de Febrero, 2026: El día que nos hicimos novios y mi vida se llenó de luz. ❤️</p>
-                <div style="font-size: 3rem; margin: 20px 0;">✨ 📸 ✨</div>
-                <p>Cada día es una nueva aventura a tu lado.</p>
+                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary);">Nuestra Historia</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <span class="timeline-date">10 de Febrero, 2026</span>
+                        <p>El día que todo comenzó. Nuestra primera página juntos. ❤️</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-date">18 de Marzo, 2026</span>
+                        <p>Seguimos construyendo este sueño. Cada día te amo más. ✨</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-date">Hoy</span>
+                        <p>Un pequeño detalle para recordarte que eres lo más importante para mí. 🌹</p>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
+
+        <!-- SECCIÓN: GALERÍA -->
+        <section id="galeria" class="section">
+            <div class="card">
+                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary);">Nuestros Recuerdos</h2>
+                <div class="gallery">
+                    <div class="polaroid">
+                        <img src="foto1.jpeg" alt="Nosotros">
+                        <p class="caption">Tu sonrisa me da vida ❤️</p>
+                    </div>
+                    <div class="polaroid">
+                        <img src="foto2.jpeg" alt="Nosotros">
+                        <p class="caption">Mi lugar favorito es a tu lado ✨</p>
+                    </div>
+                    <div class="polaroid">
+                        <img src="foto3.jpeg" alt="Nosotros">
+                        <p class="caption">Eres mi mundo entero 🌎</p>
+                    </div>
+                    <div class="polaroid">
+                        <img src="foto4.jpeg" alt="Nosotros">
+                        <p class="caption">Juntos por siempre 🌹</p>
+                    </div>
+                    <div class="polaroid">
+                        <img src="foto5.jpeg" alt="Nosotros">
+                        <p class="caption">Haciendo muecas juntos 😜</p>
+                    </div>
+                    <div class="polaroid">
+                        <img src="foto6.jpeg" alt="Nosotros">
+                        <p class="caption">Eres mi persona favorita ✨</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: POESÍA -->
+        <section id="poesia" class="section">
+            <div class="book-wrap">
+                <h2 style="margin-bottom: 30px; font-family: 'Dancing Script', cursive; font-size: 2.5rem;">Libro de Versos</h2>
+                <div class="book" id="main-book">
+                    <!-- Portada -->
+                    <div class="page book-cover" style="z-index: 11;" onclick="flip(this)">
+                        <h3>Poemas para Cleidis</h3>
+                        <p>Toca para empezar a leer</p>
+                        <div style="font-size: 2.5rem; margin-top: 20px;">📖</div>
+                    </div>
+                    
+                    <!-- Páginas -->
+                    <div class="page" style="z-index: 10;" onclick="flip(this)">
+                        <div class="page-back"></div>
+                        <p class="poetry-txt">"Podrá nublarse el sol eternamente; podrá secarse en un instante el mar... pero jamás en mí podrá apagarse la llama de tu amor."</p>
+                    </div>
+                    <div class="page" style="z-index: 9;" onclick="flip(this)">
+                        <div class="page-back"></div>
+                        <p class="poetry-txt">"En tus ojos veo mi destino, en tus labios encuentro mi paz, y en tu corazón hallo mi hogar."</p>
+                    </div>
+                    <div class="page" style="z-index: 8;" onclick="flip(this)">
+                        <div class="page-back"></div>
+                        <p class="poetry-txt">"Te quiero no por lo que eres, sino por lo que soy cuando estoy contigo. Eres mi refugio favorito."</p>
+                    </div>
+                    <div class="page" style="z-index: 7;" onclick="flip(this)">
+                        <div class="page-back"></div>
+                        <p class="poetry-txt">"Eres la casualidad más hermosa de mi vida. No buscaba nada y en ti encontré todo."</p>
+                    </div>
+                    <div class="page" style="z-index: 6;" onclick="flip(this)">
+                        <div class="page-back"></div>
+                        <p class="poetry-txt">"Si tuviera que elegir mi momento favorito, elegiría cualquiera en el que estés tú. Eres mi magia, Cleidis."</p>
+                    </div>
+                    <div class="page" style="z-index: 5;" onclick="flip(this)">
+                        <div class="page-back"></div>
+                        <p class="poetry-txt">"No es solo amor, es la forma en que me haces sentir que todo es posible. Gracias por ser mi apoyo."</p>
+                    </div>
+                    <div class="page" style="z-index: 4;" onclick="flip(this)">
+                        <div class="page-back"></div>
+                        <p class="poetry-txt">"Tu amor es como el viento, no puedo verlo pero puedo sentirlo en cada rincón de mi alma."</p>
+                    </div>
+                    <div class="page" style="z-index: 3;" onclick="flip(this)">
+                        <div class="page-back"></div>
+                        <p class="poetry-txt">"Amarte es descubrir un mundo nuevo cada día. Gracias por enseñarme a ser feliz."</p>
+                    </div>
+                    <div class="page" style="z-index: 2;" onclick="flip(this)">
+                        <div class="page-back"></div>
+                        <p class="poetry-txt">"Prometo cuidarte y amarte en cada paso que demos juntos. Eres mi mayor tesoro."</p>
+                    </div>
+                    <div class="page" style="z-index: 1;" onclick="flip(this)">
+                        <div class="page-back"></div>
+                        <p class="poetry-txt">"Cleidis, mi amor por ti no tiene fin. Eres y serás siempre la única en mi vida. ❤️"</p>
+                    </div>
+                </div>
+                <button class="btn" onclick="resetBook()" style="margin-top: 40px;">Reiniciar libro</button>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: PROMESAS -->
+        <section id="promesas" class="section">
+            <div class="card">
+                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary);">Mis Promesas</h2>
+                <p style="margin-bottom: 20px;">Toca cada corazón para descubrir mis promesas para ti:</p>
+                <div class="promises">
+                    <div class="promise-btn" onclick="reveal(this, 'Estar siempre para apoyarte 🤝')">🤍</div>
+                    <div class="promise-btn" onclick="reveal(this, 'Darte amor infinito cada día ❤️')">🤍</div>
+                    <div class="promise-btn" onclick="reveal(this, 'Ser tu mejor amigo siempre 👫')">🤍</div>
+                    <div class="promise-btn" onclick="reveal(this, 'Cuidar de tu felicidad 🌻')">🤍</div>
+                    <div class="promise-btn" onclick="reveal(this, 'Escucharte con el corazón 👂')">🤍</div>
+                    <div class="promise-btn" onclick="reveal(this, 'Crecer juntos día a día 🌱')">🤍</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: MÚSICA -->
+        <section id="musica" class="section">
+            <div class="card">
+                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary);">Te la dedico</h2>
+                <p>Esta canción me recuerda a ti en cada nota...</p>
+                <div class="music-player">
+                    <iframe id="yt-player" width="100%" height="200" src="https://www.youtube-nocookie.com/embed/cEp5KhMvedE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <a href="https://www.youtube.com/watch?v=cEp5KhMvedE" target="_blank" class="btn">Abrir en YouTube 🎵</a>
+            </div>
+        </section>
 
     </div>
 
     <footer>
-        Hecho con todo mi amor para Cleidis ❤️ 2026
+        Con todo mi corazón para Cleidis ❤️ 2026
     </footer>
 
     <script>
-        const startDate = new Date(2026, 1, 10); // 10 de Feb 2026
+        // CONFIGURACIÓN INICIAL
+        const startDate = new Date(2026, 1, 10); // Meses en JS: 0=Ene, 1=Feb
+        let currentSection = 'inicio';
 
-        function openEverything() {
+        // DESBLOQUEAR WEB
+        function unlockWeb() {
             const hero = document.getElementById('hero');
-            hero.style.transition = '0.8s';
+            hero.style.transform = 'translateY(-100%)';
             hero.style.opacity = '0';
-            hero.style.transform = 'scale(0.9)';
             
             setTimeout(() => {
                 hero.style.display = 'none';
                 document.getElementById('navbar').style.display = 'flex';
-                showSection('inicio');
-                updateCounter();
-                createConfetti(50);
+                go('inicio');
+                startCounter();
+                initFloating();
             }, 800);
         }
 
-        function updateCounter() {
-            const now = new Date();
-            const diff = now - startDate;
-            
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-            
-            document.getElementById('timer-days').innerText = days;
-            document.getElementById('timer-hours').innerText = hours;
-            document.getElementById('timer-minutes').innerText = minutes;
-            document.getElementById('timer-seconds').innerText = seconds;
-        }
-
-        // Iniciar el contador y actualizarlo cada segundo
-        setInterval(updateCounter, 1000);
-
-        function showSection(id) {
+        // NAVEGACIÓN
+        function go(id) {
             document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
-            document.getElementById(id).style.display = 'block';
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
             
-            document.querySelectorAll('.navbar button').forEach(b => b.classList.remove('active'));
-            document.getElementById('nav-' + id).classList.add('active');
+            document.getElementById(id).style.display = 'block';
+            document.getElementById('btn-' + id).classList.add('active');
             
             if(id === 'musica') {
-                const iframe = document.getElementById('music-iframe');
-                iframe.src = iframe.src;
+                const player = document.getElementById('yt-player');
+                player.src = player.src; // Reinicia para asegurar carga
             }
-
-            createConfetti(15);
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        }
-
-        let currentPage = 0;
-        const totalPages = 10;
-        let isFlipping = false;
-
-        function flipPage() {
-            if (isFlipping || currentPage > totalPages) return;
             
-            const page = document.getElementById('page-' + currentPage);
-            if (page) {
-                isFlipping = true;
-                page.classList.add('flipped');
-                currentPage++;
-                updatePageInfo();
-                createConfetti(5);
-                
-                // Pequeña pausa para evitar clics dobles en celular
-                setTimeout(() => {
-                    isFlipping = false;
-                }, 800);
-            }
+            window.scrollTo({top: 0, behavior: 'smooth'});
+            spawnBatch(10);
         }
 
-        function updatePageInfo() {
-            const info = document.getElementById('page-info');
-            if (currentPage > totalPages) {
-                info.innerText = "Has llegado al final del libro ❤️";
-            } else {
-                info.innerText = `Toca el libro para pasar las páginas (${currentPage} / ${totalPages})`;
+        // CONTADOR
+        function startCounter() {
+            function update() {
+                const now = new Date();
+                const diff = now - startDate;
+                
+                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((diff % (1000 * 60)) / 1000);
+                
+                document.getElementById('d').innerText = d;
+                document.getElementById('h').innerText = h;
+                document.getElementById('m').innerText = m;
+                document.getElementById('s').innerText = s;
             }
+            update();
+            setInterval(update, 1000);
+        }
+
+        // LIBRO 3D
+        function flip(page) {
+            page.classList.toggle('flipped');
+            spawnBatch(5);
         }
 
         function resetBook() {
-            for (let i = 0; i <= totalPages; i++) {
-                const page = document.getElementById('page-' + i);
-                if (page) page.classList.remove('flipped');
-            }
-            currentPage = 0;
-            updatePageInfo();
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('flipped'));
+            spawnBatch(15);
         }
 
-        function revealPromise(el, text) {
+        // RAZONES
+        function revealReason(el, text) {
             el.innerText = text;
-            el.style.background = '#ff4d6d';
-            el.style.color = 'white';
-            createConfetti(5);
+            el.classList.add('revealed');
+            spawnBatch(10);
         }
 
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('floating-heart');
+        // CUPONES
+        function redeemCoupon(el) {
+            el.classList.add('redeemed');
+            el.querySelector('p').innerText = "¡Canjeado con éxito! ❤️";
+            spawnBatch(20);
+        }
+
+        // PROMESAS
+        function reveal(el, text) {
+            el.innerText = text;
+            el.classList.add('revealed');
+            spawnBatch(8);
+        }
+
+        // ELEMENTOS FLOTANTES (CORAZONES)
+        function spawnHeart() {
+            const h = document.createElement('div');
+            h.className = 'floating';
             const icons = ['❤️', '💖', '💝', '💕', '🌸', '✨'];
-            heart.innerHTML = icons[Math.floor(Math.random() * icons.length)];
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.fontSize = (Math.random() * 1.5 + 0.5) + 'rem';
-            heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
-            heart.style.opacity = Math.random() * 0.5 + 0.5;
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 5000);
+            h.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+            h.style.left = Math.random() * 100 + 'vw';
+            h.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            h.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            h.style.opacity = Math.random();
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 5000);
         }
 
-        function createConfetti(amount) {
-            for(let i=0; i<amount; i++) {
-                setTimeout(createHeart, i * 40);
-            }
+        function spawnBatch(n) {
+            for(let i=0; i<n; i++) setTimeout(spawnHeart, i*50);
         }
 
-        setInterval(createHeart, 600);
+        function initFloating() {
+            setInterval(spawnHeart, 600);
+        }
+
+        // PREVENIR ZOOM ACCIDENTAL EN MÓVIL AL TOCAR RÁPIDO
+        document.addEventListener('touchstart', function(event) {
+            if (event.touches.length > 1) event.preventDefault();
+        }, { passive: false });
     </script>
 </body>
 </html>
