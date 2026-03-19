@@ -192,7 +192,45 @@
             margin-bottom: 5px;
         }
 
-        /* --- COFRE DE DESEOS --- */
+        /* --- ADMIN PANEL --- */
+        #admin-panel {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            z-index: 3000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .wish-list-item {
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            text-align: left;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--primary);
+        }
+
+        .wish-date {
+            font-size: 0.7rem;
+            color: #888;
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
         .chest-container {
             margin: 30px 0;
             padding: 20px;
@@ -609,7 +647,18 @@
             </div>
             <p class="tap-hint">Toca para abrir mi corazón</p>
         </div>
-        <p style="font-weight: 600; opacity: 0.7;">Hecho con amor infinito</p>
+        <p style="font-weight: 600; opacity: 0.7;" onclick="askAdmin()">Hecho con amor infinito</p>
+    </div>
+
+    <!-- PANEL ADMIN SECRETO -->
+    <div id="admin-panel">
+        <div class="admin-header">
+            <h2>Deseos de Cleidis ❤️</h2>
+            <button class="btn" onclick="closeAdmin()" style="margin: 0;">Cerrar</button>
+        </div>
+        <div id="wishes-container">
+            <p>Cargando deseos...</p>
+        </div>
     </div>
 
     <!-- NAVBAR -->
@@ -897,6 +946,35 @@
         Con todo mi corazón para Cleidis ❤️ 2026
     </footer>
 
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-analytics.js";
+        import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCWZn00LhQDH1dyCNujbtzJqDl0LHspWUk",
+            authDomain: "cleidis.firebaseapp.com",
+            databaseURL: "https://cleidis-default-rtdb.firebaseio.com/",
+            projectId: "cleidis",
+            storageBucket: "cleidis.firebasestorage.app",
+            messagingSenderId: "893148781856",
+            appId: "1:893148781856:web:82987a76b41f971fea8b45",
+            measurementId: "G-JJNJZK5BG0"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const database = getDatabase(app);
+
+        // Hacer la base de datos accesible globalmente para las funciones de index.html
+        window.db = database;
+        window.dbRef = ref;
+        window.dbPush = push;
+    </script>
+
     <script>
         // CONFIGURACIÓN INICIAL
         const startDate = new Date(2026, 1, 10); // Meses en JS: 0=Ene, 1=Feb
@@ -953,24 +1031,45 @@
             spawnBatch(10);
         }
 
-        function sendWish() {
+        async function sendWish() {
             const wish = document.getElementById('wish');
             const wishText = wish.value.trim();
             if(wishText === "") return;
             
-            const miNumero = "573242149190"; // Número actualizado con código de país 57 (Colombia)
+            const btn = event.target;
+            const originalText = btn.innerText;
+            btn.innerText = "Guardando deseo...";
+            btn.disabled = true;
+
+            // 1. Guardar en Firebase Realtime Database
+            if (window.db && window.dbRef && window.dbPush) {
+                try {
+                    const wishesRef = window.dbRef(window.db, 'deseos');
+                    await window.dbPush(wishesRef, {
+                        texto: wishText,
+                        fecha: new Date().toLocaleString(),
+                        dispositivo: navigator.userAgent
+                    });
+                    console.log("Deseo guardado en Firebase");
+                } catch (error) {
+                    console.error("Error al guardar en Firebase:", error);
+                }
+            }
+            
+            // 2. Abrir WhatsApp como respaldo
+            const miNumero = "573242149190";
             const mensaje = encodeURIComponent(`¡Hola mi amor! Pedí un deseo en el cofre: "${wishText}" ❤️`);
             const url = `https://wa.me/${miNumero}?text=${mensaje}`;
             
             window.open(url, '_blank');
             
-            const btn = event.target;
             btn.innerText = "¡Abriendo WhatsApp! ❤️";
             wish.value = "";
-            spawnBatch(20);
+            spawnBatch(30);
             
             setTimeout(() => {
-                btn.innerText = "Enviar otro Deseo ✨";
+                btn.innerText = originalText;
+                btn.disabled = false;
             }, 3000);
         }
 
@@ -981,6 +1080,49 @@
             const player = document.getElementById('yt-player');
             player.src = `https://www.youtube-nocookie.com/embed/${id}?playlist=${playlistIds.join(',')}&loop=1&autoplay=1`;
             spawnBatch(10);
+        }
+
+        // ADMIN PANEL
+        function askAdmin() {
+            const pass = prompt("Introduce la clave secreta:");
+            if (pass === "cleidis2026") {
+                openAdmin();
+            }
+        }
+
+        function openAdmin() {
+            document.getElementById('admin-panel').style.display = 'block';
+            loadWishes();
+        }
+
+        function closeAdmin() {
+            document.getElementById('admin-panel').style.display = 'none';
+        }
+
+        function loadWishes() {
+            const container = document.getElementById('wishes-container');
+            if (window.db && window.dbRef) {
+                const wishesRef = window.dbRef(window.db, 'deseos');
+                import("https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js").then(m => {
+                    m.onValue(wishesRef, (snapshot) => {
+                        const data = snapshot.val();
+                        container.innerHTML = "";
+                        if (data) {
+                            Object.values(data).reverse().forEach(wish => {
+                                const item = document.createElement('div');
+                                item.className = 'wish-list-item';
+                                item.innerHTML = `
+                                    <p>${wish.texto}</p>
+                                    <span class="wish-date">${wish.fecha}</span>
+                                `;
+                                container.appendChild(item);
+                            });
+                        } else {
+                            container.innerHTML = "<p>No hay deseos aún.</p>";
+                        }
+                    });
+                });
+            }
         }
 
         // CONTADOR
