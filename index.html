@@ -1051,21 +1051,17 @@
                         dispositivo: navigator.userAgent
                     });
                     console.log("Deseo guardado en Firebase");
+                    
+                    btn.innerText = "¡Deseo enviado! ❤️";
+                    wish.value = "";
+                    spawnBatch(30);
                 } catch (error) {
                     console.error("Error al guardar en Firebase:", error);
+                    btn.innerText = "Error al guardar ❌";
                 }
+            } else {
+                btn.innerText = "Error de conexión ❌";
             }
-            
-            // 2. Abrir WhatsApp como respaldo
-            const miNumero = "573242149190";
-            const mensaje = encodeURIComponent(`¡Hola mi amor! Pedí un deseo en el cofre: "${wishText}" ❤️`);
-            const url = `https://wa.me/${miNumero}?text=${mensaje}`;
-            
-            window.open(url, '_blank');
-            
-            btn.innerText = "¡Abriendo WhatsApp! ❤️";
-            wish.value = "";
-            spawnBatch(30);
             
             setTimeout(() => {
                 btn.innerText = originalText;
