@@ -846,7 +846,7 @@
                 <p>Canciones que me hacen pensar en nosotros...</p>
                 
                 <div class="music-player">
-                    <iframe id="yt-player" width="100%" height="315" src="https://www.youtube-nocookie.com/embed/cEp5KhMvedE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <iframe id="yt-player" width="100%" height="315" src="https://www.youtube-nocookie.com/embed/cEp5KhMvedE?playlist=cEp5KhMvedE,mH-Xl7e_D8M,Ym3vI6W9730,8L_YvN6k0S8,17_o7H7jG18&loop=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
 
                 <div class="playlist" style="margin-top: 20px;">
@@ -854,7 +854,7 @@
                         <span class="playlist-num">1</span>
                         <div class="playlist-info">
                             <h4>Eres Mía</h4>
-                            <p>Romeo Santos</p>
+                            <p>Alejandro Sanz (Romeo Santos Cover)</p>
                         </div>
                     </div>
                     <div class="playlist-item" onclick="changeSong('mH-Xl7e_D8M')">
@@ -955,10 +955,17 @@
 
         function sendWish() {
             const wish = document.getElementById('wish');
-            if(wish.value.trim() === "") return;
+            const wishText = wish.value.trim();
+            if(wishText === "") return;
+            
+            const miNumero = "573242149190"; // Número actualizado con código de país 57 (Colombia)
+            const mensaje = encodeURIComponent(`¡Hola mi amor! Pedí un deseo en el cofre: "${wishText}" ❤️`);
+            const url = `https://wa.me/${miNumero}?text=${mensaje}`;
+            
+            window.open(url, '_blank');
             
             const btn = event.target;
-            btn.innerText = "¡Deseo enviado! ❤️";
+            btn.innerText = "¡Abriendo WhatsApp! ❤️";
             wish.value = "";
             spawnBatch(20);
             
@@ -968,9 +975,11 @@
         }
 
         // MUSICA
+        const playlistIds = ['cEp5KhMvedE', 'mH-Xl7e_D8M', 'Ym3vI6W9730', '8L_YvN6k0S8', '17_o7H7jG18'];
+
         function changeSong(id) {
             const player = document.getElementById('yt-player');
-            player.src = `https://www.youtube-nocookie.com/embed/${id}`;
+            player.src = `https://www.youtube-nocookie.com/embed/${id}?playlist=${playlistIds.join(',')}&loop=1&autoplay=1`;
             spawnBatch(10);
         }
 
