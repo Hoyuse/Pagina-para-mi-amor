@@ -298,6 +298,58 @@
             margin: 20px 0;
         }
 
+        /* GALERIA DE FOTOS */
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 10px;
+        }
+
+        .photo-card {
+            background: white;
+            padding: 12px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-card:hover {
+            transform: translateY(-10px) rotate(2deg);
+            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2);
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            display: block;
+        }
+
+        .photo-caption {
+            margin-top: 15px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.4rem;
+            color: var(--primary-color);
+        }
+
+        /* Efecto de cinta adhesiva en las fotos */
+        .photo-card::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(2px);
+            z-index: 2;
+        }
+
         /* FOOTER */
         footer {
             padding: 40px;
@@ -354,6 +406,7 @@
 
     <nav class="navbar" id="navbar">
         <button onclick="showSection('inicio')" id="nav-inicio" class="active">Inicio</button>
+        <button onclick="showSection('galeria')" id="nav-galeria">Nuestras Fotos</button>
         <button onclick="showSection('poesia')" id="nav-poesia">Libro de Versos</button>
         <button onclick="showSection('promesas')" id="nav-promesas">Mis Promesas</button>
         <button onclick="showSection('musica')" id="nav-musica">Te Dedico</button>
@@ -382,6 +435,32 @@
                 <p>Llevamos juntos:</p>
                 <div style="font-size: 2rem; font-weight: bold; color: var(--primary-color);" id="days-count">0 Días</div>
                 <p style="font-style: italic; margin-top: 20px;">"El mejor regalo que me ha dado la vida eres tú."</p>
+            </div>
+        </div>
+
+        <!-- SECCIÓN: GALERÍA DE FOTOS -->
+        <div id="galeria" class="section">
+            <div class="card">
+                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem;">Nuestros Momentos</h2>
+                <p>Cada foto cuenta una parte de nuestra hermosa historia...</p>
+                <div class="gallery-container">
+                    <div class="photo-card">
+                        <img src="foto1.jpg" alt="Cleidis y yo 1">
+                        <div class="photo-caption">Tu sonrisa es mi favorita ❤️</div>
+                    </div>
+                    <div class="photo-card">
+                        <img src="foto2.jpg" alt="Cleidis y yo 2">
+                        <div class="photo-caption">A tu lado todo es mejor ✨</div>
+                    </div>
+                    <div class="photo-card">
+                        <img src="foto3.jpg" alt="Cleidis y yo 3">
+                        <div class="photo-caption">Eres mi mundo entero 🌎</div>
+                    </div>
+                    <div class="photo-card">
+                        <img src="foto4.jpg" alt="Cleidis y yo 4">
+                        <div class="photo-caption">Para siempre juntos 🌹</div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -478,7 +557,7 @@
                 <h2>Momentos Clave</h2>
                 <p>10 de Febrero, 2026: El día que nos hicimos novios y mi vida se llenó de luz. ❤️</p>
                 <div style="font-size: 3rem; margin: 20px 0;">✨ 📸 ✨</div>
-                <p>Seguiremos llenando este espacio de recuerdos juntos.</p>
+                <p>Cada día es una nueva aventura a tu lado.</p>
             </div>
         </div>
 
