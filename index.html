@@ -94,16 +94,19 @@
             font-family: 'Great Vibes', cursive;
             font-size: 3.5rem;
             color: var(--primary-color);
-            margin-bottom: 80px; /* Aumentado para que el sobre no lo tape */
+            margin-bottom: 0; /* Quitamos el margen de abajo */
             text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
             position: relative;
-            z-index: 10; /* Asegura que el texto esté por encima de cualquier efecto */
+            z-index: 100; /* Super arriba */
         }
 
         /* SOBRE 3D */
         .envelope-wrapper {
             cursor: pointer;
             perspective: 1000px;
+            margin-top: 120px; /* Agregamos un margen superior grande al sobre mismo */
+            position: relative;
+            z-index: 1;
         }
 
         .envelope {
@@ -426,7 +429,8 @@
 
         /* MOBILE */
         @media (max-width: 480px) {
-            h1 { font-size: 2.5rem; margin-bottom: 60px; }
+            h1 { font-size: 2.5rem; }
+            .envelope-wrapper { margin-top: 100px; }
             .book { width: 280px; height: 400px; }
             .poetry-text { font-size: 1rem; }
             .card { padding: 30px 15px; }
