@@ -94,8 +94,10 @@
             font-family: 'Great Vibes', cursive;
             font-size: 3.5rem;
             color: var(--primary-color);
-            margin-bottom: 20px;
+            margin-bottom: 80px; /* Aumentado para que el sobre no lo tape */
             text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+            position: relative;
+            z-index: 10; /* Asegura que el texto esté por encima de cualquier efecto */
         }
 
         /* SOBRE 3D */
@@ -424,7 +426,7 @@
 
         /* MOBILE */
         @media (max-width: 480px) {
-            h1 { font-size: 2.5rem; }
+            h1 { font-size: 2.5rem; margin-bottom: 60px; }
             .book { width: 280px; height: 400px; }
             .poetry-text { font-size: 1rem; }
             .card { padding: 30px 15px; }
