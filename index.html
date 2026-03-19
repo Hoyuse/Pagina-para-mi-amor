@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Para Cleidis ❤️ Mi Amor Eterno</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Great+Vibes&family=Playfair+Display:ital@1&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            // Public Key de EmailJS actualizada
+            emailjs.init("LovTlNFnmQs8jZNef"); 
+        })();
+    </script>
     <style>
         :root {
             --primary: #ff4d6d;
@@ -1052,6 +1059,22 @@
                     });
                     console.log("Deseo guardado en Firebase");
                     
+                    // 2. Enviar notificación por correo (EmailJS)
+                    // Ajustado para coincidir con tu plantilla de EmailJS
+                    const templateParams = {
+                        title: 'Nuevo Deseo en el Cofre',
+                        name: 'Cleidis ❤️',
+                        message: wishText,
+                        date: new Date().toLocaleString()
+                    };
+
+                    emailjs.send('service_qlit6mc', 'template_66swwn8', templateParams)
+                        .then(function(response) {
+                           console.log('Correo enviado con éxito!', response.status, response.text);
+                        }, function(error) {
+                           console.log('Fallo el envío del correo...', error);
+                        });
+
                     btn.innerText = "¡Deseo enviado! ❤️";
                     wish.value = "";
                     spawnBatch(30);
