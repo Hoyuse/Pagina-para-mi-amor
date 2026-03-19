@@ -192,6 +192,69 @@
             margin-bottom: 5px;
         }
 
+        /* --- COFRE DE DESEOS --- */
+        .chest-container {
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #a4133c, #ff4d6d);
+            border-radius: 20px;
+            color: white;
+            box-shadow: 0 10px 20px rgba(164, 19, 60, 0.2);
+        }
+
+        .chest-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .chest-icon:hover { transform: scale(1.1); }
+
+        .wish-input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            margin: 10px 0;
+            font-family: inherit;
+        }
+
+        /* --- PLAYLIST --- */
+        .playlist-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 77, 109, 0.1);
+            text-align: left;
+        }
+
+        .playlist-num { color: var(--primary); font-weight: bold; }
+        .playlist-info h4 { font-size: 0.9rem; margin-bottom: 2px; }
+        .playlist-info p { font-size: 0.75rem; opacity: 0.7; }
+
+        /* --- MENSAJE DIARIO --- */
+        .daily-message {
+            background: var(--bg);
+            padding: 15px;
+            border-radius: 15px;
+            border-left: 4px solid var(--primary);
+            margin: 20px 0;
+            font-style: italic;
+            position: relative;
+        }
+
+        .daily-message::before {
+            content: '“';
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            font-size: 3rem;
+            opacity: 0.1;
+            color: var(--primary);
+        }
+
         /* --- CONTENEDOR PRINCIPAL --- */
         .main-container {
             flex: 1;
@@ -589,7 +652,20 @@
                         <span class="timer-txt">Segundos</span>
                     </div>
                 </div>
+                
+                <div class="daily-message" id="daily-msg">
+                    Cargando tu mensaje de amor...
+                </div>
+
                 <p style="font-style: italic; opacity: 0.8;">"Desde el 10 de Febrero mi vida cambió para siempre."</p>
+                
+                <div class="chest-container">
+                    <div class="chest-icon" id="chest" onclick="openChest()">🎁</div>
+                    <h3>Cofre de Deseos</h3>
+                    <p>Escribe un deseo aquí y llegará a mi corazón...</p>
+                    <input type="text" class="wish-input" id="wish" placeholder="Ej: Una cita este viernes...">
+                    <button class="btn" style="background: white; color: var(--primary);" onclick="sendWish()">Enviar Deseo ✨</button>
+                </div>
             </div>
         </section>
 
@@ -766,12 +842,52 @@
         <!-- SECCIÓN: MÚSICA -->
         <section id="musica" class="section">
             <div class="card">
-                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary);">Te la dedico</h2>
-                <p>Esta canción me recuerda a ti en cada nota...</p>
+                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary);">Playlist para ti</h2>
+                <p>Canciones que me hacen pensar en nosotros...</p>
+                
                 <div class="music-player">
-                    <iframe id="yt-player" width="100%" height="200" src="https://www.youtube-nocookie.com/embed/cEp5KhMvedE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <iframe id="yt-player" width="100%" height="315" src="https://www.youtube-nocookie.com/embed/cEp5KhMvedE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
-                <a href="https://www.youtube.com/watch?v=cEp5KhMvedE" target="_blank" class="btn">Abrir en YouTube 🎵</a>
+
+                <div class="playlist" style="margin-top: 20px;">
+                    <div class="playlist-item" onclick="changeSong('cEp5KhMvedE')">
+                        <span class="playlist-num">1</span>
+                        <div class="playlist-info">
+                            <h4>Eres Mía</h4>
+                            <p>Romeo Santos</p>
+                        </div>
+                    </div>
+                    <div class="playlist-item" onclick="changeSong('mH-Xl7e_D8M')">
+                        <span class="playlist-num">2</span>
+                        <div class="playlist-info">
+                            <h4>Amiga Mía</h4>
+                            <p>Alejandro Sanz</p>
+                        </div>
+                    </div>
+                    <div class="playlist-item" onclick="changeSong('Ym3vI6W9730')">
+                        <span class="playlist-num">3</span>
+                        <div class="playlist-info">
+                            <h4>Corazón Partío</h4>
+                            <p>Alejandro Sanz</p>
+                        </div>
+                    </div>
+                    <div class="playlist-item" onclick="changeSong('8L_YvN6k0S8')">
+                        <span class="playlist-num">4</span>
+                        <div class="playlist-info">
+                            <h4>Mi Soledad y Yo</h4>
+                            <p>Alejandro Sanz</p>
+                        </div>
+                    </div>
+                    <div class="playlist-item" onclick="changeSong('17_o7H7jG18')">
+                        <span class="playlist-num">5</span>
+                        <div class="playlist-info">
+                            <h4>Desde Cuándo</h4>
+                            <p>Alejandro Sanz</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <p style="margin-top: 20px; font-size: 0.8rem; opacity: 0.6;">Toca una canción para cambiar el reproductor</p>
             </div>
         </section>
 
@@ -798,6 +914,7 @@
                 go('inicio');
                 startCounter();
                 initFloating();
+                setDailyMessage();
             }, 800);
         }
 
@@ -809,12 +926,51 @@
             document.getElementById(id).style.display = 'block';
             document.getElementById('btn-' + id).classList.add('active');
             
-            if(id === 'musica') {
-                const player = document.getElementById('yt-player');
-                player.src = player.src; // Reinicia para asegurar carga
-            }
-            
             window.scrollTo({top: 0, behavior: 'smooth'});
+            spawnBatch(10);
+            
+            if(id === 'inicio') setDailyMessage();
+        }
+
+        // MENSAJE DIARIO
+        function setDailyMessage() {
+            const msgs = [
+                "Hoy es un gran día para recordarte que eres mi mundo. ❤️",
+                "Tu sonrisa es mi combustible favorito para cada mañana. ☀️",
+                "Cada día que pasa me convenzo más de que eres tú. 🌹",
+                "Gracias por elegirme para ser tu compañero de vida. ✨",
+                "Eres el regalo más bonito que me ha dado el destino. 🎁",
+                "No hay distancia que pueda separar lo que sentimos. 🌎"
+            ];
+            const msg = msgs[Math.floor(Math.random() * msgs.length)];
+            document.getElementById('daily-msg').innerText = msg;
+        }
+
+        // COFRE DE DESEOS
+        function openChest() {
+            const chest = document.getElementById('chest');
+            chest.innerText = chest.innerText === '🎁' ? '🔓' : '🎁';
+            spawnBatch(10);
+        }
+
+        function sendWish() {
+            const wish = document.getElementById('wish');
+            if(wish.value.trim() === "") return;
+            
+            const btn = event.target;
+            btn.innerText = "¡Deseo enviado! ❤️";
+            wish.value = "";
+            spawnBatch(20);
+            
+            setTimeout(() => {
+                btn.innerText = "Enviar otro Deseo ✨";
+            }, 3000);
+        }
+
+        // MUSICA
+        function changeSong(id) {
+            const player = document.getElementById('yt-player');
+            player.src = `https://www.youtube-nocookie.com/embed/${id}`;
             spawnBatch(10);
         }
 
