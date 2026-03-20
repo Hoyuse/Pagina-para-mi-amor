@@ -788,7 +788,6 @@
         <button onclick="go('cupones')" class="nav-btn" id="btn-cupones">Cupones</button>
         <button onclick="go('historia')" class="nav-btn" id="btn-historia">Nuestra Historia</button>
         <button onclick="go('promesas')" class="nav-btn" id="btn-promesas">Promesas</button>
-        <button onclick="go('musica')" class="nav-btn" id="btn-musica">Canción</button>
     </nav>
 
     <div class="main-container">
@@ -1048,51 +1047,6 @@
             </div>
         </section>
 
-        <!-- SECCIÓN: MÚSICA (Reconstruida) -->
-        <section id="musica" class="section">
-            <div class="card">
-                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary);">Playlist para ti</h2>
-                <p>Canciones que me hacen pensar en nosotros...</p>
-                
-                <div class="music-player">
-                    <iframe id="yt-player" width="100%" height="315" src="https://www.youtube-nocookie.com/embed/cEp5KhMvedE?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
-
-                <div class="playlist" style="margin-top: 20px;">
-                    <div class="playlist-item" onclick="changeSong('cEp5KhMvedE')">
-                        <span class="playlist-num">1</span>
-                        <div class="playlist-info">
-                            <h4>Eres Mía</h4>
-                            <p>Alejandro Sanz</p>
-                        </div>
-                    </div>
-                    <div class="playlist-item" onclick="changeSong('nP5S3VxwiSA')">
-                        <span class="playlist-num">2</span>
-                        <div class="playlist-info">
-                            <h4>Solamente Tu Amor</h4>
-                            <p>Chayanne</p>
-                        </div>
-                    </div>
-                    <div class="playlist-item" onclick="changeSong('uMrN1W4ryoE')">
-                        <span class="playlist-num">3</span>
-                        <div class="playlist-info">
-                            <h4>Dejaría Todo</h4>
-                            <p>Chayanne</p>
-                        </div>
-                    </div>
-                    <div class="playlist-item" onclick="changeSong('K3V3T_iCVMc')">
-                        <span class="playlist-num">4</span>
-                        <div class="playlist-info">
-                            <h4>Por Amarte Así</h4>
-                            <p>Cristian Castro</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <p style="margin-top: 20px; font-size: 0.8rem; opacity: 0.6;">Toca una canción para cambiar el reproductor</p>
-            </div>
-        </section>
-
     </div>
 
     <footer>
@@ -1238,15 +1192,6 @@
                 btn.innerText = originalText;
                 btn.disabled = false;
             }, 3000);
-        }
-
-        // MUSICA
-        const playlistIds = ['8iPcqtHoR3U', 'EUBiiAHXNIU', 'fLpP6A_P1_8', '9S8Gz9fK4kI', 'U5VpW_U_D2A'];
-
-        function changeSong(id) {
-            const player = document.getElementById('yt-player');
-            player.src = `https://www.youtube-nocookie.com/embed/${id}?playlist=${playlistIds.join(',')}&loop=1&autoplay=1`;
-            spawnBatch(10);
         }
 
         // JUEGOS: RULETA
