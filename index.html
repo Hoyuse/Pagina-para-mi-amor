@@ -389,6 +389,70 @@
             border-radius: 10px;
         }
 
+        /* --- REGALOS VIRTUALES --- */
+        .gift-btn {
+            background: var(--bg);
+            border: 2px solid var(--primary);
+            border-radius: 15px;
+            padding: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gift-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* --- CONFETTI --- */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: var(--primary);
+            top: -10px;
+            z-index: 1001;
+            animation: fall 3s linear infinite;
+        }
+
+        .confetti:nth-child(odd) {
+            background: var(--secondary);
+            animation-duration: 2.5s;
+        }
+
+        .confetti:nth-child(3n) {
+            background: #ffb3c1;
+            animation-duration: 3.5s;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        /* --- ANIMACIÓN REGALO --- */
+        .gift-animation {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 5rem;
+            z-index: 1002;
+            animation: giftPop 2s ease-out;
+        }
+
+        @keyframes giftPop {
+            0% { transform: translate(-50%, -50%) scale(0) rotate(0deg); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.2) rotate(180deg); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1) rotate(360deg); opacity: 0; }
+        }
+
         /* --- CONTADOR BESOS --- */
         .kiss-counter {
             background: linear-gradient(135deg, #ff85a1, #ff4d6d);
@@ -857,6 +921,7 @@
         <button onclick="go('historia')" class="nav-btn" id="btn-historia">Nuestra Historia</button>
         <button onclick="go('promesas')" class="nav-btn" id="btn-promesas">Promesas</button>
         <button onclick="go('musica')" class="nav-btn" id="btn-musica">🎵 Música</button>
+        <button onclick="go('sorpresas')" class="nav-btn" id="btn-sorpresas">🎉 Sorpresas</button>
     </nav>
 
     <div class="main-container">
@@ -1318,6 +1383,48 @@
                 <div style="text-align: center; margin-top: 30px; padding: 20px; background: linear-gradient(135deg, #ff85a1, #ff4d6d); border-radius: 15px; color: white;">
                     <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">"La música expresa lo que las palabras no pueden"</p>
                     <p style="font-size: 0.9rem; opacity: 0.9;">Espero que disfrutes cada canción tanto como yo disfruto de cada momento contigo, Cleidis. 🎵❤️</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: SORPRESAS -->
+        <section id="sorpresas" class="section">
+            <div class="card">
+                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary);">🎉 Sorpresas para ti</h2>
+                <p style="margin-bottom: 20px;">¡Toca el botón y descubre una sorpresa especial preparada solo para ti!</p>
+                
+                <div style="text-align: center; margin: 30px 0;">
+                    <button class="btn" style="font-size: 1.2rem; padding: 15px 30px; background: linear-gradient(135deg, #ff4d6d, #ff85a1);" onclick="surpriseMe()">🎁 ¡Sorpréndeme! 🎁</button>
+                </div>
+
+                <div id="surprise-display" style="display: none; text-align: center; padding: 30px; background: var(--white); border-radius: 20px; border: 2px solid var(--primary); margin: 20px 0;">
+                    <div id="surprise-content"></div>
+                </div>
+
+                <hr style="margin: 40px 0; opacity: 0.1;">
+
+                <!-- REGALOS VIRTUALES -->
+                <div style="background: var(--white); padding: 20px; border-radius: 15px; margin: 20px 0;">
+                    <h3 style="color: var(--primary); margin-bottom: 15px;">🎁 Regalos Virtuales</h3>
+                    <p style="margin-bottom: 20px;">Envía un regalo virtual especial:</p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px;">
+                        <button class="gift-btn" onclick="sendVirtualGift('🌹')">🌹 Rosa</button>
+                        <button class="gift-btn" onclick="sendVirtualGift('💐')">💐 Ramo</button>
+                        <button class="gift-btn" onclick="sendVirtualGift('🍫')">🍫 Chocolate</button>
+                        <button class="gift-btn" onclick="sendVirtualGift('💍')">💍 Anillo</button>
+                        <button class="gift-btn" onclick="sendVirtualGift('💕')">💕 Corazón</button>
+                        <button class="gift-btn" onclick="sendVirtualGift('🎂')">🎂 Pastel</button>
+                    </div>
+                </div>
+
+                <hr style="margin: 40px 0; opacity: 0.1;">
+
+                <!-- CUMPLIDOS ALEATORIOS -->
+                <div style="background: var(--white); padding: 20px; border-radius: 15px; margin: 20px 0;">
+                    <h3 style="color: var(--primary); margin-bottom: 15px;">💬 Cumplidos Especiales</h3>
+                    <p style="margin-bottom: 20px;">Descubre lo hermosa que eres:</p>
+                    <button class="btn" onclick="randomCompliment()">✨ Dame un cumplido ✨</button>
+                    <div id="compliment-display" style="margin-top: 15px; font-style: italic; color: var(--primary); min-height: 40px;"></div>
                 </div>
             </div>
         </section>
@@ -1798,6 +1905,135 @@
                 document.getElementById('music-stats-text').innerText = 'Error al cargar estadísticas.';
                 console.warn('Error loadMusicStats', err);
             });
+        }
+
+        // SORPRESAS
+        function surpriseMe() {
+            const surprises = [
+                () => showRandomMessage(),
+                () => triggerConfetti(),
+                () => sendVirtualGift(Math.random() > 0.5 ? '🎁' : '💝'),
+                () => randomCompliment(),
+                () => showLoveQuote(),
+                () => animateHearts()
+            ];
+            
+            const randomSurprise = surprises[Math.floor(Math.random() * surprises.length)];
+            randomSurprise();
+            
+            // Mostrar el contenedor de sorpresa
+            const display = document.getElementById('surprise-display');
+            display.style.display = 'block';
+            setTimeout(() => display.style.display = 'none', 5000);
+        }
+
+        function showRandomMessage() {
+            const messages = [
+                "¡Eres la razón de mi sonrisa cada día! 😊",
+                "Mi amor por ti crece con cada latido del corazón 💓",
+                "Eres mi sueño hecho realidad ✨",
+                "Contigo, cada momento es mágico 🌟",
+                "Eres mi todo, mi amor eterno ❤️",
+                "Tu belleza ilumina mi mundo entero 🌹",
+                "Gracias por ser tú, mi amor perfecto 💕"
+            ];
+            
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            document.getElementById('surprise-content').innerHTML = `
+                <h3 style="color: var(--primary); margin-bottom: 10px;">💌 Mensaje Especial</h3>
+                <p style="font-size: 1.2rem; font-style: italic;">${randomMessage}</p>
+            `;
+            spawnBatch(20);
+        }
+
+        function triggerConfetti() {
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 4000);
+            }
+            
+            document.getElementById('surprise-content').innerHTML = `
+                <h3 style="color: var(--primary); margin-bottom: 10px;">🎊 ¡Fiesta de Amor!</h3>
+                <p style="font-size: 1.2rem;">¡Celebremos nuestro amor con confeti! 🎉</p>
+            `;
+        }
+
+        function sendVirtualGift(gift) {
+            const animation = document.createElement('div');
+            animation.className = 'gift-animation';
+            animation.innerHTML = gift;
+            document.body.appendChild(animation);
+            setTimeout(() => animation.remove(), 2000);
+            
+            document.getElementById('surprise-content').innerHTML = `
+                <h3 style="color: var(--primary); margin-bottom: 10px;">🎁 ¡Regalo Virtual!</h3>
+                <p style="font-size: 2rem; margin: 20px 0;">${gift}</p>
+                <p style="font-style: italic;">¡Este regalo es solo para ti, mi amor!</p>
+            `;
+            spawnBatch(15);
+        }
+
+        function randomCompliment() {
+            const compliments = [
+                "Tus ojos brillan como estrellas en la noche 🌟",
+                "Tu sonrisa ilumina cualquier habitación ☀️",
+                "Eres la persona más hermosa que conozco 💖",
+                "Tu inteligencia me deja sin palabras 🧠✨",
+                "Tu corazón es puro y lleno de amor 💕",
+                "Eres mi definición de perfección 👑",
+                "Tu risa es la melodía más hermosa 🎵"
+            ];
+            
+            const randomCompliment = compliments[Math.floor(Math.random() * compliments.length)];
+            document.getElementById('compliment-display').innerText = randomCompliment;
+            
+            document.getElementById('surprise-content').innerHTML = `
+                <h3 style="color: var(--primary); margin-bottom: 10px;">💬 Cumplido Especial</h3>
+                <p style="font-size: 1.2rem; font-style: italic;">${randomCompliment}</p>
+            `;
+            spawnBatch(10);
+        }
+
+        function showLoveQuote() {
+            const quotes = [
+                "\"El amor no se mira con los ojos, sino con el alma.\" - William Shakespeare",
+                "\"Te quiero no por lo que eres, sino por lo que soy cuando estoy contigo.\" - Gabriel García Márquez",
+                "\"Enamorarse no es mirarse el uno al otro, es mirar juntos en la misma dirección.\" - Antoine de Saint-Exupéry",
+                "\"El amor es la fuerza más poderosa del universo.\" - Albert Einstein",
+                "\"Mi amor por ti es como el viento, no puedes verlo pero puedes sentirlo.\" - Nicholas Sparks"
+            ];
+            
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById('surprise-content').innerHTML = `
+                <h3 style="color: var(--primary); margin-bottom: 10px;">📖 Cita de Amor</h3>
+                <p style="font-size: 1.1rem; font-style: italic;">${randomQuote}</p>
+            `;
+            spawnBatch(12);
+        }
+
+        function animateHearts() {
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'floating';
+                    heart.innerHTML = '💖';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
+                    heart.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                    heart.style.opacity = Math.random();
+                    document.body.appendChild(heart);
+                    setTimeout(() => heart.remove(), 3000);
+                }, i * 100);
+            }
+            
+            document.getElementById('surprise-content').innerHTML = `
+                <h3 style="color: var(--primary); margin-bottom: 10px;">💝 Lluvia de Amor</h3>
+                <p style="font-size: 1.2rem;">¡Que caiga una lluvia de corazones sobre ti! 💕</p>
+            `;
         }
 
 
