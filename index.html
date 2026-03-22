@@ -409,6 +409,61 @@
             transform: scale(1.05);
         }
 
+        /* --- BOTONES DE ABRAZOS --- */
+        .hug-btn {
+            background: linear-gradient(135deg, #ffb3c1, #ff85a1);
+            border: 2px solid var(--primary);
+            border-radius: 15px;
+            padding: 12px 8px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .hug-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* --- BOTONES DE ÁNIMO --- */
+        .mood-btn {
+            background: var(--bg);
+            border: 2px solid var(--secondary);
+            border-radius: 15px;
+            padding: 12px 8px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .mood-btn:hover {
+            background: var(--secondary);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* --- ANIMACIÓN DE ABRAZO --- */
+        .hug-animation {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4rem;
+            z-index: 1002;
+            animation: hugPulse 1.5s ease-out;
+        }
+
+        @keyframes hugPulse {
+            0% { transform: translate(-50%, -50%) scale(0) rotate(0deg); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.3) rotate(10deg); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 0; }
+        }
+
         /* --- CONFETTI --- */
         .confetti {
             position: fixed;
@@ -1461,6 +1516,78 @@
                     <button class="btn" onclick="captureDream()">✨ Capturar sueño</button>
                     <div id="dream-display" style="margin-top: 15px; padding: 15px; background: linear-gradient(135deg, #e8f4f8, #f0e6ff); border-radius: 10px; min-height: 60px; font-style: italic; color: var(--text);"></div>
                 </div>
+
+                <hr style="margin: 40px 0; opacity: 0.1;">
+
+                <!-- GENERADOR DE CARTAS DE AMOR -->
+                <div style="background: var(--white); padding: 20px; border-radius: 15px; margin: 20px 0;">
+                    <h3 style="color: var(--primary); margin-bottom: 15px;">💌 Generador de Cartas de Amor</h3>
+                    <p style="margin-bottom: 20px;">Crea una carta de amor personalizada:</p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                        <select id="letter-style" class="wish-input" style="margin: 0;">
+                            <option value="romantica">Romántica 💕</option>
+                            <option value="poetica">Poética 📝</option>
+                            <option value="divertida">Divertida 😄</option>
+                            <option value="pasional">Pasional 🔥</option>
+                        </select>
+                        <select id="letter-length" class="wish-input" style="margin: 0;">
+                            <option value="corta">Carta corta</option>
+                            <option value="media">Carta media</option>
+                            <option value="larga">Carta larga</option>
+                        </select>
+                    </div>
+                    <button class="btn" onclick="generateLoveLetter()">✍️ Crear carta</button>
+                    <div id="letter-display" style="margin-top: 15px; padding: 20px; background: linear-gradient(135deg, #fff0f3, #f0e6ff); border-radius: 15px; border-left: 4px solid var(--primary); min-height: 100px; font-style: italic; color: var(--text); line-height: 1.6;"></div>
+                </div>
+
+                <hr style="margin: 40px 0; opacity: 0.1;">
+
+                <!-- ENVIADOR DE ABRAZOS VIRTUALES -->
+                <div style="background: var(--white); padding: 20px; border-radius: 15px; margin: 20px 0;">
+                    <h3 style="color: var(--primary); margin-bottom: 15px;">🤗 Abrazo Virtual</h3>
+                    <p style="margin-bottom: 20px;">Envía un abrazo especial:</p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px;">
+                        <button class="hug-btn" onclick="sendVirtualHug('🤗')">Abrazo tierno</button>
+                        <button class="hug-btn" onclick="sendVirtualHug('🫂')">Abrazo fuerte</button>
+                        <button class="hug-btn" onclick="sendVirtualHug('💑')">Abrazo romántico</button>
+                        <button class="hug-btn" onclick="sendVirtualHug('👨‍❤️‍👩')">Abrazo eterno</button>
+                        <button class="hug-btn" onclick="sendVirtualHug('🌟')">Abrazo mágico</button>
+                        <button class="hug-btn" onclick="sendVirtualHug('💫')">Abrazo sorpresa</button>
+                    </div>
+                    <div id="hug-counter" style="margin-top: 15px; text-align: center; font-weight: 600; color: var(--primary);"></div>
+                </div>
+
+                <hr style="margin: 40px 0; opacity: 0.1;">
+
+                <!-- LISTA DE DESEOS COMPARTIDOS -->
+                <div style="background: var(--white); padding: 20px; border-radius: 15px; margin: 20px 0;">
+                    <h3 style="color: var(--primary); margin-bottom: 15px;">🎯 Lista de Sueños Compartidos</h3>
+                    <p style="margin-bottom: 20px;">Agreguemos sueños a nuestra lista:</p>
+                    <input type="text" id="bucket-input" class="wish-input" placeholder="Escribe un sueño para lograr juntos..." style="margin-bottom: 15px;">
+                    <button class="btn" onclick="addToBucketList()">⭐ Agregar a la lista</button>
+                    <div id="bucket-list" style="margin-top: 15px; max-height: 200px; overflow-y: auto;">
+                        <!-- Los sueños se agregarán aquí dinámicamente -->
+                    </div>
+                </div>
+
+                <hr style="margin: 40px 0; opacity: 0.1;">
+
+                <!-- SEGUIMIENTO DE ÁNIMO -->
+                <div style="background: var(--white); padding: 20px; border-radius: 15px; margin: 20px 0;">
+                    <h3 style="color: var(--primary); margin-bottom: 15px;">😊 Seguimiento de Ánimo</h3>
+                    <p style="margin-bottom: 20px;">¿Cómo te sientes hoy?</p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 10px; margin-bottom: 15px;">
+                        <button class="mood-btn" onclick="shareMood('😊', 'Feliz')">😊 Feliz</button>
+                        <button class="mood-btn" onclick="shareMood('🥰', 'Enamorada')">🥰 Enamorada</button>
+                        <button class="mood-btn" onclick="shareMood('😴', 'Cansada')">😴 Cansada</button>
+                        <button class="mood-btn" onclick="shareMood('🤔', 'Pensativa')">🤔 Pensativa</button>
+                        <button class="mood-btn" onclick="shareMood('😢', 'Triste')">😢 Triste</button>
+                        <button class="mood-btn" onclick="shareMood('🤗', 'Abrazable')">🤗 Abrazable</button>
+                    </div>
+                    <div id="mood-history" style="margin-top: 15px; padding: 15px; background: var(--bg); border-radius: 10px; min-height: 60px;">
+                        <p style="font-style: italic; color: var(--text); margin: 0;">Tu historial de ánimos aparecerá aquí 💭</p>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -1533,6 +1660,8 @@
                 loadKisses();
                 loadMusicStats();
                 countVisit();
+                updateHugCounter();
+                updateMoodHistory();
                 setTimeout(showVisitCount, 500);
             }, 800);
         }
@@ -1969,6 +2098,40 @@
                     ];
                     document.getElementById('dream-input').value = dreams[Math.floor(Math.random() * dreams.length)];
                     captureDream();
+                },
+                () => {
+                    // Para el generador de cartas
+                    generateLoveLetter();
+                },
+                () => {
+                    // Para abrazos virtuales
+                    const hugTypes = ['🤗', '🫂', '💑', '👨‍❤️‍👩', '🌟', '💫'];
+                    sendVirtualHug(hugTypes[Math.floor(Math.random() * hugTypes.length)]);
+                },
+                () => {
+                    // Para la lista de sueños
+                    const bucketDreams = [
+                        'Aprender a bailar juntos',
+                        'Visitar un lugar exótico',
+                        'Crear un jardín en casa',
+                        'Escribir nuestra historia de amor',
+                        'Hacer un viaje en globo aerostático'
+                    ];
+                    document.getElementById('bucket-input').value = bucketDreams[Math.floor(Math.random() * bucketDreams.length)];
+                    addToBucketList();
+                },
+                () => {
+                    // Para el seguimiento de ánimo
+                    const moods = [
+                        ['😊', 'Feliz'],
+                        ['🥰', 'Enamorada'],
+                        ['🤗', 'Abrazable'],
+                        ['😴', 'Cansada'],
+                        ['🤔', 'Pensativa'],
+                        ['😢', 'Triste']
+                    ];
+                    const randomMood = moods[Math.floor(Math.random() * moods.length)];
+                    shareMood(randomMood[0], randomMood[1]);
                 }
             ];
             
@@ -2231,6 +2394,244 @@
             const display = document.getElementById('surprise-display');
             display.style.display = 'block';
             setTimeout(() => display.style.display = 'none', 7000);
+        }
+
+        // GENERADOR DE CARTAS DE AMOR
+        function generateLoveLetter() {
+            const style = document.getElementById('letter-style').value;
+            const length = document.getElementById('letter-length').value;
+            
+            const letters = {
+                romantica: {
+                    corta: [
+                        "Mi amor Cleidis, cada día que pasa te amo más. Eres mi razón de ser, mi alegría constante. Te quiero infinito. ❤️",
+                        "Querida Cleidis, en tus ojos veo mi futuro. Tu sonrisa ilumina mi mundo. Eres perfecta para mí. 💕",
+                        "Amor mío, gracias por existir. Tu amor me hace mejor persona cada día. Eternamente tuyo. 💖"
+                    ],
+                    media: [
+                        "Mi querida Cleidis,\n\nDesde el momento en que te conocí, supe que eras especial. Tu sonrisa ilumina mis días más oscuros, tu risa es la melodía más hermosa que he escuchado. Cada momento contigo es un tesoro que guardo en mi corazón.\n\nTe amo más de lo que las palabras pueden expresar.\n\nTuyo para siempre ❤️",
+                        "Amor de mi vida,\n\nEres la persona más maravillosa que conozco. Tu bondad, tu inteligencia, tu belleza... todo en ti me enamora cada día más. Gracias por ser mi compañera, mi confidente, mi todo.\n\nNo puedo imaginar mi vida sin ti.\n\nCon todo mi amor 💕"
+                    ],
+                    larga: [
+                        "Mi amada Cleidis,\n\nHan pasado muchos momentos desde que nuestros caminos se cruzaron, y cada uno de ellos ha sido más especial que el anterior. Recuerdo el día que te conocí como si fuera ayer - tu sonrisa tímida, tus ojos brillantes, esa calidez que irradias.\n\nDesde entonces, mi vida ha cambiado completamente. Has traído colores a mi mundo en blanco y negro, alegría a mis días grises, amor a mi corazón solitario. Eres mi mejor amiga, mi confidente, mi amor eterno.\n\nGracias por tu paciencia, por tu comprensión, por amarme tal como soy. Gracias por los momentos de risa, por las conversaciones profundas, por los abrazos que curan todo.\n\nPrometo amarte, cuidarte y valorarte cada día de mi vida. Eres mi regalo más preciado, mi razón de ser.\n\nTe amo infinito.\n\nTuyo por siempre ❤️"
+                    ]
+                },
+                poetica: {
+                    corta: [
+                        "Cleidis, estrella de mi firmamento,\ntu luz ilumina mi camino oscuro.\nEn tus brazos encuentro mi puerto,\nen tu amor, mi eterno seguro. 📝",
+                        "Como rosa en jardín primaveral,\nasí florece tu belleza sin par.\nMi corazón late por ti eternal,\nen tu amor encuentro mi hogar. 🌹"
+                    ],
+                    media: [
+                        "Oh Cleidis, musa de mis versos,\ninspiración de mi alma poeta.\nTus ojos son estrellas dispersas,\ntu sonrisa, melodía completa.\n\nEn el libro de mi vida,\ntú eres la página más bella.\nCada día a tu lado,\nes una aventura que me llena.\n\nTe amo como el poeta ama a la luna,\ncon pasión infinita y devoción profunda. 📖"
+                    ],
+                    larga: [
+                        "A Cleidis, mi amor eterno\n\nEn el vasto océano de la existencia,\ntú eres la isla que me da paz.\nEn el desierto de la soledad,\ntú eres el oasis que me abraza.\n\nTus ojos son pozos de misterio,\ndonde me pierdo gustosamente.\nTu sonrisa es sol naciente,\nque ilumina mi horizonte eternamente.\n\nComo el río busca el mar,\nasí mi alma te busca a ti.\nComo la noche anhela el día,\nasí te anhelo en mi vivir.\n\nEres la poesía que escribo,\nla música que canto,\nla estrella que sigo,\nel amor que tanto anhelaba.\n\nEn cada latido de mi corazón,\nresuena tu nombre como mantra.\nEn cada suspiro de mi ser,\nse escapa tu esencia como fragancia.\n\nCleidis, amor mío,\nmi verso, mi rima, mi canción.\nEres el principio y el fin,\nde mi amor infinito. 💫"
+                    ]
+                },
+                divertida: {
+                    corta: [
+                        "¡Hola mi amor! ¿Sabías que eres tan linda que hasta los emojis se ponen celosos? 😘 Eres mi persona favorita para hacer tonterías. ¡Te amo! 😂",
+                        "Cleidis, eres como wifi: invisible pero indispensable. Sin ti, mi vida no tiene conexión. ¡Te amo más que a las pizzas! 🍕❤️"
+                    ],
+                    media: [
+                        "¡Mi amor Cleidis!\n\nEres como mi teléfono: no puedo vivir sin ti. Bueno, técnicamente sí, pero sería muy aburrido. Eres mi compañera de aventuras, mi socia en crimen, mi mejor amiga.\n\nGracias por aguantar mis chistes malos, por bailar conmigo en la sala, por ser tú misma. ¡Eres perfecta!\n\nTe amo más que... ¡espera, no hay comparación posible! 😍"
+                    ],
+                    larga: [
+                        "¡Carta de amor divertida para mi Cleidis favorita!\n\nPrimero que nada, debo confesar: eres tan hermosa que hasta las flores se ponen verdes de envidia. ¡Literalmente! 🌿😄\n\n¿Recuerdas cuando bailamos como locos en la sala? ¿O cuando intentamos cocinar y casi quemamos la casa? Esos momentos son los mejores porque los vivo contigo.\n\nEres mi persona favorita para:\n- Contar chistes (incluso los malos)\n- Ver películas de terror (y escondernos detrás de la almohada)\n- Comer helado a las 3 AM\n- Hacer caras raras en fotos\n- Soñar despiertos sobre nuestro futuro\n\nGracias por ser mi locura favorita, mi risa constante, mi amor eterno. Eres como un meme: graciosa, inolvidable y perfecta.\n\n¡Te amo más que a internet! (Y eso es decir mucho)\n\nTu payaso enamorado ❤️🤡"
+                    ]
+                },
+                pasional: {
+                    corta: [
+                        "Cleidis, mi amor ardiente, cada célula de mi cuerpo te desea. Tu piel, tus labios, tu esencia... me vuelven loco. 🔥❤️",
+                        "Amor mío, en tus brazos quiero perderme. Tu pasión enciende la mía. Eres mi fuego eterno. 💋🔥"
+                    ],
+                    media: [
+                        "Mi pasión Cleidis,\n\nDesde que te conocí, mi cuerpo arde en deseos. Tus curvas, tu aroma, tu manera de moverte... todo en ti despierta mi instinto más primitivo.\n\nQuiero besarte hasta perder el aliento, tocarte hasta conocer cada centímetro de tu piel, amarte hasta que nuestros cuerpos sean uno solo.\n\nEres mi obsesión, mi deseo, mi amor más intenso.\n\nTuyo en cuerpo y alma 💋"
+                    ],
+                    larga: [
+                        "Cleidis, mi amor apasionado,\n\nCada noche sueño contigo, con tu cuerpo perfecto, con tus labios suaves, con tu piel cálida. Mi deseo por ti es como un volcán a punto de erupción - intenso, poderoso, inevitable.\n\nRecuerdo cada caricia, cada beso robado, cada mirada llena de promesas. Tu aroma me persigue, tu voz me hipnotiza, tu presencia me consume.\n\nQuiero explorar cada rincón de tu ser, descubrir tus secretos más íntimos, hacerte mía de todas las formas posibles. Eres mi tentación constante, mi pecado favorito, mi paraíso terrenal.\n\nEn tus brazos encuentro la paz que mi alma anhela, en tus besos hallo el fuego que me mantiene vivo. Eres mi droga, mi adicción, mi razón de existir.\n\nTe amo con una pasión que quema, que consume, que transforma. Eres mi todo, mi universo, mi amor eterno.\n\nTuyo para siempre, con pasión infinita 🔥❤️"
+                    ]
+                }
+            };
+            
+            const selectedLetters = letters[style][length];
+            const randomLetter = selectedLetters[Math.floor(Math.random() * selectedLetters.length)];
+            
+            document.getElementById('letter-display').innerHTML = randomLetter.replace(/\n/g, '<br>');
+            
+            spawnBatch(30);
+            
+            // Mostrar en sorpresa también
+            document.getElementById('surprise-content').innerHTML = `
+                <h3 style="color: var(--primary); margin-bottom: 10px;">💌 Carta de Amor Generada</h3>
+                <p style="font-size: 1rem; font-style: italic; line-height: 1.4;">${randomLetter.split('\n')[0]}...</p>
+                <p style="font-size: 0.9rem; margin-top: 10px;">¡Carta personalizada creada! 📝</p>
+            `;
+            const display = document.getElementById('surprise-display');
+            display.style.display = 'block';
+            setTimeout(() => display.style.display = 'none', 8000);
+        }
+
+        // ENVIADOR DE ABRAZOS VIRTUALES
+        function sendVirtualHug(hugType) {
+            const hugNames = {
+                '🤗': 'Abrazo tierno',
+                '🫂': 'Abrazo fuerte', 
+                '💑': 'Abrazo romántico',
+                '👨‍❤️‍👩': 'Abrazo eterno',
+                '🌟': 'Abrazo mágico',
+                '💫': 'Abrazo sorpresa'
+            };
+            
+            const animation = document.createElement('div');
+            animation.className = 'hug-animation';
+            animation.innerHTML = hugType;
+            document.body.appendChild(animation);
+            setTimeout(() => animation.remove(), 1500);
+            
+            // Guardar abrazo en Firebase
+            if (window.db && window.dbRef && window.dbPush) {
+                const hugsRef = window.dbRef(window.db, 'abrazos');
+                window.dbPush(hugsRef, {
+                    tipo: hugType,
+                    nombre: hugNames[hugType],
+                    fecha: new Date().toLocaleString('es-ES')
+                });
+            }
+            
+            // Actualizar contador
+            updateHugCounter();
+            
+            spawnBatch(20);
+            
+            // Mostrar en sorpresa también
+            document.getElementById('surprise-content').innerHTML = `
+                <h3 style="color: var(--primary); margin-bottom: 10px;">🤗 Abrazo Enviado</h3>
+                <p style="font-size: 2rem; margin: 10px 0;">${hugType}</p>
+                <p style="font-style: italic;">¡${hugNames[hugType]} enviado con todo el amor! 💕</p>
+            `;
+            const display = document.getElementById('surprise-display');
+            display.style.display = 'block';
+            setTimeout(() => display.style.display = 'none', 5000);
+        }
+
+        function updateHugCounter() {
+            if (!window.db || !window.dbRef || !window.dbGet) return;
+            const hugsRef = window.dbRef(window.db, 'abrazos');
+            window.dbGet(hugsRef).then(snapshot => {
+                const count = snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
+                document.getElementById('hug-counter').innerText = `Abrazos enviados: ${count} 🤗`;
+            });
+        }
+
+        // LISTA DE DESEOS COMPARTIDOS
+        function addToBucketList() {
+            const dream = document.getElementById('bucket-input').value.trim();
+            
+            if (!dream) {
+                alert('Por favor, escribe un sueño para agregar a la lista 💭');
+                return;
+            }
+            
+            // Guardar en Firebase
+            if (window.db && window.dbRef && window.dbPush) {
+                const bucketRef = window.dbRef(window.db, 'lista_suenos');
+                window.dbPush(bucketRef, {
+                    sueno: dream,
+                    fecha: new Date().toLocaleString('es-ES'),
+                    completado: false
+                });
+            }
+            
+            // Agregar a la lista visual
+            const bucketList = document.getElementById('bucket-list');
+            const item = document.createElement('div');
+            item.className = 'bucket-item';
+            item.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px; padding: 10px; background: var(--bg); border-radius: 10px; margin-bottom: 8px;">
+                    <input type="checkbox" onchange="toggleBucketItem(this)">
+                    <span style="flex: 1; font-style: italic;">${dream}</span>
+                    <span style="font-size: 0.8rem; color: #888;">${new Date().toLocaleDateString('es-ES')}</span>
+                </div>
+            `;
+            bucketList.appendChild(item);
+            
+            // Limpiar input
+            document.getElementById('bucket-input').value = '';
+            
+            spawnBatch(15);
+            
+            // Mostrar en sorpresa también
+            document.getElementById('surprise-content').innerHTML = `
+                <h3 style="color: var(--primary); margin-bottom: 10px;">🎯 Sueño Agregado</h3>
+                <p style="font-size: 1.1rem; font-style: italic;">"${dream}"</p>
+                <p style="font-size: 0.9rem; margin-top: 10px;">¡Agregado a nuestra lista de sueños! ⭐</p>
+            `;
+            const display = document.getElementById('surprise-display');
+            display.style.display = 'block';
+            setTimeout(() => display.style.display = 'none', 6000);
+        }
+
+        function toggleBucketItem(checkbox) {
+            const item = checkbox.parentElement;
+            if (checkbox.checked) {
+                item.style.opacity = '0.6';
+                item.style.textDecoration = 'line-through';
+            } else {
+                item.style.opacity = '1';
+                item.style.textDecoration = 'none';
+            }
+        }
+
+        // SEGUIMIENTO DE ÁNIMO
+        function shareMood(emoji, moodName) {
+            const moodEntry = {
+                emoji: emoji,
+                nombre: moodName,
+                fecha: new Date().toLocaleString('es-ES'),
+                timestamp: Date.now()
+            };
+            
+            // Guardar en Firebase
+            if (window.db && window.dbRef && window.dbPush) {
+                const moodRef = window.dbRef(window.db, 'animos');
+                window.dbPush(moodRef, moodEntry);
+            }
+            
+            // Actualizar historial visual
+            updateMoodHistory();
+            
+            spawnBatch(10);
+            
+            // Mostrar en sorpresa también
+            document.getElementById('surprise-content').innerHTML = `
+                <h3 style="color: var(--primary); margin-bottom: 10px;">😊 Ánimo Compartido</h3>
+                <p style="font-size: 2rem; margin: 10px 0;">${emoji}</p>
+                <p style="font-style: italic;">Te sientes ${moodName.toLowerCase()} hoy 💭</p>
+            `;
+            const display = document.getElementById('surprise-display');
+            display.style.display = 'block';
+            setTimeout(() => display.style.display = 'none', 5000);
+        }
+
+        function updateMoodHistory() {
+            if (!window.db || !window.dbRef || !window.dbGet) return;
+            const moodRef = window.dbRef(window.db, 'animos');
+            window.dbGet(moodRef).then(snapshot => {
+                const historyDiv = document.getElementById('mood-history');
+                if (snapshot.exists()) {
+                    const moods = Object.values(snapshot.val()).sort((a, b) => b.timestamp - a.timestamp);
+                    const recentMoods = moods.slice(0, 5); // Mostrar últimos 5
+                    
+                    historyDiv.innerHTML = recentMoods.map(mood => 
+                        `<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                            <span style="font-size: 1.5rem;">${mood.emoji}</span>
+                            <span>${mood.nombre}</span>
+                            <span style="font-size: 0.8rem; color: #888; margin-left: auto;">${mood.fecha}</span>
+                        </div>`
+                    ).join('');
+                }
+            });
         }
 
 
