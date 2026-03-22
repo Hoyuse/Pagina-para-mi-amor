@@ -743,6 +743,74 @@
             font-size: 0.8rem;
         }
 
+        /* --- MINI REPRODUCTOR FLOTANTE --- */
+        #mini-player {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 320px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            z-index: 2500;
+            overflow: hidden;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .player-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .player-header h3 {
+            margin: 0;
+            font-size: 1rem;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .player-close {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .player-video {
+            width: 100%;
+            border: none;
+        }
+
+        @media (max-width: 500px) {
+            #mini-player {
+                width: 280px;
+                bottom: 10px;
+                right: 10px;
+            }
+        }
+
         /* --- RESPONSIVIDAD --- */
         @media (max-width: 500px) {
             .book { width: 270px; height: 380px; }
@@ -1067,8 +1135,8 @@
                                 <p style="color: #888; font-size: 0.9rem;">Alejandro Sanz</p>
                             </div>
                             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                                <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="window.open('https://youtu.be/4NRXx6U8ABg', '_blank')">▶ YouTube</button>
-                                <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="togglePlayer(1)">📺 Aquí</button>
+                                <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="window.open('https://www.youtube.com/watch?v=ZMUqIoDtSwc', '_blank')">▶ YouTube</button>
+                                <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="togglePlayer(1, 'ZMUqIoDtSwc')">📺 Aquí</button>
                             </div>
                         </div>
                         <div id="player1" style="display: none; width: 100%; margin-top: 10px; border-radius: 10px; overflow: hidden;"></div>
@@ -1082,8 +1150,8 @@
                                 <p style="color: #888; font-size: 0.9rem;">Alejandro Sanz</p>
                             </div>
                             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                                <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="window.open('https://youtu.be/vKBKYchLJ1I', '_blank')">▶ YouTube</button>
-                                <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="togglePlayer(2)">📺 Aquí</button>
+                                <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="window.open('https://www.youtube.com/watch?v=kIQtB8uRc2E', '_blank')">▶ YouTube</button>
+                                <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="togglePlayer(2, 'kIQtB8uRc2E')">📺 Aquí</button>
                             </div>
                         </div>
                         <div id="player2" style="display: none; width: 100%; margin-top: 10px; border-radius: 10px; overflow: hidden;"></div>
@@ -1098,7 +1166,7 @@
                             </div>
                             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                                 <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="window.open('https://youtu.be/eTVnxRBrRvg', '_blank')">▶ YouTube</button>
-                                <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="togglePlayer(3)">📺 Aquí</button>
+                                <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="togglePlayer(3, 'eTVnxRBrRvg')">📺 Aquí</button>
                             </div>
                         </div>
                         <div id="player3" style="display: none; width: 100%; margin-top: 10px; border-radius: 10px; overflow: hidden;"></div>
@@ -1113,7 +1181,7 @@
                             </div>
                             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                                 <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="window.open('https://youtu.be/c8YzG3CeKDc', '_blank')">▶ YouTube</button>
-                                <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="togglePlayer(4)">📺 Aquí</button>
+                                <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="togglePlayer(4, 'c8YzG3CeKDc')">📺 Aquí</button>
                             </div>
                         </div>
                         <div id="player4" style="display: none; width: 100%; margin-top: 10px; border-radius: 10px; overflow: hidden;"></div>
@@ -1128,7 +1196,7 @@
                             </div>
                             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                                 <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="window.open('https://youtu.be/Kc-InVLhqNs', '_blank')">▶ YouTube</button>
-                                <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="togglePlayer(5)">📺 Aquí</button>
+                                <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="togglePlayer(5, 'Kc-InVLhqNs')">📺 Aquí</button>
                             </div>
                         </div>
                         <div id="player5" style="display: none; width: 100%; margin-top: 10px; border-radius: 10px; overflow: hidden;"></div>
@@ -1143,7 +1211,7 @@
                             </div>
                             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                                 <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="window.open('https://youtu.be/IU3qH7dQNvE', '_blank')">▶ YouTube</button>
-                                <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="togglePlayer(6)">📺 Aquí</button>
+                                <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="togglePlayer(6, 'IU3qH7dQNvE')">📺 Aquí</button>
                             </div>
                         </div>
                         <div id="player6" style="display: none; width: 100%; margin-top: 10px; border-radius: 10px; overflow: hidden;"></div>
@@ -1157,6 +1225,15 @@
             </div>
         </section>
 
+    </div>
+
+    <!-- MINI REPRODUCTOR FLOTANTE -->
+    <div id="mini-player">
+        <div class="player-header">
+            <h3 id="player-title">Reproduciendo...</h3>
+            <button class="player-close" onclick="closeMiniPlayer()">X</button>
+        </div>
+        <iframe id="player-iframe" class="player-video" height="240" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
 
     <footer>
@@ -1539,29 +1616,35 @@
         }
 
         // MÚSICA - COMPATIBLE CON ANDROID
-        const musicVideos = {
-            1: 'https://www.youtube.com/embed/4NRXx6U8ABg',
-            2: 'https://www.youtube.com/embed/vKBKYchLJ1I',
-            3: 'https://www.youtube.com/embed/eTVnxRBrRvg',
-            4: 'https://www.youtube.com/embed/c8YzG3CeKDc',
-            5: 'https://www.youtube.com/embed/Kc-InVLhqNs',
-            6: 'https://www.youtube.com/embed/IU3qH7dQNvE'
+        const musicTitles = {
+            1: 'Corazón Partío',
+            2: 'A Qué No Te Lo Creo',
+            3: 'Amiga',
+            4: 'La Fuerza de la Vida',
+            5: 'Cuando Vueltas',
+            6: 'Ángel Malherido'
         };
 
-        function togglePlayer(num) {
-            const playerDiv = document.getElementById('player' + num);
-            const button = event.target;
+        function togglePlayer(num, videoId) {
+            const miniPlayer = document.getElementById('mini-player');
+            const playerIframe = document.getElementById('player-iframe');
+            const playerTitle = document.getElementById('player-title');
             
-            if (playerDiv.style.display === 'none' || playerDiv.style.display === '') {
-                playerDiv.style.display = 'block';
-                playerDiv.innerHTML = `<iframe width="100%" height="250" style="border-radius: 10px;" src="${musicVideos[num]}?autoplay=0" title="Canción" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-                button.innerText = "⏸ Cerrar";
-                spawnBatch(10);
-            } else {
-                playerDiv.style.display = 'none';
-                playerDiv.innerHTML = '';
-                button.innerText = "📺 Aquí";
-            }
+            // Configurar el reproductor
+            playerTitle.innerText = musicTitles[num] + ' ♥';
+            playerIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            
+            // Mostrar el mini reproductor
+            miniPlayer.style.display = 'block';
+            spawnBatch(15);
+        }
+
+        function closeMiniPlayer() {
+            const miniPlayer = document.getElementById('mini-player');
+            const playerIframe = document.getElementById('player-iframe');
+            
+            miniPlayer.style.display = 'none';
+            playerIframe.src = '';
         }
 
         // PREVENIR ZOOM ACCIDENTAL EN MÓVIL AL TOCAR RÁPIDO
