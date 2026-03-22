@@ -1426,6 +1426,41 @@
                     <button class="btn" onclick="randomCompliment()">✨ Dame un cumplido ✨</button>
                     <div id="compliment-display" style="margin-top: 15px; font-style: italic; color: var(--primary); min-height: 40px;"></div>
                 </div>
+
+                <hr style="margin: 40px 0; opacity: 0.1;">
+
+                <!-- GENERADOR DE CITAS VIRTUALES -->
+                <div style="background: var(--white); padding: 20px; border-radius: 15px; margin: 20px 0;">
+                    <h3 style="color: var(--primary); margin-bottom: 15px;">💑 Generador de Citas</h3>
+                    <p style="margin-bottom: 20px;">¿No sabes qué hacer? ¡Deja que te inspire!</p>
+                    <button class="btn" onclick="generateDateIdea()">🎯 Sugerir una cita</button>
+                    <div id="date-idea-display" style="margin-top: 15px; padding: 15px; background: var(--bg); border-radius: 10px; min-height: 60px; font-style: italic; color: var(--primary);"></div>
+                </div>
+
+                <hr style="margin: 40px 0; opacity: 0.1;">
+
+                <!-- CALCULADORA DE AMOR -->
+                <div style="background: var(--white); padding: 20px; border-radius: 15px; margin: 20px 0;">
+                    <h3 style="color: var(--primary); margin-bottom: 15px;">💕 Calculadora de Amor</h3>
+                    <p style="margin-bottom: 20px;">Descubre el porcentaje de compatibilidad entre dos nombres:</p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                        <input type="text" id="name1" class="wish-input" placeholder="Tu nombre" style="margin: 0;">
+                        <input type="text" id="name2" class="wish-input" placeholder="Nombre de Cleidis" style="margin: 0;">
+                    </div>
+                    <button class="btn" onclick="calculateLove()">💖 Calcular compatibilidad</button>
+                    <div id="love-result" style="margin-top: 15px; text-align: center; font-size: 1.5rem; font-weight: bold; color: var(--primary); min-height: 40px;"></div>
+                </div>
+
+                <hr style="margin: 40px 0; opacity: 0.1;">
+
+                <!-- CAPTURADOR DE SUEÑOS -->
+                <div style="background: var(--white); padding: 20px; border-radius: 15px; margin: 20px 0;">
+                    <h3 style="color: var(--primary); margin-bottom: 15px;">🌙 Capturador de Sueños</h3>
+                    <p style="margin-bottom: 20px;">Comparte un sueño o deseo secreto:</p>
+                    <input type="text" id="dream-input" class="wish-input" placeholder="Escribe tu sueño más preciado..." style="margin-bottom: 15px;">
+                    <button class="btn" onclick="captureDream()">✨ Capturar sueño</button>
+                    <div id="dream-display" style="margin-top: 15px; padding: 15px; background: linear-gradient(135deg, #e8f4f8, #f0e6ff); border-radius: 10px; min-height: 60px; font-style: italic; color: var(--text);"></div>
+                </div>
             </div>
         </section>
 
@@ -1915,7 +1950,26 @@
                 () => sendVirtualGift(Math.random() > 0.5 ? '🎁' : '💝'),
                 () => randomCompliment(),
                 () => showLoveQuote(),
-                () => animateHearts()
+                () => animateHearts(),
+                () => generateDateIdea(),
+                () => {
+                    // Para la calculadora, usar nombres predeterminados
+                    document.getElementById('name1').value = 'Tú';
+                    document.getElementById('name2').value = 'Cleidis';
+                    calculateLove();
+                },
+                () => {
+                    // Para el capturador de sueños, usar un sueño aleatorio
+                    const dreams = [
+                        'Viajar juntos por el mundo',
+                        'Construir nuestro hogar perfecto',
+                        'Tener una familia hermosa',
+                        'Envejecer juntos tomados de la mano',
+                        'Cumplir todos nuestros sueños juntos'
+                    ];
+                    document.getElementById('dream-input').value = dreams[Math.floor(Math.random() * dreams.length)];
+                    captureDream();
+                }
             ];
             
             const randomSurprise = surprises[Math.floor(Math.random() * surprises.length)];
@@ -2034,6 +2088,149 @@
                 <h3 style="color: var(--primary); margin-bottom: 10px;">💝 Lluvia de Amor</h3>
                 <p style="font-size: 1.2rem;">¡Que caiga una lluvia de corazones sobre ti! 💕</p>
             `;
+        }
+
+        // GENERADOR DE CITAS
+        function generateDateIdea() {
+            const dateIdeas = [
+                "🌅 Un picnic al atardecer en el parque, con tu comida favorita y música suave",
+                "🎭 Una noche de cine en casa, viendo películas románticas y compartiendo palomitas",
+                "🍝 Una cena especial en casa, cocinando juntos platos nuevos y exóticos",
+                "🚶‍♀️ Un paseo nocturno por la ciudad, tomados de la mano y compartiendo sueños",
+                "🎨 Una tarde de arte, pintando o dibujando juntos, dejando volar la creatividad",
+                "📚 Una noche de lectura, compartiendo libros favoritos y discutiendo historias",
+                "🌊 Un día en la playa o lago, nadando, jugando y relajándonos al sol",
+                "🎪 Una visita a un parque de diversiones, montando en juegos y riendo juntos",
+                "🏠 Una tarde de juegos de mesa, compitiendo amistosamente y disfrutando",
+                "🎵 Un concierto virtual o en vivo, bailando y cantando nuestras canciones favoritas",
+                "🌺 Un día de spa casero, con masajes, baños de burbujas y relajación total",
+                "🚗 Un viaje espontáneo a un lugar cercano, descubriendo nuevos horizontes",
+                "🍳 Una clase de cocina virtual, aprendiendo a preparar algo delicioso juntos",
+                "🌙 Una noche de estrellas, acostados en el jardín contemplando el universo",
+                "🎭 Una obra de teatro o musical, disfrutando del arte y la cultura juntos"
+            ];
+            
+            const randomIdea = dateIdeas[Math.floor(Math.random() * dateIdeas.length)];
+            document.getElementById('date-idea-display').innerText = randomIdea;
+            spawnBatch(15);
+            
+            // Mostrar en el contenedor de sorpresa también
+            document.getElementById('surprise-content').innerHTML = `
+                <h3 style="color: var(--primary); margin-bottom: 10px;">💑 Idea de Cita Romántica</h3>
+                <p style="font-size: 1.1rem; font-style: italic;">${randomIdea}</p>
+            `;
+            const display = document.getElementById('surprise-display');
+            display.style.display = 'block';
+            setTimeout(() => display.style.display = 'none', 8000);
+        }
+
+        // CALCULADORA DE AMOR
+        function calculateLove() {
+            const name1 = document.getElementById('name1').value.trim();
+            const name2 = document.getElementById('name2').value.trim();
+            
+            if (!name1 || !name2) {
+                document.getElementById('love-result').innerHTML = '<span style="color: #ff4d6d;">Por favor, ingresa ambos nombres 💕</span>';
+                return;
+            }
+            
+            // Algoritmo "científico" de compatibilidad (diversión pura)
+            const combined = (name1 + name2).toLowerCase();
+            let score = 0;
+            
+            // Contar letras comunes
+            const letters = 'abcdefghijklmnopqrstuvwxyz';
+            for (let letter of letters) {
+                const count1 = (name1.toLowerCase().match(new RegExp(letter, 'g')) || []).length;
+                const count2 = (name2.toLowerCase().match(new RegExp(letter, 'g')) || []).length;
+                score += Math.min(count1, count2) * 2;
+            }
+            
+            // Factor de longitud
+            score += Math.abs(name1.length - name2.length) * -1;
+            
+            // Factor aleatorio para diversión
+            score += Math.floor(Math.random() * 20) - 10;
+            
+            // Normalizar a porcentaje
+            const percentage = Math.max(0, Math.min(100, 50 + score));
+            
+            let message = '';
+            if (percentage >= 90) {
+                message = '¡Amor perfecto! 💑✨';
+            } else if (percentage >= 80) {
+                message = '¡Compatibilidad excepcional! 💕';
+            } else if (percentage >= 70) {
+                message = '¡Muy buena conexión! 💖';
+            } else if (percentage >= 60) {
+                message = '¡Buena compatibilidad! 💓';
+            } else if (percentage >= 50) {
+                message = '¡Hay potencial! 💗';
+            } else {
+                message = '¡El amor todo lo puede! 💘';
+            }
+            
+            document.getElementById('love-result').innerHTML = `
+                <div style="font-size: 2rem; margin-bottom: 10px;">${percentage}%</div>
+                <div>${message}</div>
+            `;
+            
+            spawnBatch(20);
+            
+            // Mostrar en sorpresa también
+            document.getElementById('surprise-content').innerHTML = `
+                <h3 style="color: var(--primary); margin-bottom: 10px;">💕 Compatibilidad de Amor</h3>
+                <div style="font-size: 2rem; margin: 10px 0;">${percentage}%</div>
+                <p style="font-style: italic;">${message}</p>
+            `;
+            const display = document.getElementById('surprise-display');
+            display.style.display = 'block';
+            setTimeout(() => display.style.display = 'none', 6000);
+        }
+
+        // CAPTURADOR DE SUEÑOS
+        function captureDream() {
+            const dream = document.getElementById('dream-input').value.trim();
+            
+            if (!dream) {
+                document.getElementById('dream-display').innerHTML = '<span style="color: #ff4d6d;">Por favor, comparte un sueño o deseo 💭</span>';
+                return;
+            }
+            
+            // Guardar en Firebase si está disponible
+            if (window.db && window.dbRef && window.dbPush) {
+                const dreamsRef = window.dbRef(window.db, 'suenos');
+                window.dbPush(dreamsRef, {
+                    texto: dream,
+                    fecha: new Date().toLocaleString('es-ES')
+                });
+            }
+            
+            const responses = [
+                `¡Qué sueño tan hermoso! ✨ "${dream}" - Lo haremos realidad juntos 💫`,
+                `Me encanta este sueño: "${dream}". ¡Cuenta conmigo para lograrlo! 🌟`,
+                `Tu sueño "${dream}" me inspira. ¡Vamos por él! 💪❤️`,
+                `¡Qué precioso deseo! "${dream}" - Lo guardo en mi corazón 💖`,
+                `Este sueño "${dream}" refleja lo maravillosa que eres. ¡Lo conseguiremos! 🎯`
+            ];
+            
+            const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+            document.getElementById('dream-display').innerHTML = randomResponse;
+            
+            // Limpiar input
+            document.getElementById('dream-input').value = '';
+            
+            spawnBatch(25);
+            
+            // Mostrar en sorpresa también
+            document.getElementById('surprise-content').innerHTML = `
+                <h3 style="color: var(--primary); margin-bottom: 10px;">🌙 Sueño Capturado</h3>
+                <p style="font-size: 1.1rem; font-style: italic;">"${dream}"</p>
+                <p style="font-size: 0.9rem; margin-top: 10px;">¡Guardado en nuestro libro de sueños! 💫</p>
+            `;
+            const display = document.getElementById('surprise-display');
+            display.style.display = 'block';
+            setTimeout(() => display.style.display = 'none', 7000);
         }
 
 
