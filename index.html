@@ -892,6 +892,8 @@
                     Cargando tu mensaje de amor...
                 </div>
 
+                <p id="visit-count" style="font-weight: 600; margin: 10px 0; color: var(--primary);">Cargando contador de visitas...</p>
+
                 <p style="font-style: italic; opacity: 0.8;">"Desde el 10 de Febrero mi vida cambió para siempre."</p>
                 
                 <div class="chest-container">
@@ -1126,6 +1128,11 @@
                     <p style="font-style: italic; color: var(--text);">"Estas canciones hablan del amor que siento por ti. Cada letra es un reflejo de mis sentimientos hacia tu persona."</p>
                 </div>
 
+                <div id="music-stats" style="background: var(--white); padding: 15px; border-radius: 15px; border: 1px dashed rgba(255,77,109,0.3); margin-bottom: 15px;">
+                    <p style="font-weight: 600; color: var(--primary); margin-bottom: 8px;">🎧 Estadísticas de reproducción</p>
+                    <p style="margin:0;" id="music-stats-text">Cargando datos de la base de datos...</p>
+                </div>
+
                 <div style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 20px;">
                     <!-- Canción 1 -->
                     <div style="padding: 15px; background: var(--white); border-radius: 15px; border: 1px solid rgba(255, 77, 109, 0.1);">
@@ -1292,6 +1299,9 @@
                 setDailyMessage();
                 initMemoryGame();
                 loadKisses();
+                loadMusicStats();
+                countVisit();
+                setTimeout(showVisitCount, 500);
             }, 800);
         }
 
@@ -1541,6 +1551,26 @@
             }
         }
 
+        function countVisit() {
+            if (!window.db || !window.dbRef || !window.dbGet || !window.dbSet) return;
+            const visitsRef = window.dbRef(window.db, 'visitas');
+            window.dbGet(visitsRef).then(snapshot => {
+                const current = snapshot.exists() ? (snapshot.val() || 0) : 0;
+                window.dbSet(visitsRef, current + 1);
+            }).catch(err => console.warn('Error actualizando visitas', err));
+        }
+
+        function showVisitCount() {
+            if (!window.db || !window.dbRef || !window.dbGet) return;
+            const visitsRef = window.dbRef(window.db, 'visitas');
+            window.dbGet(visitsRef).then(snapshot => {
+                if (snapshot.exists()) {
+                    const visits = snapshot.val();
+                    document.getElementById('visit-count').innerText = `Visitas totales: ${visits}`;
+                }
+            });
+        }
+
         // CONTADOR
         function startCounter() {
             function update() {
@@ -1629,23 +1659,51 @@
             const miniPlayer = document.getElementById('mini-player');
             const playerIframe = document.getElementById('player-iframe');
             const playerTitle = document.getElementById('player-title');
-            
+
             // Configurar el reproductor
             playerTitle.innerText = musicTitles[num] + ' ♥';
-            playerIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-            
+            playerIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0`;
+
             // Mostrar el mini reproductor
             miniPlayer.style.display = 'block';
             spawnBatch(15);
+
+            // Guardar reproducciones en Firebase
+            saveMusicPlayCount(num);
         }
 
         function closeMiniPlayer() {
             const miniPlayer = document.getElementById('mini-player');
             const playerIframe = document.getElementById('player-iframe');
-            
+
             miniPlayer.style.display = 'none';
             playerIframe.src = '';
         }
+
+        function saveMusicPlayCount(songId) {
+            if (!window.db || !window.dbRef || !window.dbSet || !window.dbGet) return;
+            const statRef = window.dbRef(window.db, `reproducciones_musica/${songId}`);
+            window.dbGet(statRef).then(snapshot => {
+                const current = snapshot.exists() ? (snapshot.val() || 0) : 0;
+                window.dbSet(statRef, current + 1).then(() => {
+                    loadMusicStats();
+                });
+            }).catch(err => console.warn('No se pudo actualizar estadística de música', err));
+        }
+
+        function loadMusicStats() {
+            if (!window.db || !window.dbRef || !window.dbGet) return;
+            const statsRef = window.dbRef(window.db, 'reproducciones_musica');
+            window.dbGet(statsRef).then(snapshot => {
+                const data = snapshot.exists() ? snapshot.val() : {};
+                const lines = Object.entries(data || {}).map(([id, count]) => `${musicTitles[id] || id}: ${count} reproducciones`);
+                document.getElementById('music-stats-text').innerHTML = lines.length ? lines.map(line => `<div>${line}</div>`).join('') : 'Aún no se ha reproducido ninguna canción.';
+            }).catch(err => {
+                document.getElementById('music-stats-text').innerText = 'Error al cargar estadísticas.';
+                console.warn('Error loadMusicStats', err);
+            });
+        }
+
 
         // PREVENIR ZOOM ACCIDENTAL EN MÓVIL AL TOCAR RÁPIDO
         document.addEventListener('touchstart', function(event) {
