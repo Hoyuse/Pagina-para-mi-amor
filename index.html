@@ -1058,83 +1058,95 @@
                     <p style="font-style: italic; color: var(--text);">"Estas canciones hablan del amor que siento por ti. Cada letra es un reflejo de mis sentimientos hacia tu persona."</p>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr; gap: 20px; margin-top: 20px;">
+                <div style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 20px;">
                     <!-- Canción 1 -->
-                    <div class="playlist-item" style="flex-direction: column; gap: 10px; padding: 15px; background: var(--white); border-radius: 15px; border: 1px solid rgba(255, 77, 109, 0.1);">
-                        <div style="display: flex; gap: 10px; align-items: center; width: 100%;">
-                            <span class="playlist-num" style="font-size: 1.2rem;">1.</span>
-                            <div class="playlist-info" style="flex: 1;">
-                                <h4 style="color: var(--primary);">Corazón Partío</h4>
-                                <p style="color: #888;">Alejandro Sanz</p>
+                    <div style="padding: 15px; background: var(--white); border-radius: 15px; border: 1px solid rgba(255, 77, 109, 0.1);">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap;">
+                            <div style="flex: 1; min-width: 150px;">
+                                <h4 style="color: var(--primary); margin-bottom: 5px;">1. Corazón Partío</h4>
+                                <p style="color: #888; font-size: 0.9rem;">Alejandro Sanz</p>
                             </div>
-                            <button class="btn" style="padding: 8px 12px; font-size: 0.8rem; margin: 0;" onclick="playMusic(this, 'https://www.youtube.com/embed/4NRXx6U8ABg')">▶ Escuchar</button>
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="window.open('https://youtu.be/4NRXx6U8ABg', '_blank')">▶ YouTube</button>
+                                <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="togglePlayer(1)">📺 Aquí</button>
+                            </div>
                         </div>
-                        <div id="player1" style="display: none; width: 100%; margin-top: 10px;"></div>
+                        <div id="player1" style="display: none; width: 100%; margin-top: 10px; border-radius: 10px; overflow: hidden;"></div>
                     </div>
 
                     <!-- Canción 2 -->
-                    <div class="playlist-item" style="flex-direction: column; gap: 10px; padding: 15px; background: var(--white); border-radius: 15px; border: 1px solid rgba(255, 77, 109, 0.1);">
-                        <div style="display: flex; gap: 10px; align-items: center; width: 100%;">
-                            <span class="playlist-num" style="font-size: 1.2rem;">2.</span>
-                            <div class="playlist-info" style="flex: 1;">
-                                <h4 style="color: var(--primary);">A Qué No Te Lo Creo</h4>
-                                <p style="color: #888;">Alejandro Sanz</p>
+                    <div style="padding: 15px; background: var(--white); border-radius: 15px; border: 1px solid rgba(255, 77, 109, 0.1);">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap;">
+                            <div style="flex: 1; min-width: 150px;">
+                                <h4 style="color: var(--primary); margin-bottom: 5px;">2. A Qué No Te Lo Creo</h4>
+                                <p style="color: #888; font-size: 0.9rem;">Alejandro Sanz</p>
                             </div>
-                            <button class="btn" style="padding: 8px 12px; font-size: 0.8rem; margin: 0;" onclick="playMusic(this, 'https://www.youtube.com/embed/vKBKYchLJ1I')">▶ Escuchar</button>
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="window.open('https://youtu.be/vKBKYchLJ1I', '_blank')">▶ YouTube</button>
+                                <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="togglePlayer(2)">📺 Aquí</button>
+                            </div>
                         </div>
-                        <div id="player2" style="display: none; width: 100%; margin-top: 10px;"></div>
+                        <div id="player2" style="display: none; width: 100%; margin-top: 10px; border-radius: 10px; overflow: hidden;"></div>
                     </div>
 
                     <!-- Canción 3 -->
-                    <div class="playlist-item" style="flex-direction: column; gap: 10px; padding: 15px; background: var(--white); border-radius: 15px; border: 1px solid rgba(255, 77, 109, 0.1);">
-                        <div style="display: flex; gap: 10px; align-items: center; width: 100%;">
-                            <span class="playlist-num" style="font-size: 1.2rem;">3.</span>
-                            <div class="playlist-info" style="flex: 1;">
-                                <h4 style="color: var(--primary);">Amiga</h4>
-                                <p style="color: #888;">Alejandro Sanz</p>
+                    <div style="padding: 15px; background: var(--white); border-radius: 15px; border: 1px solid rgba(255, 77, 109, 0.1);">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap;">
+                            <div style="flex: 1; min-width: 150px;">
+                                <h4 style="color: var(--primary); margin-bottom: 5px;">3. Amiga</h4>
+                                <p style="color: #888; font-size: 0.9rem;">Alejandro Sanz</p>
                             </div>
-                            <button class="btn" style="padding: 8px 12px; font-size: 0.8rem; margin: 0;" onclick="playMusic(this, 'https://www.youtube.com/embed/eTVnxRBrRvg')">▶ Escuchar</button>
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="window.open('https://youtu.be/eTVnxRBrRvg', '_blank')">▶ YouTube</button>
+                                <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="togglePlayer(3)">📺 Aquí</button>
+                            </div>
                         </div>
-                        <div id="player3" style="display: none; width: 100%; margin-top: 10px;"></div>
+                        <div id="player3" style="display: none; width: 100%; margin-top: 10px; border-radius: 10px; overflow: hidden;"></div>
                     </div>
 
                     <!-- Canción 4 -->
-                    <div class="playlist-item" style="flex-direction: column; gap: 10px; padding: 15px; background: var(--white); border-radius: 15px; border: 1px solid rgba(255, 77, 109, 0.1);">
-                        <div style="display: flex; gap: 10px; align-items: center; width: 100%;">
-                            <span class="playlist-num" style="font-size: 1.2rem;">4.</span>
-                            <div class="playlist-info" style="flex: 1;">
-                                <h4 style="color: var(--primary);">La Fuerza de la Vida</h4>
-                                <p style="color: #888;">Alejandro Sanz</p>
+                    <div style="padding: 15px; background: var(--white); border-radius: 15px; border: 1px solid rgba(255, 77, 109, 0.1);">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap;">
+                            <div style="flex: 1; min-width: 150px;">
+                                <h4 style="color: var(--primary); margin-bottom: 5px;">4. La Fuerza de la Vida</h4>
+                                <p style="color: #888; font-size: 0.9rem;">Alejandro Sanz</p>
                             </div>
-                            <button class="btn" style="padding: 8px 12px; font-size: 0.8rem; margin: 0;" onclick="playMusic(this, 'https://www.youtube.com/embed/c8YzG3CeKDc')">▶ Escuchar</button>
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="window.open('https://youtu.be/c8YzG3CeKDc', '_blank')">▶ YouTube</button>
+                                <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="togglePlayer(4)">📺 Aquí</button>
+                            </div>
                         </div>
-                        <div id="player4" style="display: none; width: 100%; margin-top: 10px;"></div>
+                        <div id="player4" style="display: none; width: 100%; margin-top: 10px; border-radius: 10px; overflow: hidden;"></div>
                     </div>
 
                     <!-- Canción 5 -->
-                    <div class="playlist-item" style="flex-direction: column; gap: 10px; padding: 15px; background: var(--white); border-radius: 15px; border: 1px solid rgba(255, 77, 109, 0.1);">
-                        <div style="display: flex; gap: 10px; align-items: center; width: 100%;">
-                            <span class="playlist-num" style="font-size: 1.2rem;">5.</span>
-                            <div class="playlist-info" style="flex: 1;">
-                                <h4 style="color: var(--primary);">Cuando Vueltas</h4>
-                                <p style="color: #888;">Alejandro Sanz</p>
+                    <div style="padding: 15px; background: var(--white); border-radius: 15px; border: 1px solid rgba(255, 77, 109, 0.1);">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap;">
+                            <div style="flex: 1; min-width: 150px;">
+                                <h4 style="color: var(--primary); margin-bottom: 5px;">5. Cuando Vueltas</h4>
+                                <p style="color: #888; font-size: 0.9rem;">Alejandro Sanz</p>
                             </div>
-                            <button class="btn" style="padding: 8px 12px; font-size: 0.8rem; margin: 0;" onclick="playMusic(this, 'https://www.youtube.com/embed/Kc-InVLhqNs')">▶ Escuchar</button>
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="window.open('https://youtu.be/Kc-InVLhqNs', '_blank')">▶ YouTube</button>
+                                <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="togglePlayer(5)">📺 Aquí</button>
+                            </div>
                         </div>
-                        <div id="player5" style="display: none; width: 100%; margin-top: 10px;"></div>
+                        <div id="player5" style="display: none; width: 100%; margin-top: 10px; border-radius: 10px; overflow: hidden;"></div>
                     </div>
 
                     <!-- Canción 6 -->
-                    <div class="playlist-item" style="flex-direction: column; gap: 10px; padding: 15px; background: var(--white); border-radius: 15px; border: 1px solid rgba(255, 77, 109, 0.1);">
-                        <div style="display: flex; gap: 10px; align-items: center; width: 100%;">
-                            <span class="playlist-num" style="font-size: 1.2rem;">6.</span>
-                            <div class="playlist-info" style="flex: 1;">
-                                <h4 style="color: var(--primary);">Ángel Malherido</h4>
-                                <p style="color: #888;">Alejandro Sanz</p>
+                    <div style="padding: 15px; background: var(--white); border-radius: 15px; border: 1px solid rgba(255, 77, 109, 0.1);">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap;">
+                            <div style="flex: 1; min-width: 150px;">
+                                <h4 style="color: var(--primary); margin-bottom: 5px;">6. Ángel Malherido</h4>
+                                <p style="color: #888; font-size: 0.9rem;">Alejandro Sanz</p>
                             </div>
-                            <button class="btn" style="padding: 8px 12px; font-size: 0.8rem; margin: 0;" onclick="playMusic(this, 'https://www.youtube.com/embed/IU3qH7dQNvE')">▶ Escuchar</button>
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="window.open('https://youtu.be/IU3qH7dQNvE', '_blank')">▶ YouTube</button>
+                                <button class="btn" style="padding: 8px 12px; font-size: 0.75rem; margin: 0;" onclick="togglePlayer(6)">📺 Aquí</button>
+                            </div>
                         </div>
-                        <div id="player6" style="display: none; width: 100%; margin-top: 10px;"></div>
+                        <div id="player6" style="display: none; width: 100%; margin-top: 10px; border-radius: 10px; overflow: hidden;"></div>
                     </div>
                 </div>
 
@@ -1526,22 +1538,29 @@
             setInterval(spawnHeart, 600);
         }
 
-        // MÚSICA
-        function playMusic(button, videoUrl) {
-            const playerId = button.previousElementSibling.id || button.parentElement.querySelector('[id^="player"]').id;
-            const playerDiv = document.getElementById(playerId);
+        // MÚSICA - COMPATIBLE CON ANDROID
+        const musicVideos = {
+            1: 'https://www.youtube.com/embed/4NRXx6U8ABg',
+            2: 'https://www.youtube.com/embed/vKBKYchLJ1I',
+            3: 'https://www.youtube.com/embed/eTVnxRBrRvg',
+            4: 'https://www.youtube.com/embed/c8YzG3CeKDc',
+            5: 'https://www.youtube.com/embed/Kc-InVLhqNs',
+            6: 'https://www.youtube.com/embed/IU3qH7dQNvE'
+        };
+
+        function togglePlayer(num) {
+            const playerDiv = document.getElementById('player' + num);
+            const button = event.target;
             
-            // Toggle display
             if (playerDiv.style.display === 'none' || playerDiv.style.display === '') {
                 playerDiv.style.display = 'block';
-                const iframeId = 'iframe-' + playerId;
-                playerDiv.innerHTML = `<iframe id="${iframeId}" width="100%" height="300" src="${videoUrl}?autoplay=0" title="Canción" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+                playerDiv.innerHTML = `<iframe width="100%" height="250" style="border-radius: 10px;" src="${musicVideos[num]}?autoplay=0" title="Canción" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
                 button.innerText = "⏸ Cerrar";
-                spawnBatch(15);
+                spawnBatch(10);
             } else {
                 playerDiv.style.display = 'none';
                 playerDiv.innerHTML = '';
-                button.innerText = "▶ Escuchar";
+                button.innerText = "📺 Aquí";
             }
         }
 
