@@ -447,6 +447,67 @@
             transform: scale(1.05);
         }
 
+        /* --- TIMELINE DE RECUERDOS --- */
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -40px;
+            top: 20px;
+            width: 16px;
+            height: 16px;
+            background: var(--primary);
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+
+        .timeline-content {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .timeline-date {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .timeline-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .timeline-description {
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .timeline-type {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .timeline-type.romantico { background: #ffe6f0; color: #c9184a; }
+        .timeline-type.divertido { background: #fff3cd; color: #856404; }
+        .timeline-type.especial { background: #e6f3ff; color: #0066cc; }
+        .timeline-type.cotidiano { background: #f0f9ff; color: #0c4a6e; }
+        .timeline-type.futuro { background: #f3e8ff; color: #7c3aed; }
+
         /* --- ANIMACIÓN DE ABRAZO --- */
         .hug-animation {
             position: fixed;
@@ -977,6 +1038,7 @@
         <button onclick="go('promesas')" class="nav-btn" id="btn-promesas">Promesas</button>
         <button onclick="go('musica')" class="nav-btn" id="btn-musica">🎵 Música</button>
         <button onclick="go('sorpresas')" class="nav-btn" id="btn-sorpresas">🎉 Sorpresas</button>
+        <button onclick="go('timeline')" class="nav-btn" id="btn-timeline">📅 Timeline</button>
     </nav>
 
     <div class="main-container">
@@ -1591,6 +1653,69 @@
             </div>
         </section>
 
+        <!-- SECCIÓN: TIMELINE DE RECUERDOS -->
+        <section id="timeline" class="section">
+            <div class="card">
+                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary);">📅 Nuestra Línea de Tiempo</h2>
+                <p style="margin-bottom: 20px;">Cada recuerdo es un tesoro. Agreguemos momentos especiales a nuestra historia:</p>
+                
+                <div style="background: var(--white); padding: 20px; border-radius: 15px; margin: 20px 0;">
+                    <h3 style="color: var(--primary); margin-bottom: 15px;">✨ Agregar Recuerdo</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                        <input type="date" id="memory-date" class="wish-input" style="margin: 0;">
+                        <select id="memory-type" class="wish-input" style="margin: 0;">
+                            <option value="romantico">💕 Romántico</option>
+                            <option value="divertido">😂 Divertido</option>
+                            <option value="especial">🌟 Especial</option>
+                            <option value="cotidiano">🏠 Cotidiano</option>
+                            <option value="futuro">🔮 Futuro</option>
+                        </select>
+                    </div>
+                    <input type="text" id="memory-title" class="wish-input" placeholder="Título del recuerdo..." style="margin-bottom: 15px;">
+                    <textarea id="memory-description" class="wish-input" placeholder="Describe este momento especial..." rows="3" style="margin-bottom: 15px; resize: vertical;"></textarea>
+                    <button class="btn" onclick="addMemory()">💾 Guardar Recuerdo</button>
+                </div>
+
+                <hr style="margin: 40px 0; opacity: 0.1;">
+
+                <div style="background: var(--white); padding: 20px; border-radius: 15px; margin: 20px 0;">
+                    <h3 style="color: var(--primary); margin-bottom: 15px;">📚 Nuestros Recuerdos</h3>
+                    <div id="memories-timeline" style="position: relative; max-width: 100%; margin: 20px auto; padding-left: 30px;">
+                        <div style="position: absolute; left: 0; top: 0; width: 2px; height: 100%; background: linear-gradient(to bottom, var(--primary), var(--secondary)); opacity: 0.3;"></div>
+                        <!-- Los recuerdos se cargarán aquí dinámicamente -->
+                    </div>
+                    <div id="no-memories" style="text-align: center; padding: 40px; color: #888; font-style: italic;">
+                        Aún no hay recuerdos guardados. ¡Agrega el primero! 💭
+                    </div>
+                </div>
+
+                <hr style="margin: 40px 0; opacity: 0.1;">
+
+                <!-- ESTADÍSTICAS DE RECUERDOS -->
+                <div style="background: var(--white); padding: 20px; border-radius: 15px; margin: 20px 0;">
+                    <h3 style="color: var(--primary); margin-bottom: 15px;">📊 Estadísticas de Amor</h3>
+                    <div id="memory-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
+                        <div style="text-align: center; padding: 15px; background: var(--bg); border-radius: 10px;">
+                            <div style="font-size: 2rem; color: var(--primary);">0</div>
+                            <div style="font-size: 0.9rem; color: #666;">Recuerdos totales</div>
+                        </div>
+                        <div style="text-align: center; padding: 15px; background: var(--bg); border-radius: 10px;">
+                            <div style="font-size: 2rem; color: var(--primary);">0</div>
+                            <div style="font-size: 0.9rem; color: #666;">Días juntos</div>
+                        </div>
+                        <div style="text-align: center; padding: 15px; background: var(--bg); border-radius: 10px;">
+                            <div style="font-size: 2rem; color: var(--primary);">0</div>
+                            <div style="font-size: 0.9rem; color: #666;">Abrazos enviados</div>
+                        </div>
+                        <div style="text-align: center; padding: 15px; background: var(--bg); border-radius: 10px;">
+                            <div style="font-size: 2rem; color: var(--primary);">0</div>
+                            <div style="font-size: 0.9rem; color: #666;">Canciones escuchadas</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </div>
 
     <!-- MINI REPRODUCTOR FLOTANTE -->
@@ -1662,6 +1787,8 @@
                 countVisit();
                 updateHugCounter();
                 updateMoodHistory();
+                loadMemories();
+                updateMemoryStats();
                 setTimeout(showVisitCount, 500);
             }, 800);
         }
@@ -2132,6 +2259,14 @@
                     ];
                     const randomMood = moods[Math.floor(Math.random() * moods.length)];
                     shareMood(randomMood[0], randomMood[1]);
+                },
+                () => {
+                    // Para agregar un recuerdo aleatorio
+                    const today = new Date().toISOString().split('T')[0];
+                    document.getElementById('memory-date').value = today;
+                    document.getElementById('memory-title').value = 'Un día especial';
+                    document.getElementById('memory-description').value = 'Hoy fue un día maravilloso juntos. Gracias por existir.';
+                    addMemory();
                 }
             ];
             
@@ -2631,6 +2766,141 @@
                         </div>`
                     ).join('');
                 }
+            });
+        }
+
+        // TIMELINE DE RECUERDOS
+        function addMemory() {
+            const date = document.getElementById('memory-date').value;
+            const type = document.getElementById('memory-type').value;
+            const title = document.getElementById('memory-title').value.trim();
+            const description = document.getElementById('memory-description').value.trim();
+            
+            if (!date || !title || !description) {
+                alert('Por favor, completa todos los campos del recuerdo 💭');
+                return;
+            }
+            
+            const memoryData = {
+                fecha: date,
+                tipo: type,
+                titulo: title,
+                descripcion: description,
+                timestamp: new Date(date).getTime(),
+                fechaCreacion: new Date().toLocaleString('es-ES')
+            };
+            
+            // Guardar en Firebase
+            if (window.db && window.dbRef && window.dbPush) {
+                const memoriesRef = window.dbRef(window.db, 'recuerdos');
+                window.dbPush(memoriesRef, memoryData);
+            }
+            
+            // Limpiar formulario
+            document.getElementById('memory-date').value = '';
+            document.getElementById('memory-title').value = '';
+            document.getElementById('memory-description').value = '';
+            
+            // Recargar timeline
+            loadMemories();
+            updateMemoryStats();
+            
+            spawnBatch(20);
+            
+            // Mostrar en sorpresa también
+            document.getElementById('surprise-content').innerHTML = `
+                <h3 style="color: var(--primary); margin-bottom: 10px;">📅 Recuerdo Agregado</h3>
+                <p style="font-size: 1.1rem; font-style: italic;">"${title}"</p>
+                <p style="font-size: 0.9rem; margin-top: 10px;">¡Guardado en nuestra línea de tiempo! 📚</p>
+            `;
+            const display = document.getElementById('surprise-display');
+            display.style.display = 'block';
+            setTimeout(() => display.style.display = 'none', 6000);
+        }
+
+        function loadMemories() {
+            if (!window.db || !window.dbRef || !window.dbGet) return;
+            const memoriesRef = window.dbRef(window.db, 'recuerdos');
+            window.dbGet(memoriesRef).then(snapshot => {
+                const timelineDiv = document.getElementById('memories-timeline');
+                const noMemoriesDiv = document.getElementById('no-memories');
+                
+                if (snapshot.exists()) {
+                    const memories = Object.values(snapshot.val()).sort((a, b) => b.timestamp - a.timestamp);
+                    
+                    timelineDiv.innerHTML = memories.map(memory => `
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <div class="timeline-date">${formatDate(memory.fecha)}</div>
+                                <div class="timeline-title">${memory.titulo}</div>
+                                <div class="timeline-description">${memory.descripcion}</div>
+                                <span class="timeline-type ${memory.tipo}">${getTypeLabel(memory.tipo)}</span>
+                            </div>
+                        </div>
+                    `).join('');
+                    
+                    noMemoriesDiv.style.display = 'none';
+                } else {
+                    timelineDiv.innerHTML = '';
+                    noMemoriesDiv.style.display = 'block';
+                }
+            });
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('es-ES', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+        }
+
+        function getTypeLabel(type) {
+            const labels = {
+                romantico: '💕 Romántico',
+                divertido: '😂 Divertido',
+                especial: '🌟 Especial',
+                cotidiano: '🏠 Cotidiano',
+                futuro: '🔮 Futuro'
+            };
+            return labels[type] || type;
+        }
+
+        function updateMemoryStats() {
+            if (!window.db || !window.dbRef || !window.dbGet) return;
+            
+            const statsDiv = document.getElementById('memory-stats');
+            const statElements = statsDiv.children;
+            
+            // Recuerdos totales
+            const memoriesRef = window.dbRef(window.db, 'recuerdos');
+            window.dbGet(memoriesRef).then(snapshot => {
+                const memoriesCount = snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
+                statElements[0].children[0].textContent = memoriesCount;
+            });
+            
+            // Días juntos (desde la fecha inicial)
+            const startDate = new Date(2026, 1, 10); // 10 de febrero 2026
+            const today = new Date();
+            const daysTogether = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
+            statElements[1].children[0].textContent = daysTogether;
+            
+            // Abrazos enviados
+            const hugsRef = window.dbRef(window.db, 'abrazos');
+            window.dbGet(hugsRef).then(snapshot => {
+                const hugsCount = snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
+                statElements[2].children[0].textContent = hugsCount;
+            });
+            
+            // Canciones escuchadas
+            const musicRef = window.dbRef(window.db, 'reproducciones_musica');
+            window.dbGet(musicRef).then(snapshot => {
+                let totalPlays = 0;
+                if (snapshot.exists()) {
+                    Object.values(snapshot.val()).forEach(count => totalPlays += count);
+                }
+                statElements[3].children[0].textContent = totalPlays;
             });
         }
 
