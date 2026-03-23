@@ -43,23 +43,130 @@
         }
 
         /* --- NAVEGACIÓN --- */
-        .navbar {
-            display: none;
+        .main-nav-wrap {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.9);
+            right: 0;
+            z-index: 3001;
+            display: none;
+            align-items: center;
+            justify-content: flex-start;
+            background: rgba(255,255,255,0.96);
+            padding: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+            pointer-events: auto;
+        }
+
+        .main-nav-wrap.visible {
+            display: flex;
+        }
+
+        .main-hamburger {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 3002;
+            pointer-events: auto;
+        }
+
+        .main-hamburger:hover {
+            background: var(--accent);
+        }
+
+        .navbar {
+            display: none;
+            position: fixed;
+            top: 58px;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.97);
             backdrop-filter: blur(10px);
-            z-index: 1000;
+            z-index: 3000;
             padding: 10px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.15);
             justify-content: flex-start;
             gap: 8px;
             overflow-x: auto;
             white-space: nowrap;
             -webkit-overflow-scrolling: touch;
+            border-radius: 0 0 12px 12px;
+            pointer-events: auto;
         }
+
+        .navbar.open {
+            display: flex;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.25s;
+            pointer-events: auto;
+        }
+
+        .nav-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Elimina la regla de mostrar siempre en desktop para no saturar */
+        @media (min-width: 768px) {
+            .main-hamburger {
+                display: block;
+            }
+            .navbar {
+                display: none !important;
+            }
+        }
+
+
+        .navbar.open {
+            display: flex;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.25s;
+            pointer-events: auto;
+        }
+
+        .nav-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        @media (min-width: 768px) {
+            .main-hamburger {
+                display: none;
+            }
+            .navbar {
+                display: flex !important;
+                position: fixed;
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                background: rgba(255,255,255,0.95);
+            }
+        }
+
 
         .navbar::-webkit-scrollbar { display: none; }
 
@@ -258,11 +365,20 @@
 
         .wish-input {
             width: 100%;
-            padding: 12px;
+            padding: 12px 14px;
             border-radius: 10px;
-            border: none;
+            border: 1.5px solid rgba(255, 77, 109, 0.15);
             margin: 10px 0;
             font-family: inherit;
+            background: white;
+            font-size: 0.95rem;
+            transition: border-color 0.3s;
+        }
+
+        .wish-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 77, 109, 0.1);
         }
 
         /* --- PLAYLIST --- */
@@ -686,7 +802,8 @@
         .section {
             display: none;
             width: 100%;
-            margin-top: 80px;
+            margin-top: 100px;
+            margin-bottom: 60px;
             animation: slideUp 0.8s ease forwards;
         }
 
@@ -698,10 +815,60 @@
         .card {
             background: var(--white);
             border-radius: 25px;
-            padding: 30px 20px;
+            padding: 40px 22px;
             box-shadow: var(--shadow);
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 50px;
+        }
+
+        .card h2 {
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .card > p:first-of-type {
+            margin-bottom: 25px !important;
+        }
+
+        .collapsible-section {
+            margin-top: 18px;
+            text-align: left;
+        }
+
+        .collapsible-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--bg), #f5e6eb);
+            border: 1.5px solid var(--secondary);
+            padding: 13px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text);
+            transition: 0.3s;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        .collapsible-btn:hover {
+            background: var(--secondary);
+            color: white;
+            transform: translateX(2px);
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background: var(--bg);
+            border-radius: 12px;
+            margin-top: 6px;
+            padding: 0;
+        }
+
+        .collapsible-content.active {
+            max-height: 1200px;
+            padding: 16px;
+            transition: max-height 0.4s ease-in;
         }
 
         /* --- CONTADOR --- */
@@ -999,9 +1166,111 @@
             .envelope::before { top: -100px; border-left: 110px solid transparent; border-right: 110px solid transparent; border-bottom: 100px solid var(--primary); }
             .poetry-txt { font-size: 1rem; }
         }
+
+        /* --- ESTILOS HAMBURGUESA --- */
+        .hamburger-btn {
+            background: var(--primary);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
+            position: relative;
+            z-index: 10;
+        }
+
+        .hamburger-btn:hover {
+            background: var(--accent);
+            transform: scale(1.1);
+        }
+
+        .hamburger-btn.active .hamburger-line:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger-btn.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-btn.active .hamburger-line:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        .hamburger-line {
+            width: 25px;
+            height: 3px;
+            background: white;
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        .hamburger-menu {
+            display: none;
+            position: absolute;
+            top: 60px;
+            left: 0;
+            right: 0;
+            background: var(--white);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            z-index: 9;
+            border: 2px solid var(--primary);
+        }
+
+        .hamburger-menu.show {
+            display: block;
+        }
+
+        .hamburger-item {
+            background: none;
+            border: none;
+            padding: 12px 15px;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 8px;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .hamburger-item:hover {
+            background: var(--bg);
+            color: var(--primary);
+            transform: translateX(5px);
+        }
     </style>
 </head>
 <body>
+
+    <!-- HAMBURGUESA PRINCIPAL + NAVBAR (AL INICIO) -->
+    <div class="main-nav-wrap">
+        <button class="main-hamburger" id="main-hamburger" onclick="toggleMainNav()" aria-label="Abrir menú principal">☰</button>
+        <nav class="navbar" id="navbar">
+            <button onclick="go('inicio')" class="nav-btn active" id="btn-inicio">Inicio</button>
+            <button onclick="go('galeria')" class="nav-btn" id="btn-galeria">Fotos</button>
+            <button onclick="go('poesia')" class="nav-btn" id="btn-poesia">Versos</button>
+            <button onclick="go('razones')" class="nav-btn" id="btn-razones">¿Por qué te amo?</button>
+            <button onclick="go('juegos')" class="nav-btn" id="btn-juegos">Diversión</button>
+            <button onclick="go('cupones')" class="nav-btn" id="btn-cupones">Cupones</button>
+            <button onclick="go('historia')" class="nav-btn" id="btn-historia">Nuestra Historia</button>
+            <button onclick="go('promesas')" class="nav-btn" id="btn-promesas">Promesas</button>
+            <button onclick="go('musica')" class="nav-btn" id="btn-musica">🎵 Música</button>
+            <button onclick="go('sorpresas')" class="nav-btn" id="btn-sorpresas">🎉 Sorpresas</button>
+            <button onclick="go('conexion')" class="nav-btn" id="btn-conexion">💕 Conexión</button>
+            <button onclick="go('timeline')" class="nav-btn" id="btn-timeline">📅 Timeline</button>
+        </nav>
+    </div>
 
     <!-- PANTALLA DE INICIO -->
     <div id="hero">
@@ -1026,30 +1295,17 @@
         </div>
     </div>
 
-    <!-- NAVBAR -->
-    <nav class="navbar" id="navbar">
-        <button onclick="go('inicio')" class="nav-btn active" id="btn-inicio">Inicio</button>
-        <button onclick="go('galeria')" class="nav-btn" id="btn-galeria">Fotos</button>
-        <button onclick="go('poesia')" class="nav-btn" id="btn-poesia">Versos</button>
-        <button onclick="go('razones')" class="nav-btn" id="btn-razones">¿Por qué te amo?</button>
-        <button onclick="go('juegos')" class="nav-btn" id="btn-juegos">Diversión</button>
-        <button onclick="go('cupones')" class="nav-btn" id="btn-cupones">Cupones</button>
-        <button onclick="go('historia')" class="nav-btn" id="btn-historia">Nuestra Historia</button>
-        <button onclick="go('promesas')" class="nav-btn" id="btn-promesas">Promesas</button>
-        <button onclick="go('musica')" class="nav-btn" id="btn-musica">🎵 Música</button>
-        <button onclick="go('sorpresas')" class="nav-btn" id="btn-sorpresas">🎉 Sorpresas</button>
-        <button onclick="go('timeline')" class="nav-btn" id="btn-timeline">📅 Timeline</button>
-    </nav>
-
     <div class="main-container">
         
         <!-- SECCIÓN: INICIO -->
         <section id="inicio" class="section">
             <div class="card">
-                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary);">Hola, amor de mi vida</h2>
-                <p style="margin: 15px 0;">Este espacio es solo para nosotros. Un recordatorio de lo mucho que significas para mí.</p>
-                <div style="font-size: 2.5rem; margin: 20px 0;">✨ 🌹 ✨</div>
-                <p style="font-weight: 600;">Llevamos juntos:</p>
+                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary); margin-bottom: 10px;">Hola, amor 💕</h2>
+                <p style="font-style: italic; opacity: 0.8; margin-bottom: 25px;">"Desde el 10 de Febrero mi vida cambió para siempre"</p>
+                
+                <div style="font-size: 2.5rem; margin: 15px 0;">✨ 🌹 ✨</div>
+                
+                <p style="font-weight: 600; margin-top: 20px; margin-bottom: 12px;">Llevamos juntos:</p>
                 
                 <div class="timer-container">
                     <div class="timer-box">
@@ -1069,21 +1325,28 @@
                         <span class="timer-txt">Segundos</span>
                     </div>
                 </div>
-                
-                <div class="daily-message" id="daily-msg">
-                    Cargando tu mensaje de amor...
+
+                <!-- SECCIÓN 1: MENSAJE DIARIO -->
+                <div class="collapsible-section">
+                    <button class="collapsible-btn" onclick="toggleCollapsible(this)">+ Mensaje del Día 💌</button>
+                    <div class="collapsible-content">
+                        <div class="daily-message" id="daily-msg">
+                            Cargando tu mensaje de amor...
+                        </div>
+                        <p id="visit-count" style="margin-top: 12px; font-size: 0.9rem; opacity: 0.8;">Cargando contador...</p>
+                    </div>
                 </div>
 
-                <p id="visit-count" style="font-weight: 600; margin: 10px 0; color: var(--primary);">Cargando contador de visitas...</p>
-
-                <p style="font-style: italic; opacity: 0.8;">"Desde el 10 de Febrero mi vida cambió para siempre."</p>
-                
-                <div class="chest-container">
-                    <div class="chest-icon" id="chest" onclick="openChest()">🎁</div>
-                    <h3>Cofre de Deseos</h3>
-                    <p>Escribe un deseo aquí y llegará a mi corazón...</p>
-                    <input type="text" class="wish-input" id="wish" placeholder="Ej: Una cita este viernes...">
-                    <button class="btn" style="background: white; color: var(--primary);" onclick="sendWish()">Enviar Deseo ✨</button>
+                <!-- SECCIÓN 2: COFRE DE DESEOS -->
+                <div class="collapsible-section">
+                    <button class="collapsible-btn" onclick="toggleCollapsible(this)">+ Cofre de Deseos 🎁</button>
+                    <div class="collapsible-content">
+                        <div style="margin-top: 10px;">
+                            <p style="font-size: 0.9rem; margin-bottom: 12px;">Escribe un deseo para mí...</p>
+                            <input type="text" class="wish-input" id="wish" placeholder="Ej: Una cita este viernes...">
+                            <button class="btn" style="background: var(--primary); color: white; width: 100%; margin-top: 10px;" onclick="sendWish()">Enviar Deseo ✨</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1107,41 +1370,47 @@
         <!-- SECCIÓN: JUEGOS -->
         <section id="juegos" class="section">
             <div class="card">
-                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary);">Nuestros Juegos</h2>
+                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary); margin-bottom: 20px;">Nuestros Juegos</h2>
                 
-                <!-- RULETA -->
-                <div class="wheel-container">
-                    <h3>🎡 Ruleta de Citas</h3>
-                    <p>¿No saben qué hacer? ¡Gira la ruleta!</p>
-                    <div class="wheel-wrapper">
-                        <div class="wheel-pointer"></div>
-                        <div id="wheel"></div>
+                <!-- JUEGO 1: RULETA -->
+                <div class="collapsible-section">
+                    <button class="collapsible-btn" onclick="toggleCollapsible(this)">+ Ruleta de Citas 🎡</button>
+                    <div class="collapsible-content">
+                        <p style="margin-bottom: 15px; font-size: 0.9rem;">¿No saben qué hacer? ¡Gira la ruleta!</p>
+                        <div class="wheel-container">
+                            <div class="wheel-wrapper">
+                                <div class="wheel-pointer"></div>
+                                <div id="wheel"></div>
+                            </div>
+                        </div>
+                        <button class="btn" onclick="spinWheel()" style="width: 100%; margin-top: 12px;">Girar Ruleta 🎰</button>
+                        <p id="wheel-result" style="font-weight: bold; margin-top: 10px; color: var(--primary);"></p>
                     </div>
-                    <button class="btn" onclick="spinWheel()">Girar Ruleta 🎰</button>
-                    <p id="wheel-result" style="font-weight: bold; margin-top: 10px; color: var(--primary);"></p>
                 </div>
 
-                <hr style="margin: 40px 0; opacity: 0.1;">
-
-                <!-- MEMORIA -->
-                <div class="memory-container">
-                    <h3>🧩 Parejas de Amor</h3>
-                    <p>Encuentra las parejas de nuestras fotos:</p>
-                    <div class="memory-game" id="memory-board"></div>
-                    <button class="btn" onclick="initMemoryGame()">Reiniciar Juego 🔄</button>
+                <!-- JUEGO 2: MEMORIA -->
+                <div class="collapsible-section">
+                    <button class="collapsible-btn" onclick="toggleCollapsible(this)">+ Parejas de Amor 🧩</button>
+                    <div class="collapsible-content">
+                        <p style="margin-bottom: 15px; font-size: 0.9rem;">Encuentra las parejas de nuestras fotos:</p>
+                        <div class="memory-game" id="memory-board"></div>
+                        <button class="btn" onclick="initMemoryGame()" style="width: 100%; margin-top: 12px;">Reiniciar Juego 🔄</button>
+                    </div>
                 </div>
 
-                <hr style="margin: 40px 0; opacity: 0.1;">
-
-                <!-- CONTADOR BESOS -->
-                <div class="kiss-container">
-                    <h3>💋 Contador de Besos</h3>
-                    <p>¡Toca para enviarme un beso virtual!</p>
-                    <div class="kiss-counter" onclick="sendKiss()">
-                        <span class="kiss-count" id="kiss-total">0</span>
-                        <span style="font-size: 0.8rem;">Besos</span>
+                <!-- JUEGO 3: CONTADOR BESOS -->
+                <div class="collapsible-section">
+                    <button class="collapsible-btn" onclick="toggleCollapsible(this)">+ Contador de Besos 💋</button>
+                    <div class="collapsible-content">
+                        <p style="margin-bottom: 15px; font-size: 0.9rem;">¡Toca para enviarme un beso virtual!</p>
+                        <div class="kiss-container" style="background: linear-gradient(135deg, #ffb3c1, #ff85a1); padding: 20px; border-radius: 15px; margin-bottom: 12px;">
+                            <div class="kiss-counter" onclick="sendKiss()" style="cursor: pointer;">
+                                <span class="kiss-count" id="kiss-total">0</span>
+                                <span style="font-size: 0.8rem; display: block;">Besos</span>
+                            </div>
+                        </div>
+                        <p style="font-size: 0.8rem; opacity: 0.6; margin: 0;">Besos acumulados en nuestra historia</p>
                     </div>
-                    <p style="font-size: 0.8rem; opacity: 0.6;">Besos acumulados en nuestra historia</p>
                 </div>
             </div>
         </section>
@@ -1507,8 +1776,8 @@
         <!-- SECCIÓN: SORPRESAS -->
         <section id="sorpresas" class="section">
             <div class="card">
-                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary);">🎉 Sorpresas para ti</h2>
-                <p style="margin-bottom: 20px;">¡Toca el botón y descubre una sorpresa especial preparada solo para ti!</p>
+                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary); margin-bottom: 15px;">🎉 Sorpresas para ti</h2>
+                <p style="margin-bottom: 25px; font-size: 0.95rem;">¡Toca para descubrir una sorpresa especial!</p>
                 
                 <div style="text-align: center; margin: 30px 0;">
                     <button class="btn" style="font-size: 1.2rem; padding: 15px 30px; background: linear-gradient(135deg, #ff4d6d, #ff85a1);" onclick="surpriseMe()">🎁 ¡Sorpréndeme! 🎁</button>
@@ -1518,136 +1787,153 @@
                     <div id="surprise-content"></div>
                 </div>
 
-                <hr style="margin: 40px 0; opacity: 0.1;">
-
-                <!-- REGALOS VIRTUALES -->
-                <div style="background: var(--white); padding: 20px; border-radius: 15px; margin: 20px 0;">
-                    <h3 style="color: var(--primary); margin-bottom: 15px;">🎁 Regalos Virtuales</h3>
-                    <p style="margin-bottom: 20px;">Envía un regalo virtual especial:</p>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px;">
-                        <button class="gift-btn" onclick="sendVirtualGift('🌹')">🌹 Rosa</button>
-                        <button class="gift-btn" onclick="sendVirtualGift('💐')">💐 Ramo</button>
-                        <button class="gift-btn" onclick="sendVirtualGift('🍫')">🍫 Chocolate</button>
-                        <button class="gift-btn" onclick="sendVirtualGift('💍')">💍 Anillo</button>
-                        <button class="gift-btn" onclick="sendVirtualGift('💕')">💕 Corazón</button>
-                        <button class="gift-btn" onclick="sendVirtualGift('🎂')">🎂 Pastel</button>
+                <!-- MENÚ DE SORPRESAS COLAPSABLE -->
+                <div class="collapsible-section">
+                    <button class="collapsible-btn" onclick="toggleCollapsible(this)">+ Sorpresas Interactivas 🎯</button>
+                    <div class="collapsible-content">
+                        <div style="position: relative;">
+                            <button class="hamburger-btn" onclick="toggleHamburgerMenu()" id="hamburger-btn" aria-label="Abrir menú de sorpresas">
+                                <span class="hamburger-line"></span>
+                                <span class="hamburger-line"></span>
+                                <span class="hamburger-line"></span>
+                                <span style="position: absolute; top: 50%; left: 58px; transform: translateY(-50%); font-size: 0.9rem; color: var(--primary); font-weight: 700;">☰ Opciones</span>
+                            </button>
+                            
+                            <div id="hamburger-menu" class="hamburger-menu">
+                                <button class="hamburger-item" onclick="showRandomMessage(true); closeHamburgerMenu();">💌 Mensaje de Amor</button>
+                                <button class="hamburger-item" onclick="triggerConfetti(true); closeHamburgerMenu();">🎊 Lluvia de Confeti</button>
+                                <button class="hamburger-item" onclick="sendVirtualGift('🎁', true); closeHamburgerMenu();">🎁 Regalo Virtual</button>
+                                <button class="hamburger-item" onclick="randomCompliment(true); closeHamburgerMenu();">💬 Cumplido Especial</button>
+                                <button class="hamburger-item" onclick="showLoveQuote(true); closeHamburgerMenu();">📖 Cita de Amor</button>
+                                <button class="hamburger-item" onclick="animateHearts(true); closeHamburgerMenu();">💝 Lluvia de Corazones</button>
+                                <button class="hamburger-item" onclick="generateDateIdea(true); closeHamburgerMenu();">💑 Idea de Cita</button>
+                                <button class="hamburger-item" onclick="calculateLove(true); closeHamburgerMenu();">💕 Calculadora de Amor</button>
+                                <button class="hamburger-item" onclick="generateLoveLetter(true); closeHamburgerMenu();">💌 Carta de Amor</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <hr style="margin: 40px 0; opacity: 0.1;">
-
-                <!-- CUMPLIDOS ALEATORIOS -->
-                <div style="background: var(--white); padding: 20px; border-radius: 15px; margin: 20px 0;">
-                    <h3 style="color: var(--primary); margin-bottom: 15px;">💬 Cumplidos Especiales</h3>
-                    <p style="margin-bottom: 20px;">Descubre lo hermosa que eres:</p>
-                    <button class="btn" onclick="randomCompliment()">✨ Dame un cumplido ✨</button>
-                    <div id="compliment-display" style="margin-top: 15px; font-style: italic; color: var(--primary); min-height: 40px;"></div>
-                </div>
-
-                <hr style="margin: 40px 0; opacity: 0.1;">
-
-                <!-- GENERADOR DE CITAS VIRTUALES -->
-                <div style="background: var(--white); padding: 20px; border-radius: 15px; margin: 20px 0;">
-                    <h3 style="color: var(--primary); margin-bottom: 15px;">💑 Generador de Citas</h3>
-                    <p style="margin-bottom: 20px;">¿No sabes qué hacer? ¡Deja que te inspire!</p>
-                    <button class="btn" onclick="generateDateIdea()">🎯 Sugerir una cita</button>
-                    <div id="date-idea-display" style="margin-top: 15px; padding: 15px; background: var(--bg); border-radius: 10px; min-height: 60px; font-style: italic; color: var(--primary);"></div>
-                </div>
-
-                <hr style="margin: 40px 0; opacity: 0.1;">
-
-                <!-- CALCULADORA DE AMOR -->
-                <div style="background: var(--white); padding: 20px; border-radius: 15px; margin: 20px 0;">
-                    <h3 style="color: var(--primary); margin-bottom: 15px;">💕 Calculadora de Amor</h3>
-                    <p style="margin-bottom: 20px;">Descubre el porcentaje de compatibilidad entre dos nombres:</p>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
-                        <input type="text" id="name1" class="wish-input" placeholder="Tu nombre" style="margin: 0;">
-                        <input type="text" id="name2" class="wish-input" placeholder="Nombre de Cleidis" style="margin: 0;">
+                <!-- REGALOS VIRTUALES COLAPSABLES -->
+                <div class="collapsible-section">
+                    <button class="collapsible-btn" onclick="toggleCollapsible(this)">+ Regalos Virtuales 🎁</button>
+                    <div class="collapsible-content">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 12px;">
+                            <button class="gift-btn" onclick="sendVirtualGift('🌹')">🌹 Rosa</button>
+                            <button class="gift-btn" onclick="sendVirtualGift('💐')">💐 Ramo</button>
+                            <button class="gift-btn" onclick="sendVirtualGift('🍫')">🍫 Chocolate</button>
+                            <button class="gift-btn" onclick="sendVirtualGift('💍')">💍 Anillo</button>
+                            <button class="gift-btn" onclick="sendVirtualGift('💕')">💕 Corazón</button>
+                            <button class="gift-btn" onclick="sendVirtualGift('🎂')">🎂 Pastel</button>
+                        </div>
                     </div>
-                    <button class="btn" onclick="calculateLove()">💖 Calcular compatibilidad</button>
-                    <div id="love-result" style="margin-top: 15px; text-align: center; font-size: 1.5rem; font-weight: bold; color: var(--primary); min-height: 40px;"></div>
                 </div>
 
-                <hr style="margin: 40px 0; opacity: 0.1;">
-
-                <!-- CAPTURADOR DE SUEÑOS -->
-                <div style="background: var(--white); padding: 20px; border-radius: 15px; margin: 20px 0;">
-                    <h3 style="color: var(--primary); margin-bottom: 15px;">🌙 Capturador de Sueños</h3>
-                    <p style="margin-bottom: 20px;">Comparte un sueño o deseo secreto:</p>
-                    <input type="text" id="dream-input" class="wish-input" placeholder="Escribe tu sueño más preciado..." style="margin-bottom: 15px;">
-                    <button class="btn" onclick="captureDream()">✨ Capturar sueño</button>
-                    <div id="dream-display" style="margin-top: 15px; padding: 15px; background: linear-gradient(135deg, #e8f4f8, #f0e6ff); border-radius: 10px; min-height: 60px; font-style: italic; color: var(--text);"></div>
-                </div>
-
-                <hr style="margin: 40px 0; opacity: 0.1;">
-
-                <!-- GENERADOR DE CARTAS DE AMOR -->
-                <div style="background: var(--white); padding: 20px; border-radius: 15px; margin: 20px 0;">
-                    <h3 style="color: var(--primary); margin-bottom: 15px;">💌 Generador de Cartas de Amor</h3>
-                    <p style="margin-bottom: 20px;">Crea una carta de amor personalizada:</p>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
-                        <select id="letter-style" class="wish-input" style="margin: 0;">
-                            <option value="romantica">Romántica 💕</option>
-                            <option value="poetica">Poética 📝</option>
-                            <option value="divertida">Divertida 😄</option>
-                            <option value="pasional">Pasional 🔥</option>
-                        </select>
-                        <select id="letter-length" class="wish-input" style="margin: 0;">
-                            <option value="corta">Carta corta</option>
-                            <option value="media">Carta media</option>
-                            <option value="larga">Carta larga</option>
-                        </select>
+                <!-- GENERADOR DE CARTAS COLAPSABLE -->
+                <div class="collapsible-section">
+                    <button class="collapsible-btn" onclick="toggleCollapsible(this)">+ Generador de Cartas 💌</button>
+                    <div class="collapsible-content">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+                            <select id="letter-style" class="wish-input" style="margin: 0;">
+                                <option value="romantica">Romántica 💕</option>
+                                <option value="poetica">Poética 📝</option>
+                                <option value="divertida">Divertida 😄</option>
+                                <option value="pasional">Pasional 🔥</option>
+                            </select>
+                            <select id="letter-length" class="wish-input" style="margin: 0;">
+                                <option value="corta">Carta corta</option>
+                                <option value="media">Carta media</option>
+                                <option value="larga">Carta larga</option>
+                            </select>
+                        </div>
+                        <button class="btn" onclick="generateLoveLetter()" style="width: 100%; margin-bottom: 12px;">✍️ Crear carta</button>
+                        <div id="letter-display" style="padding: 12px; background: linear-gradient(135deg, #fff0f3, #f0e6ff); border-radius: 10px; border-left: 3px solid var(--primary); min-height: 80px; font-style: italic; color: var(--text); line-height: 1.5; font-size: 0.9rem;"></div>
                     </div>
-                    <button class="btn" onclick="generateLoveLetter()">✍️ Crear carta</button>
-                    <div id="letter-display" style="margin-top: 15px; padding: 20px; background: linear-gradient(135deg, #fff0f3, #f0e6ff); border-radius: 15px; border-left: 4px solid var(--primary); min-height: 100px; font-style: italic; color: var(--text); line-height: 1.6;"></div>
                 </div>
 
-                <hr style="margin: 40px 0; opacity: 0.1;">
+                <!-- CALCULADORA DE AMOR COLAPSABLE -->
+                <div class="collapsible-section">
+                    <button class="collapsible-btn" onclick="toggleCollapsible(this)">+ Calculadora de Amor 💕</button>
+                    <div class="collapsible-content">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+                            <input type="text" id="name1" class="wish-input" placeholder="Tu nombre" style="margin: 0;">
+                            <input type="text" id="name2" class="wish-input" placeholder="Nombre de Cleidis" style="margin: 0;">
+                        </div>
+                        <button class="btn" onclick="calculateLove()" style="width: 100%;">💖 Calcular compatibilidad</button>
+                        <div id="love-result" style="margin-top: 12px; text-align: center; font-size: 1.3rem; font-weight: bold; color: var(--primary); min-height: 40px;"></div>
+                    </div>
+                </div>
+
+                <!-- GENERADOR DE CITAS COLAPSABLE -->
+                <div class="collapsible-section">
+                    <button class="collapsible-btn" onclick="toggleCollapsible(this)">+ Generador de Citas 💑</button>
+                    <div class="collapsible-content">
+                        <button class="btn" onclick="generateDateIdea()" style="width: 100%; margin-bottom: 12px;">🎯 Sugerir una cita</button>
+                        <div id="date-idea-display" style="padding: 12px; background: var(--bg); border-radius: 10px; min-height: 60px; font-style: italic; color: var(--primary); font-size: 0.9rem;"></div>
+                    </div>
+                </div>
+
+                <!-- CAPTURADOR DE SUEÑOS COLAPSABLE -->
+                <div class="collapsible-section">
+                    <button class="collapsible-btn" onclick="toggleCollapsible(this)">+ Capturador de Sueños 🌙</button>
+                    <div class="collapsible-content">
+                        <input type="text" id="dream-input" class="wish-input" placeholder="Escribe tu sueño más preciado..." style="margin-bottom: 12px;">
+                        <button class="btn" onclick="captureDream()" style="width: 100%; margin-bottom: 12px;">✨ Capturar sueño</button>
+                        <div id="dream-display" style="padding: 12px; background: linear-gradient(135deg, #e8f4f8, #f0e6ff); border-radius: 10px; min-height: 60px; font-style: italic; color: var(--text); font-size: 0.9rem;"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: CONEXIÓN -->
+        <section id="conexion" class="section">
+            <div class="card">
+                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary); margin-bottom: 15px;">💕 Nuestra Conexión</h2>
+                <p style="margin-bottom: 20px; font-size: 0.95rem;">Mantengamos viva nuestra conexión emocional:</p>
 
                 <!-- ENVIADOR DE ABRAZOS VIRTUALES -->
-                <div style="background: var(--white); padding: 20px; border-radius: 15px; margin: 20px 0;">
-                    <h3 style="color: var(--primary); margin-bottom: 15px;">🤗 Abrazo Virtual</h3>
-                    <p style="margin-bottom: 20px;">Envía un abrazo especial:</p>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px;">
-                        <button class="hug-btn" onclick="sendVirtualHug('🤗')">Abrazo tierno</button>
-                        <button class="hug-btn" onclick="sendVirtualHug('🫂')">Abrazo fuerte</button>
-                        <button class="hug-btn" onclick="sendVirtualHug('💑')">Abrazo romántico</button>
-                        <button class="hug-btn" onclick="sendVirtualHug('👨‍❤️‍👩')">Abrazo eterno</button>
-                        <button class="hug-btn" onclick="sendVirtualHug('🌟')">Abrazo mágico</button>
-                        <button class="hug-btn" onclick="sendVirtualHug('💫')">Abrazo sorpresa</button>
+                <div class="collapsible-section" style="margin-bottom: 0;">
+                    <button class="collapsible-btn" onclick="toggleCollapsible(this)" style="margin-bottom: 0;">+ Enviar Abrazo 🤗</button>
+                    <div class="collapsible-content active">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 10px;">
+                            <button class="hug-btn" onclick="sendVirtualHug('🤗')">Tierno</button>
+                            <button class="hug-btn" onclick="sendVirtualHug('🫂')">Fuerte</button>
+                            <button class="hug-btn" onclick="sendVirtualHug('💑')">Romántico</button>
+                            <button class="hug-btn" onclick="sendVirtualHug('👨‍❤️‍👩')">Eterno</button>
+                            <button class="hug-btn" onclick="sendVirtualHug('🌟')">Mágico</button>
+                            <button class="hug-btn" onclick="sendVirtualHug('💫')">Sorpresa</button>
+                        </div>
+                        <div id="hug-counter" style="margin-top: 12px; text-align: center; font-weight: 600; color: var(--primary); font-size: 0.9rem;"></div>
                     </div>
-                    <div id="hug-counter" style="margin-top: 15px; text-align: center; font-weight: 600; color: var(--primary);"></div>
                 </div>
-
-                <hr style="margin: 40px 0; opacity: 0.1;">
 
                 <!-- LISTA DE DESEOS COMPARTIDOS -->
-                <div style="background: var(--white); padding: 20px; border-radius: 15px; margin: 20px 0;">
-                    <h3 style="color: var(--primary); margin-bottom: 15px;">🎯 Lista de Sueños Compartidos</h3>
-                    <p style="margin-bottom: 20px;">Agreguemos sueños a nuestra lista:</p>
-                    <input type="text" id="bucket-input" class="wish-input" placeholder="Escribe un sueño para lograr juntos..." style="margin-bottom: 15px;">
-                    <button class="btn" onclick="addToBucketList()">⭐ Agregar a la lista</button>
-                    <div id="bucket-list" style="margin-top: 15px; max-height: 200px; overflow-y: auto;">
-                        <!-- Los sueños se agregarán aquí dinámicamente -->
+                <div class="collapsible-section">
+                    <button class="collapsible-btn" onclick="toggleCollapsible(this)">+ Lista de Sueños 🎯</button>
+                    <div class="collapsible-content">
+                        <input type="text" id="bucket-input" class="wish-input" placeholder="Escribe un sueño para lograr juntos..." style="margin-bottom: 12px;">
+                        <button class="btn" onclick="addToBucketList()" style="width: 100%; margin-bottom: 12px;">⭐ Agregar a la lista</button>
+                        <div id="bucket-list" style="max-height: 200px; overflow-y: auto;">
+                            <!-- Los sueños se agregarán aquí dinámicamente -->
+                        </div>
                     </div>
                 </div>
 
-                <hr style="margin: 40px 0; opacity: 0.1;">
-
                 <!-- SEGUIMIENTO DE ÁNIMO -->
-                <div style="background: var(--white); padding: 20px; border-radius: 15px; margin: 20px 0;">
-                    <h3 style="color: var(--primary); margin-bottom: 15px;">😊 Seguimiento de Ánimo</h3>
-                    <p style="margin-bottom: 20px;">¿Cómo te sientes hoy?</p>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 10px; margin-bottom: 15px;">
-                        <button class="mood-btn" onclick="shareMood('😊', 'Feliz')">😊 Feliz</button>
-                        <button class="mood-btn" onclick="shareMood('🥰', 'Enamorada')">🥰 Enamorada</button>
-                        <button class="mood-btn" onclick="shareMood('😴', 'Cansada')">😴 Cansada</button>
-                        <button class="mood-btn" onclick="shareMood('🤔', 'Pensativa')">🤔 Pensativa</button>
-                        <button class="mood-btn" onclick="shareMood('😢', 'Triste')">😢 Triste</button>
-                        <button class="mood-btn" onclick="shareMood('🤗', 'Abrazable')">🤗 Abrazable</button>
-                    </div>
-                    <div id="mood-history" style="margin-top: 15px; padding: 15px; background: var(--bg); border-radius: 10px; min-height: 60px;">
-                        <p style="font-style: italic; color: var(--text); margin: 0;">Tu historial de ánimos aparecerá aquí 💭</p>
+                <div class="collapsible-section">
+                    <button class="collapsible-btn" onclick="toggleCollapsible(this)">+ Mi Ánimo Hoy 😊</button>
+                    <div class="collapsible-content">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(75px, 1fr)); gap: 10px; margin-bottom: 12px;">
+                            <button class="mood-btn" onclick="shareMood('😊', 'Feliz')">😊 Feliz</button>
+                            <button class="mood-btn" onclick="shareMood('🥰', 'Enamorada')">🥰 Amor</button>
+                            <button class="mood-btn" onclick="shareMood('😴', 'Cansada')">😴 Cansada</button>
+                            <button class="mood-btn" onclick="shareMood('🤔', 'Pensativa')">🤔 Pensativa</button>
+                            <button class="mood-btn" onclick="shareMood('😢', 'Triste')">😢 Triste</button>
+                            <button class="mood-btn" onclick="shareMood('🤗', 'Abrazable')">🤗 Abrazo</button>
+                        </div>
+                        <div id="mood-history" style="padding: 12px; background: var(--bg); border-radius: 10px; min-height: 50px; font-size: 0.9rem;">
+                            <p style="font-style: italic; color: var(--text); margin: 0;">Tu historial de ánimos aparecerá aquí 💭</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1656,60 +1942,64 @@
         <!-- SECCIÓN: TIMELINE DE RECUERDOS -->
         <section id="timeline" class="section">
             <div class="card">
-                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary);">📅 Nuestra Línea de Tiempo</h2>
-                <p style="margin-bottom: 20px;">Cada recuerdo es un tesoro. Agreguemos momentos especiales a nuestra historia:</p>
+                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary); margin-bottom: 15px;">📅 Línea de Tiempo</h2>
+                <p style="margin-bottom: 25px; font-size: 0.95rem;">Cada recuerdo es un tesoro en nuestra historia:</p>
                 
-                <div style="background: var(--white); padding: 20px; border-radius: 15px; margin: 20px 0;">
-                    <h3 style="color: var(--primary); margin-bottom: 15px;">✨ Agregar Recuerdo</h3>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
-                        <input type="date" id="memory-date" class="wish-input" style="margin: 0;">
-                        <select id="memory-type" class="wish-input" style="margin: 0;">
-                            <option value="romantico">💕 Romántico</option>
-                            <option value="divertido">😂 Divertido</option>
-                            <option value="especial">🌟 Especial</option>
-                            <option value="cotidiano">🏠 Cotidiano</option>
-                            <option value="futuro">🔮 Futuro</option>
-                        </select>
-                    </div>
-                    <input type="text" id="memory-title" class="wish-input" placeholder="Título del recuerdo..." style="margin-bottom: 15px;">
-                    <textarea id="memory-description" class="wish-input" placeholder="Describe este momento especial..." rows="3" style="margin-bottom: 15px; resize: vertical;"></textarea>
-                    <button class="btn" onclick="addMemory()">💾 Guardar Recuerdo</button>
-                </div>
-
-                <hr style="margin: 40px 0; opacity: 0.1;">
-
-                <div style="background: var(--white); padding: 20px; border-radius: 15px; margin: 20px 0;">
-                    <h3 style="color: var(--primary); margin-bottom: 15px;">📚 Nuestros Recuerdos</h3>
-                    <div id="memories-timeline" style="position: relative; max-width: 100%; margin: 20px auto; padding-left: 30px;">
-                        <div style="position: absolute; left: 0; top: 0; width: 2px; height: 100%; background: linear-gradient(to bottom, var(--primary), var(--secondary)); opacity: 0.3;"></div>
-                        <!-- Los recuerdos se cargarán aquí dinámicamente -->
-                    </div>
-                    <div id="no-memories" style="text-align: center; padding: 40px; color: #888; font-style: italic;">
-                        Aún no hay recuerdos guardados. ¡Agrega el primero! 💭
+                <!-- AGREGAR RECUERDO COLAPSABLE -->
+                <div class="collapsible-section" style="margin-bottom: 0;">
+                    <button class="collapsible-btn" onclick="toggleCollapsible(this)" style="margin-bottom: 0;">+ Agregar Recuerdo ✨</button>
+                    <div class="collapsible-content">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+                            <input type="date" id="memory-date" class="wish-input" style="margin: 0;">
+                            <select id="memory-type" class="wish-input" style="margin: 0;">
+                                <option value="romantico">💕 Romántico</option>
+                                <option value="divertido">😂 Divertido</option>
+                                <option value="especial">🌟 Especial</option>
+                                <option value="cotidiano">🏠 Cotidiano</option>
+                                <option value="futuro">🔮 Futuro</option>
+                            </select>
+                        </div>
+                        <input type="text" id="memory-title" class="wish-input" placeholder="Título del recuerdo..." style="margin-bottom: 12px;">
+                        <textarea id="memory-description" class="wish-input" placeholder="Describe este momento especial..." rows="3" style="margin-bottom: 12px; resize: vertical;"></textarea>
+                        <button class="btn" onclick="addMemory()" style="width: 100%;">💾 Guardar Recuerdo</button>
                     </div>
                 </div>
 
-                <hr style="margin: 40px 0; opacity: 0.1;">
+                <!-- NUESTROS RECUERDOS -->
+                <div class="collapsible-section">
+                    <button class="collapsible-btn" onclick="toggleCollapsible(this)">+ Ver Recuerdos 📚</button>
+                    <div class="collapsible-content">
+                        <div id="memories-timeline" style="position: relative; max-width: 100%; margin: 12px auto; padding-left: 30px;">
+                            <div style="position: absolute; left: 0; top: 0; width: 2px; height: 100%; background: linear-gradient(to bottom, var(--primary), var(--secondary)); opacity: 0.3;"></div>
+                            <!-- Los recuerdos se cargarán aquí dinámicamente -->
+                        </div>
+                        <div id="no-memories" style="text-align: center; padding: 30px 15px; color: #888; font-style: italic; font-size: 0.9rem;">
+                            Aún no hay recuerdos guardados. ¡Agrega el primero! 💭
+                        </div>
+                    </div>
+                </div>
 
-                <!-- ESTADÍSTICAS DE RECUERDOS -->
-                <div style="background: var(--white); padding: 20px; border-radius: 15px; margin: 20px 0;">
-                    <h3 style="color: var(--primary); margin-bottom: 15px;">📊 Estadísticas de Amor</h3>
-                    <div id="memory-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
-                        <div style="text-align: center; padding: 15px; background: var(--bg); border-radius: 10px;">
-                            <div style="font-size: 2rem; color: var(--primary);">0</div>
-                            <div style="font-size: 0.9rem; color: #666;">Recuerdos totales</div>
-                        </div>
-                        <div style="text-align: center; padding: 15px; background: var(--bg); border-radius: 10px;">
-                            <div style="font-size: 2rem; color: var(--primary);">0</div>
-                            <div style="font-size: 0.9rem; color: #666;">Días juntos</div>
-                        </div>
-                        <div style="text-align: center; padding: 15px; background: var(--bg); border-radius: 10px;">
-                            <div style="font-size: 2rem; color: var(--primary);">0</div>
-                            <div style="font-size: 0.9rem; color: #666;">Abrazos enviados</div>
-                        </div>
-                        <div style="text-align: center; padding: 15px; background: var(--bg); border-radius: 10px;">
-                            <div style="font-size: 2rem; color: var(--primary);">0</div>
-                            <div style="font-size: 0.9rem; color: #666;">Canciones escuchadas</div>
+                <!-- ESTADÍSTICAS DE AMOR -->
+                <div class="collapsible-section">
+                    <button class="collapsible-btn" onclick="toggleCollapsible(this)">+ Estadísticas 📊</button>
+                    <div class="collapsible-content">
+                        <div id="memory-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px;">
+                            <div style="text-align: center; padding: 12px; background: linear-gradient(135deg, #fff0f3, #ffccd5); border-radius: 10px;">
+                                <div style="font-size: 1.8rem; color: var(--primary); font-weight: bold;">0</div>
+                                <div style="font-size: 0.8rem; color: var(--text);">Recuerdos</div>
+                            </div>
+                            <div style="text-align: center; padding: 12px; background: linear-gradient(135deg, #fff0f3, #ffccd5); border-radius: 10px;">
+                                <div style="font-size: 1.8rem; color: var(--primary); font-weight: bold;">0</div>
+                                <div style="font-size: 0.8rem; color: var(--text);">Días juntos</div>
+                            </div>
+                            <div style="text-align: center; padding: 12px; background: linear-gradient(135deg, #fff0f3, #ffccd5); border-radius: 10px;">
+                                <div style="font-size: 1.8rem; color: var(--primary); font-weight: bold;">0</div>
+                                <div style="font-size: 0.8rem; color: var(--text);">Abrazos</div>
+                            </div>
+                            <div style="text-align: center; padding: 12px; background: linear-gradient(135deg, #fff0f3, #ffccd5); border-radius: 10px;">
+                                <div style="font-size: 1.8rem; color: var(--primary); font-weight: bold;">0</div>
+                                <div style="font-size: 0.8rem; color: var(--text);">Canciones</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1776,6 +2066,7 @@
             
             setTimeout(() => {
                 hero.style.display = 'none';
+                document.querySelector('.main-nav-wrap').classList.add('visible');
                 document.getElementById('navbar').style.display = 'flex';
                 go('inicio');
                 startCounter();
@@ -1801,13 +2092,38 @@
             document.getElementById(id).style.display = 'block';
             document.getElementById('btn-' + id).classList.add('active');
             
+            const nav = document.getElementById('navbar');
+            if (nav.classList.contains('open')) {
+                nav.classList.remove('open');
+            }
+            
             window.scrollTo({top: 0, behavior: 'smooth'});
             spawnBatch(10);
             
             if(id === 'inicio') setDailyMessage();
         }
 
-        // MENSAJE DIARIO
+        function toggleMainNav() {
+            const nav = document.getElementById('navbar');
+            const hamb = document.getElementById('main-hamburger');
+            nav.classList.toggle('open');
+            hamb.classList.toggle('active');
+        }
+
+        function toggleCollapsible(btn) {
+            const content = btn.nextElementSibling;
+            content.classList.toggle('active');
+            btn.textContent = content.classList.contains('active') 
+                ? btn.textContent.replace('+ ', '- ')
+                : btn.textContent.replace('- ', '+ ');
+        }
+
+        function closeHamburgerMenu() {
+            const nav = document.getElementById('navbar');
+            const hamb = document.getElementById('main-hamburger');
+            nav.classList.remove('open');
+            hamb.classList.remove('active');
+        }
         function setDailyMessage() {
             const msgs = [
                 "Hoy es un gran día para recordarte que eres mi mundo. ❤️",
@@ -2201,18 +2517,18 @@
         // SORPRESAS
         function surpriseMe() {
             const surprises = [
-                () => showRandomMessage(),
-                () => triggerConfetti(),
-                () => sendVirtualGift(Math.random() > 0.5 ? '🎁' : '💝'),
-                () => randomCompliment(),
-                () => showLoveQuote(),
-                () => animateHearts(),
-                () => generateDateIdea(),
+                () => showRandomMessage(true),
+                () => triggerConfetti(true),
+                () => sendVirtualGift(Math.random() > 0.5 ? '🎁' : '💝', true),
+                () => randomCompliment(true),
+                () => showLoveQuote(true),
+                () => animateHearts(true),
+                () => generateDateIdea(true),
                 () => {
                     // Para la calculadora, usar nombres predeterminados
                     document.getElementById('name1').value = 'Tú';
                     document.getElementById('name2').value = 'Cleidis';
-                    calculateLove();
+                    calculateLove(true);
                 },
                 () => {
                     // Para el capturador de sueños, usar un sueño aleatorio
@@ -2224,16 +2540,16 @@
                         'Cumplir todos nuestros sueños juntos'
                     ];
                     document.getElementById('dream-input').value = dreams[Math.floor(Math.random() * dreams.length)];
-                    captureDream();
+                    captureDream(true);
                 },
                 () => {
                     // Para el generador de cartas
-                    generateLoveLetter();
+                    generateLoveLetter(true);
                 },
                 () => {
                     // Para abrazos virtuales
                     const hugTypes = ['🤗', '🫂', '💑', '👨‍❤️‍👩', '🌟', '💫'];
-                    sendVirtualHug(hugTypes[Math.floor(Math.random() * hugTypes.length)]);
+                    sendVirtualHug(hugTypes[Math.floor(Math.random() * hugTypes.length)], true);
                 },
                 () => {
                     // Para la lista de sueños
@@ -2245,7 +2561,7 @@
                         'Hacer un viaje en globo aerostático'
                     ];
                     document.getElementById('bucket-input').value = bucketDreams[Math.floor(Math.random() * bucketDreams.length)];
-                    addToBucketList();
+                    addToBucketList(true);
                 },
                 () => {
                     // Para el seguimiento de ánimo
@@ -2258,7 +2574,7 @@
                         ['😢', 'Triste']
                     ];
                     const randomMood = moods[Math.floor(Math.random() * moods.length)];
-                    shareMood(randomMood[0], randomMood[1]);
+                    shareMood(randomMood[0], randomMood[1], true);
                 },
                 () => {
                     // Para agregar un recuerdo aleatorio
@@ -2266,7 +2582,7 @@
                     document.getElementById('memory-date').value = today;
                     document.getElementById('memory-title').value = 'Un día especial';
                     document.getElementById('memory-description').value = 'Hoy fue un día maravilloso juntos. Gracias por existir.';
-                    addMemory();
+                    addMemory(true);
                 }
             ];
             
@@ -2279,7 +2595,7 @@
             setTimeout(() => display.style.display = 'none', 5000);
         }
 
-        function showRandomMessage() {
+        function showRandomMessage(fromDropdown = false) {
             const messages = [
                 "¡Eres la razón de mi sonrisa cada día! 😊",
                 "Mi amor por ti crece con cada latido del corazón 💓",
@@ -2291,14 +2607,25 @@
             ];
             
             const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-            document.getElementById('surprise-content').innerHTML = `
-                <h3 style="color: var(--primary); margin-bottom: 10px;">💌 Mensaje Especial</h3>
-                <p style="font-size: 1.2rem; font-style: italic;">${randomMessage}</p>
-            `;
+            
+            if (fromDropdown) {
+                document.getElementById('surprise-content').innerHTML = `
+                    <h3 style="color: var(--primary); margin-bottom: 10px;">💌 Mensaje Especial</h3>
+                    <p style="font-size: 1.2rem; font-style: italic;">${randomMessage}</p>
+                `;
+                const display = document.getElementById('surprise-display');
+                display.style.display = 'block';
+                setTimeout(() => display.style.display = 'none', 5000);
+            } else {
+                document.getElementById('surprise-content').innerHTML = `
+                    <h3 style="color: var(--primary); margin-bottom: 10px;">💌 Mensaje Especial</h3>
+                    <p style="font-size: 1.2rem; font-style: italic;">${randomMessage}</p>
+                `;
+            }
             spawnBatch(20);
         }
 
-        function triggerConfetti() {
+        function triggerConfetti(fromDropdown = false) {
             for (let i = 0; i < 50; i++) {
                 const confetti = document.createElement('div');
                 confetti.className = 'confetti';
@@ -2308,28 +2635,49 @@
                 setTimeout(() => confetti.remove(), 4000);
             }
             
-            document.getElementById('surprise-content').innerHTML = `
-                <h3 style="color: var(--primary); margin-bottom: 10px;">🎊 ¡Fiesta de Amor!</h3>
-                <p style="font-size: 1.2rem;">¡Celebremos nuestro amor con confeti! 🎉</p>
-            `;
+            if (fromDropdown) {
+                document.getElementById('surprise-content').innerHTML = `
+                    <h3 style="color: var(--primary); margin-bottom: 10px;">🎊 ¡Fiesta de Amor!</h3>
+                    <p style="font-size: 1.2rem;">¡Celebremos nuestro amor con confeti! 🎉</p>
+                `;
+                const display = document.getElementById('surprise-display');
+                display.style.display = 'block';
+                setTimeout(() => display.style.display = 'none', 5000);
+            } else {
+                document.getElementById('surprise-content').innerHTML = `
+                    <h3 style="color: var(--primary); margin-bottom: 10px;">🎊 ¡Fiesta de Amor!</h3>
+                    <p style="font-size: 1.2rem;">¡Celebremos nuestro amor con confeti! 🎉</p>
+                `;
+            }
         }
 
-        function sendVirtualGift(gift) {
+        function sendVirtualGift(gift, fromDropdown = false) {
             const animation = document.createElement('div');
             animation.className = 'gift-animation';
             animation.innerHTML = gift;
             document.body.appendChild(animation);
             setTimeout(() => animation.remove(), 2000);
             
-            document.getElementById('surprise-content').innerHTML = `
-                <h3 style="color: var(--primary); margin-bottom: 10px;">🎁 ¡Regalo Virtual!</h3>
-                <p style="font-size: 2rem; margin: 20px 0;">${gift}</p>
-                <p style="font-style: italic;">¡Este regalo es solo para ti, mi amor!</p>
-            `;
+            if (fromDropdown) {
+                document.getElementById('surprise-content').innerHTML = `
+                    <h3 style="color: var(--primary); margin-bottom: 10px;">🎁 ¡Regalo Virtual!</h3>
+                    <p style="font-size: 2rem; margin: 20px 0;">${gift}</p>
+                    <p style="font-style: italic;">¡Este regalo es solo para ti, mi amor!</p>
+                `;
+                const display = document.getElementById('surprise-display');
+                display.style.display = 'block';
+                setTimeout(() => display.style.display = 'none', 5000);
+            } else {
+                document.getElementById('surprise-content').innerHTML = `
+                    <h3 style="color: var(--primary); margin-bottom: 10px;">🎁 ¡Regalo Virtual!</h3>
+                    <p style="font-size: 2rem; margin: 20px 0;">${gift}</p>
+                    <p style="font-style: italic;">¡Este regalo es solo para ti, mi amor!</p>
+                `;
+            }
             spawnBatch(15);
         }
 
-        function randomCompliment() {
+        function randomCompliment(fromDropdown = false) {
             const compliments = [
                 "Tus ojos brillan como estrellas en la noche 🌟",
                 "Tu sonrisa ilumina cualquier habitación ☀️",
@@ -2343,14 +2691,24 @@
             const randomCompliment = compliments[Math.floor(Math.random() * compliments.length)];
             document.getElementById('compliment-display').innerText = randomCompliment;
             
-            document.getElementById('surprise-content').innerHTML = `
-                <h3 style="color: var(--primary); margin-bottom: 10px;">💬 Cumplido Especial</h3>
-                <p style="font-size: 1.2rem; font-style: italic;">${randomCompliment}</p>
-            `;
+            if (fromDropdown) {
+                document.getElementById('surprise-content').innerHTML = `
+                    <h3 style="color: var(--primary); margin-bottom: 10px;">💬 Cumplido Especial</h3>
+                    <p style="font-size: 1.2rem; font-style: italic;">${randomCompliment}</p>
+                `;
+                const display = document.getElementById('surprise-display');
+                display.style.display = 'block';
+                setTimeout(() => display.style.display = 'none', 5000);
+            } else {
+                document.getElementById('surprise-content').innerHTML = `
+                    <h3 style="color: var(--primary); margin-bottom: 10px;">💬 Cumplido Especial</h3>
+                    <p style="font-size: 1.2rem; font-style: italic;">${randomCompliment}</p>
+                `;
+            }
             spawnBatch(10);
         }
 
-        function showLoveQuote() {
+        function showLoveQuote(fromDropdown = false) {
             const quotes = [
                 "\"El amor no se mira con los ojos, sino con el alma.\" - William Shakespeare",
                 "\"Te quiero no por lo que eres, sino por lo que soy cuando estoy contigo.\" - Gabriel García Márquez",
@@ -2360,14 +2718,25 @@
             ];
             
             const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-            document.getElementById('surprise-content').innerHTML = `
-                <h3 style="color: var(--primary); margin-bottom: 10px;">📖 Cita de Amor</h3>
-                <p style="font-size: 1.1rem; font-style: italic;">${randomQuote}</p>
-            `;
+            
+            if (fromDropdown) {
+                document.getElementById('surprise-content').innerHTML = `
+                    <h3 style="color: var(--primary); margin-bottom: 10px;">📖 Cita de Amor</h3>
+                    <p style="font-size: 1.1rem; font-style: italic;">${randomQuote}</p>
+                `;
+                const display = document.getElementById('surprise-display');
+                display.style.display = 'block';
+                setTimeout(() => display.style.display = 'none', 5000);
+            } else {
+                document.getElementById('surprise-content').innerHTML = `
+                    <h3 style="color: var(--primary); margin-bottom: 10px;">📖 Cita de Amor</h3>
+                    <p style="font-size: 1.1rem; font-style: italic;">${randomQuote}</p>
+                `;
+            }
             spawnBatch(12);
         }
 
-        function animateHearts() {
+        function animateHearts(fromDropdown = false) {
             for (let i = 0; i < 30; i++) {
                 setTimeout(() => {
                     const heart = document.createElement('div');
@@ -2382,14 +2751,55 @@
                 }, i * 100);
             }
             
-            document.getElementById('surprise-content').innerHTML = `
-                <h3 style="color: var(--primary); margin-bottom: 10px;">💝 Lluvia de Amor</h3>
-                <p style="font-size: 1.2rem;">¡Que caiga una lluvia de corazones sobre ti! 💕</p>
-            `;
+            if (fromDropdown) {
+                document.getElementById('surprise-content').innerHTML = `
+                    <h3 style="color: var(--primary); margin-bottom: 10px;">💝 Lluvia de Amor</h3>
+                    <p style="font-size: 1.2rem;">¡Que caiga una lluvia de corazones sobre ti! 💕</p>
+                `;
+                const display = document.getElementById('surprise-display');
+                display.style.display = 'block';
+                setTimeout(() => display.style.display = 'none', 5000);
+            } else {
+                document.getElementById('surprise-content').innerHTML = `
+                    <h3 style="color: var(--primary); margin-bottom: 10px;">💝 Lluvia de Amor</h3>
+                    <p style="font-size: 1.2rem;">¡Que caiga una lluvia de corazones sobre ti! 💕</p>
+                `;
+            }
         }
 
+        // FUNCIONES HAMBURGUESA
+        function toggleHamburgerMenu() {
+            const menu = document.getElementById('hamburger-menu');
+            const btn = document.getElementById('hamburger-btn');
+            
+            if (menu.classList.contains('show')) {
+                menu.classList.remove('show');
+                btn.classList.remove('active');
+            } else {
+                menu.classList.add('show');
+                btn.classList.add('active');
+            }
+        }
+
+        function closeHamburgerMenu() {
+            const menu = document.getElementById('hamburger-menu');
+            const btn = document.getElementById('hamburger-btn');
+            menu.classList.remove('show');
+            btn.classList.remove('active');
+        }
+
+        // Cerrar menú hamburguesa al hacer clic fuera
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('hamburger-menu');
+            const btn = document.getElementById('hamburger-btn');
+            
+            if (!menu.contains(event.target) && !btn.contains(event.target)) {
+                closeHamburgerMenu();
+            }
+        });
+
         // GENERADOR DE CITAS
-        function generateDateIdea() {
+        function generateDateIdea(fromDropdown = false) {
             const dateIdeas = [
                 "🌅 Un picnic al atardecer en el parque, con tu comida favorita y música suave",
                 "🎭 Una noche de cine en casa, viendo películas románticas y compartiendo palomitas",
@@ -2412,18 +2822,20 @@
             document.getElementById('date-idea-display').innerText = randomIdea;
             spawnBatch(15);
             
-            // Mostrar en el contenedor de sorpresa también
-            document.getElementById('surprise-content').innerHTML = `
-                <h3 style="color: var(--primary); margin-bottom: 10px;">💑 Idea de Cita Romántica</h3>
-                <p style="font-size: 1.1rem; font-style: italic;">${randomIdea}</p>
-            `;
-            const display = document.getElementById('surprise-display');
-            display.style.display = 'block';
-            setTimeout(() => display.style.display = 'none', 8000);
+            if (fromDropdown) {
+                // Mostrar en el contenedor de sorpresa también
+                document.getElementById('surprise-content').innerHTML = `
+                    <h3 style="color: var(--primary); margin-bottom: 10px;">💑 Idea de Cita Romántica</h3>
+                    <p style="font-size: 1.1rem; font-style: italic;">${randomIdea}</p>
+                `;
+                const display = document.getElementById('surprise-display');
+                display.style.display = 'block';
+                setTimeout(() => display.style.display = 'none', 8000);
+            }
         }
 
         // CALCULADORA DE AMOR
-        function calculateLove() {
+        function calculateLove(fromDropdown = false) {
             const name1 = document.getElementById('name1').value.trim();
             const name2 = document.getElementById('name2').value.trim();
             
@@ -2475,19 +2887,21 @@
             
             spawnBatch(20);
             
-            // Mostrar en sorpresa también
-            document.getElementById('surprise-content').innerHTML = `
-                <h3 style="color: var(--primary); margin-bottom: 10px;">💕 Compatibilidad de Amor</h3>
-                <div style="font-size: 2rem; margin: 10px 0;">${percentage}%</div>
-                <p style="font-style: italic;">${message}</p>
-            `;
-            const display = document.getElementById('surprise-display');
-            display.style.display = 'block';
-            setTimeout(() => display.style.display = 'none', 6000);
+            if (fromDropdown) {
+                // Mostrar en sorpresa también
+                document.getElementById('surprise-content').innerHTML = `
+                    <h3 style="color: var(--primary); margin-bottom: 10px;">💕 Compatibilidad de Amor</h3>
+                    <div style="font-size: 2rem; margin: 10px 0;">${percentage}%</div>
+                    <p style="font-style: italic;">${message}</p>
+                `;
+                const display = document.getElementById('surprise-display');
+                display.style.display = 'block';
+                setTimeout(() => display.style.display = 'none', 6000);
+            }
         }
 
         // CAPTURADOR DE SUEÑOS
-        function captureDream() {
+        function captureDream(fromDropdown = false) {
             const dream = document.getElementById('dream-input').value.trim();
             
             if (!dream) {
@@ -2520,19 +2934,21 @@
             
             spawnBatch(25);
             
-            // Mostrar en sorpresa también
-            document.getElementById('surprise-content').innerHTML = `
-                <h3 style="color: var(--primary); margin-bottom: 10px;">🌙 Sueño Capturado</h3>
-                <p style="font-size: 1.1rem; font-style: italic;">"${dream}"</p>
-                <p style="font-size: 0.9rem; margin-top: 10px;">¡Guardado en nuestro libro de sueños! 💫</p>
-            `;
-            const display = document.getElementById('surprise-display');
-            display.style.display = 'block';
-            setTimeout(() => display.style.display = 'none', 7000);
+            if (fromDropdown) {
+                // Mostrar en sorpresa también
+                document.getElementById('surprise-content').innerHTML = `
+                    <h3 style="color: var(--primary); margin-bottom: 10px;">🌙 Sueño Capturado</h3>
+                    <p style="font-size: 1.1rem; font-style: italic;">"${dream}"</p>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">¡Guardado en nuestro libro de sueños! 💫</p>
+                `;
+                const display = document.getElementById('surprise-display');
+                display.style.display = 'block';
+                setTimeout(() => display.style.display = 'none', 7000);
+            }
         }
 
         // GENERADOR DE CARTAS DE AMOR
-        function generateLoveLetter() {
+        function generateLoveLetter(fromDropdown = false) {
             const style = document.getElementById('letter-style').value;
             const length = document.getElementById('letter-length').value;
             
@@ -2596,19 +3012,21 @@
             
             spawnBatch(30);
             
-            // Mostrar en sorpresa también
-            document.getElementById('surprise-content').innerHTML = `
-                <h3 style="color: var(--primary); margin-bottom: 10px;">💌 Carta de Amor Generada</h3>
-                <p style="font-size: 1rem; font-style: italic; line-height: 1.4;">${randomLetter.split('\n')[0]}...</p>
-                <p style="font-size: 0.9rem; margin-top: 10px;">¡Carta personalizada creada! 📝</p>
-            `;
-            const display = document.getElementById('surprise-display');
-            display.style.display = 'block';
-            setTimeout(() => display.style.display = 'none', 8000);
+            if (fromDropdown) {
+                // Mostrar en sorpresa también
+                document.getElementById('surprise-content').innerHTML = `
+                    <h3 style="color: var(--primary); margin-bottom: 10px;">💌 Carta de Amor Generada</h3>
+                    <p style="font-size: 1rem; font-style: italic; line-height: 1.4;">${randomLetter.split('\n')[0]}...</p>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">¡Carta personalizada creada! 📝</p>
+                `;
+                const display = document.getElementById('surprise-display');
+                display.style.display = 'block';
+                setTimeout(() => display.style.display = 'none', 8000);
+            }
         }
 
         // ENVIADOR DE ABRAZOS VIRTUALES
-        function sendVirtualHug(hugType) {
+        function sendVirtualHug(hugType, fromDropdown = false) {
             const hugNames = {
                 '🤗': 'Abrazo tierno',
                 '🫂': 'Abrazo fuerte', 
@@ -2639,15 +3057,17 @@
             
             spawnBatch(20);
             
-            // Mostrar en sorpresa también
-            document.getElementById('surprise-content').innerHTML = `
-                <h3 style="color: var(--primary); margin-bottom: 10px;">🤗 Abrazo Enviado</h3>
-                <p style="font-size: 2rem; margin: 10px 0;">${hugType}</p>
-                <p style="font-style: italic;">¡${hugNames[hugType]} enviado con todo el amor! 💕</p>
-            `;
-            const display = document.getElementById('surprise-display');
-            display.style.display = 'block';
-            setTimeout(() => display.style.display = 'none', 5000);
+            if (fromDropdown) {
+                // Mostrar en sorpresa también
+                document.getElementById('surprise-content').innerHTML = `
+                    <h3 style="color: var(--primary); margin-bottom: 10px;">🤗 Abrazo Enviado</h3>
+                    <p style="font-size: 2rem; margin: 10px 0;">${hugType}</p>
+                    <p style="font-style: italic;">¡${hugNames[hugType]} enviado con todo el amor! 💕</p>
+                `;
+                const display = document.getElementById('surprise-display');
+                display.style.display = 'block';
+                setTimeout(() => display.style.display = 'none', 5000);
+            }
         }
 
         function updateHugCounter() {
@@ -2660,7 +3080,7 @@
         }
 
         // LISTA DE DESEOS COMPARTIDOS
-        function addToBucketList() {
+        function addToBucketList(fromDropdown = false) {
             const dream = document.getElementById('bucket-input').value.trim();
             
             if (!dream) {
@@ -2696,15 +3116,17 @@
             
             spawnBatch(15);
             
-            // Mostrar en sorpresa también
-            document.getElementById('surprise-content').innerHTML = `
-                <h3 style="color: var(--primary); margin-bottom: 10px;">🎯 Sueño Agregado</h3>
-                <p style="font-size: 1.1rem; font-style: italic;">"${dream}"</p>
-                <p style="font-size: 0.9rem; margin-top: 10px;">¡Agregado a nuestra lista de sueños! ⭐</p>
-            `;
-            const display = document.getElementById('surprise-display');
-            display.style.display = 'block';
-            setTimeout(() => display.style.display = 'none', 6000);
+            if (fromDropdown) {
+                // Mostrar en sorpresa también
+                document.getElementById('surprise-content').innerHTML = `
+                    <h3 style="color: var(--primary); margin-bottom: 10px;">🎯 Sueño Agregado</h3>
+                    <p style="font-size: 1.1rem; font-style: italic;">"${dream}"</p>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">¡Agregado a nuestra lista de sueños! ⭐</p>
+                `;
+                const display = document.getElementById('surprise-display');
+                display.style.display = 'block';
+                setTimeout(() => display.style.display = 'none', 6000);
+            }
         }
 
         function toggleBucketItem(checkbox) {
@@ -2719,7 +3141,7 @@
         }
 
         // SEGUIMIENTO DE ÁNIMO
-        function shareMood(emoji, moodName) {
+        function shareMood(emoji, moodName, fromDropdown = false) {
             const moodEntry = {
                 emoji: emoji,
                 nombre: moodName,
@@ -2738,15 +3160,17 @@
             
             spawnBatch(10);
             
-            // Mostrar en sorpresa también
-            document.getElementById('surprise-content').innerHTML = `
-                <h3 style="color: var(--primary); margin-bottom: 10px;">😊 Ánimo Compartido</h3>
-                <p style="font-size: 2rem; margin: 10px 0;">${emoji}</p>
-                <p style="font-style: italic;">Te sientes ${moodName.toLowerCase()} hoy 💭</p>
-            `;
-            const display = document.getElementById('surprise-display');
-            display.style.display = 'block';
-            setTimeout(() => display.style.display = 'none', 5000);
+            if (fromDropdown) {
+                // Mostrar en sorpresa también
+                document.getElementById('surprise-content').innerHTML = `
+                    <h3 style="color: var(--primary); margin-bottom: 10px;">😊 Ánimo Compartido</h3>
+                    <p style="font-size: 2rem; margin: 10px 0;">${emoji}</p>
+                    <p style="font-style: italic;">Te sientes ${moodName.toLowerCase()} hoy 💭</p>
+                `;
+                const display = document.getElementById('surprise-display');
+                display.style.display = 'block';
+                setTimeout(() => display.style.display = 'none', 5000);
+            }
         }
 
         function updateMoodHistory() {
@@ -2770,7 +3194,7 @@
         }
 
         // TIMELINE DE RECUERDOS
-        function addMemory() {
+        function addMemory(fromDropdown = false) {
             const date = document.getElementById('memory-date').value;
             const type = document.getElementById('memory-type').value;
             const title = document.getElementById('memory-title').value.trim();
@@ -2807,15 +3231,17 @@
             
             spawnBatch(20);
             
-            // Mostrar en sorpresa también
-            document.getElementById('surprise-content').innerHTML = `
-                <h3 style="color: var(--primary); margin-bottom: 10px;">📅 Recuerdo Agregado</h3>
-                <p style="font-size: 1.1rem; font-style: italic;">"${title}"</p>
-                <p style="font-size: 0.9rem; margin-top: 10px;">¡Guardado en nuestra línea de tiempo! 📚</p>
-            `;
-            const display = document.getElementById('surprise-display');
-            display.style.display = 'block';
-            setTimeout(() => display.style.display = 'none', 6000);
+            if (fromDropdown) {
+                // Mostrar en sorpresa también
+                document.getElementById('surprise-content').innerHTML = `
+                    <h3 style="color: var(--primary); margin-bottom: 10px;">📅 Recuerdo Agregado</h3>
+                    <p style="font-size: 1.1rem; font-style: italic;">"${title}"</p>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">¡Guardado en nuestra línea de tiempo! 📚</p>
+                `;
+                const display = document.getElementById('surprise-display');
+                display.style.display = 'block';
+                setTimeout(() => display.style.display = 'none', 6000);
+            }
         }
 
         function loadMemories() {
