@@ -1103,6 +1103,8 @@
             z-index: 2500;
             overflow: hidden;
             animation: slideUp 0.3s ease-out;
+            cursor: move;
+            touch-action: none;
         }
 
         @keyframes slideUp {
@@ -2412,9 +2414,9 @@
             4: 'La Fuerza de la Vida',
             5: 'Cuando Vueltas',
             6: 'Ángel Malherido',
-            7: 'No Es Lo Mismo',
-            8: 'La Tortura (feat. Shakira)',
-            9: 'Y, ¿Si Fuera Ella?',
+            7: 'Por Amarte Así',
+            8: 'Lo Dejaría Todo',
+            9: 'Solamente Tu Amor',
             10: 'Viviendo Deprisa',
             11: 'Desde Cuando',
             12: 'No Me Compares'
@@ -2444,6 +2446,59 @@
             miniPlayer.style.display = 'none';
             playerIframe.src = '';
         }
+
+        // Mini reproductor arrastrable
+        function makeMiniPlayerDraggable() {
+            const miniPlayer = document.getElementById('mini-player');
+            let isDragging = false;
+            let startX, startY, startLeft, startTop;
+
+            function pointerDown(e) {
+                isDragging = true;
+                const point = e.touches ? e.touches[0] : e;
+                startX = point.clientX;
+                startY = point.clientY;
+                const rect = miniPlayer.getBoundingClientRect();
+                startLeft = rect.left;
+                startTop = rect.top;
+                miniPlayer.style.transition = 'none';
+                e.preventDefault();
+            }
+
+            function pointerMove(e) {
+                if (!isDragging) return;
+                const point = e.touches ? e.touches[0] : e;
+                const dx = point.clientX - startX;
+                const dy = point.clientY - startY;
+                let newLeft = startLeft + dx;
+                let newTop = startTop + dy;
+
+                // Limitar dentro de la pantalla
+                const maxX = window.innerWidth - miniPlayer.offsetWidth;
+                const maxY = window.innerHeight - miniPlayer.offsetHeight;
+                newLeft = Math.min(Math.max(newLeft, 0), maxX);
+                newTop = Math.min(Math.max(newTop, 0), maxY);
+
+                miniPlayer.style.left = `${newLeft}px`;
+                miniPlayer.style.top = `${newTop}px`;
+                miniPlayer.style.right = 'auto';
+                miniPlayer.style.bottom = 'auto';
+            }
+
+            function pointerUp() {
+                isDragging = false;
+                miniPlayer.style.transition = 'box-shadow 0.2s ease';
+            }
+
+            miniPlayer.addEventListener('mousedown', pointerDown);
+            document.addEventListener('mousemove', pointerMove);
+            document.addEventListener('mouseup', pointerUp);
+            miniPlayer.addEventListener('touchstart', pointerDown, {passive: false});
+            document.addEventListener('touchmove', pointerMove, {passive: false});
+            document.addEventListener('touchend', pointerUp);
+        }
+
+        makeMiniPlayerDraggable();
 
         function saveMusicPlayCount(songId) {
             if (!window.db || !window.dbRef || !window.dbSet || !window.dbGet) return;
