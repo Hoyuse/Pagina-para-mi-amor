@@ -27,6 +27,9 @@
             --gradient: linear-gradient(135deg, #e63946 0%, #f77f88 100%);
             --light-gray: #f8f8f8;
             --border-radius: 12px;
+            --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         * {
@@ -446,13 +449,22 @@
         }
 
         .chest-icon {
-            font-size: 3rem;
-            margin-bottom: 10px;
+            font-size: 3.2rem;
+            margin-bottom: 12px;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            filter: drop-shadow(0 4px 12px rgba(230, 57, 70, 0.15));
+            display: inline-block;
         }
 
-        .chest-icon:hover { transform: scale(1.1); }
+        .chest-icon:hover {
+            transform: scale(1.15) rotate(5deg);
+            filter: drop-shadow(0 8px 20px rgba(230, 57, 70, 0.25));
+        }
+
+        .chest-icon:active {
+            transform: scale(0.95);
+        }
 
         .wish-input, input[type="text"], textarea {
             width: 100%;
@@ -1200,22 +1212,28 @@
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 20px;
+            gap: 28px;
+            margin-top: 25px;
         }
 
         .polaroid {
-            background: white;
-            padding: 15px 15px 50px 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transform: rotate(-2deg);
-            transition: 0.4s;
+            background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+            padding: 16px 16px 55px 16px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            transform: rotate(-2deg) translateZ(0);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.03);
         }
 
-        .polaroid:nth-child(even) { transform: rotate(2deg); }
+        .polaroid:nth-child(even) {
+            transform: rotate(2deg) translateZ(0);
+        }
 
         .polaroid:hover {
-            transform: scale(1.05) rotate(0deg);
+            transform: scale(1.08) rotate(0deg) translateY(-8px);
+            box-shadow: 0 20px 50px rgba(230, 57, 70, 0.2);
             z-index: 10;
         }
 
@@ -1288,11 +1306,17 @@
 
         /* --- MÚSICA --- */
         .music-player {
-            background: #111;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
             border-radius: 20px;
             overflow: hidden;
-            margin: 20px 0;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            margin: 25px 0;
+            box-shadow: 0 16px 42px rgba(0, 0, 0, 0.25);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .music-player:hover {
+            box-shadow: 0 20px 50px rgba(230, 57, 70, 0.15);
         }
 
         /* --- BOTÓN ACCIÓN --- */
@@ -1424,12 +1448,39 @@
         }
 
         /* --- RESPONSIVIDAD --- */
+        @media (max-width: 768px) {
+            .card {
+                padding: 28px 18px;
+                margin-bottom: 40px;
+            }
+
+            .timer-container {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
+            }
+
+            .memory-game {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+
+            .gallery {
+                grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+                gap: 20px;
+            }
+        }
+
         @media (max-width: 500px) {
             .book { width: 270px; height: 380px; }
-            .hero-title { font-size: 2.8rem; }
-            .envelope { width: 220px; height: 150px; }
-            .envelope::before { top: -100px; border-left: 110px solid transparent; border-right: 110px solid transparent; border-bottom: 100px solid var(--primary); }
-            .poetry-txt { font-size: 1rem; }
+            .hero-title { font-size: 2.4rem; }
+            .envelope { width: 200px; height: 140px; }
+            .card h2 { font-size: 1.8rem; }
+            .memory-game { grid-template-columns: repeat(3, 1fr); }
+            .timer-box { padding: 14px 8px; }
+            .timer-num { font-size: 1.8rem; }
+            .gallery { grid-template-columns: 1fr; }
+            .main-container { padding: 16px; }
+            .collapsible-btn { font-size: 0.8rem; padding: 12px 14px; }
         }
 
         /* --- ESTILOS HAMBURGUESA --- */
