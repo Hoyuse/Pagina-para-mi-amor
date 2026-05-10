@@ -1627,6 +1627,7 @@
             <button onclick="go('sorpresas')" class="nav-btn" id="btn-sorpresas">🎉 Sorpresas</button>
             <button onclick="go('conexion')" class="nav-btn" id="btn-conexion">💕 Conexión</button>
             <button onclick="go('timeline')" class="nav-btn" id="btn-timeline">📅 Timeline</button>
+            <button onclick="go('estrellas')" class="nav-btn" id="btn-estrellas">⭐ Nuestras Estrellas</button>
         </nav>
     </div>
 
@@ -2321,6 +2322,463 @@
                 </div>
             </div>
         </section>
+
+        <!-- SECCIÓN: MAPA ESTELAR -->
+        <section id="estrellas" class="section">
+            <div class="card">
+                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary); margin-bottom: 6px;">⭐ Nuestras Estrellas</h2>
+                <p style="font-style: italic; opacity: 0.75; margin-bottom: 18px; font-size: 0.95rem;">El cielo exacto de la noche en que comenzó nuestra historia</p>
+
+                <!-- Fecha especial -->
+                <div style="background: linear-gradient(135deg, #1a0533, #2d0a5e); border-radius: 20px; padding: 14px 18px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+                    <div style="color: #e8c9ff; font-size: 0.9rem;">
+                        <span style="font-size: 1.2rem;">🗓️</span> <strong>10 de Febrero, 2026</strong><br>
+                        <span style="opacity: 0.75; font-size: 0.8rem;">La noche que cambió todo 💜</span>
+                    </div>
+                    <div style="color: #f4b0ff; font-size: 0.85rem; text-align: right;">
+                        📍 La Dorada, Colombia<br>
+                        <span style="opacity: 0.7; font-size: 0.78rem;">5.18°N · 74.73°O</span>
+                    </div>
+                </div>
+
+                <!-- Canvas del cielo -->
+                <div id="star-wrap" style="position:relative; border-radius:20px; overflow:hidden; box-shadow:0 0 40px rgba(138,58,185,0.4); background:#03001a;">
+                    <canvas id="starCanvas" style="width:100%; display:block; border-radius:20px; touch-action:none;"></canvas>
+
+                    <!-- Botón pantalla completa -->
+                    <button id="star-fs-btn" onclick="toggleStarFullscreen()" style="
+                        position:absolute; top:10px; right:10px;
+                        background:rgba(30,8,60,0.75); color:#e8b4ff;
+                        border:1px solid rgba(200,140,255,0.35); border-radius:10px;
+                        padding:7px 12px; font-size:0.8rem; font-weight:600;
+                        cursor:pointer; backdrop-filter:blur(8px);
+                        display:flex; align-items:center; gap:6px;
+                        -webkit-tap-highlight-color:transparent; touch-action:manipulation;
+                        transition: background 0.2s;">
+                        <span id="star-fs-icon">⛶</span>
+                        <span id="star-fs-label">Pantalla completa</span>
+                    </button>
+
+                    <!-- Tooltip -->
+                    <div id="star-tooltip" style="display:none; position:absolute; background:rgba(20,4,45,0.92); color:#f4b0ff; padding:8px 14px; border-radius:10px; font-size:0.82rem; pointer-events:none; border:1px solid rgba(244,176,255,0.3); backdrop-filter:blur(6px); max-width:160px; text-align:center; z-index:10;"></div>
+                </div>
+
+                <style>
+                    /* Pantalla completa nativa */
+                    #star-wrap:-webkit-full-screen { border-radius:0 !important; width:100vw; height:100vh; }
+                    #star-wrap:-moz-full-screen    { border-radius:0 !important; width:100vw; height:100vh; }
+                    #star-wrap:fullscreen          { border-radius:0 !important; width:100vw; height:100vh; }
+                    #star-wrap:-webkit-full-screen #starCanvas { border-radius:0 !important; width:100% !important; height:100% !important; }
+                    #star-wrap:fullscreen #starCanvas          { border-radius:0 !important; width:100% !important; height:100% !important; }
+                    #star-fs-btn:active { background:rgba(80,20,140,0.85) !important; }
+                </style>
+
+                <!-- Leyenda -->
+                <div style="display:flex; gap:18px; flex-wrap:wrap; justify-content:center; margin-top:16px;">
+                    <div style="display:flex; align-items:center; gap:6px; font-size:0.82rem; color: var(--text); opacity:0.8;">
+                        <span style="width:10px;height:10px;border-radius:50%;background:#fff;display:inline-block;box-shadow:0 0 6px #fff;"></span> Estrellas
+                    </div>
+                    <div style="display:flex; align-items:center; gap:6px; font-size:0.82rem; color: var(--text); opacity:0.8;">
+                        <span style="width:10px;height:10px;border-radius:50%;background:#f4c430;display:inline-block;box-shadow:0 0 8px #f4c430;"></span> Planetas
+                    </div>
+                    <div style="display:flex; align-items:center; gap:6px; font-size:0.82rem; color: var(--text); opacity:0.8;">
+                        <span style="width:22px;height:2px;background:rgba(200,150,255,0.6);display:inline-block;"></span> Constelaciones
+                    </div>
+                    <div style="display:flex; align-items:center; gap:6px; font-size:0.82rem; color: var(--text); opacity:0.8;">
+                        <span style="font-size:1rem;">💜</span> Nuestro amor
+                    </div>
+                </div>
+
+                <!-- Datos románticos -->
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap:12px; margin-top:20px;">
+                    <div style="background:linear-gradient(135deg,#1a0533,#2d0a5e); border-radius:14px; padding:14px; text-align:center; border:1px solid rgba(244,176,255,0.15);">
+                        <div style="font-size:1.6rem; margin-bottom:4px;">🌙</div>
+                        <div style="color:#e8c9ff; font-weight:700; font-size:0.9rem;">Luna Creciente</div>
+                        <div style="color:#a78bca; font-size:0.75rem; margin-top:3px;">Fase esa noche</div>
+                    </div>
+                    <div style="background:linear-gradient(135deg,#1a0533,#2d0a5e); border-radius:14px; padding:14px; text-align:center; border:1px solid rgba(244,176,255,0.15);">
+                        <div style="font-size:1.6rem; margin-bottom:4px;">♒</div>
+                        <div style="color:#e8c9ff; font-weight:700; font-size:0.9rem;">Acuario</div>
+                        <div style="color:#a78bca; font-size:0.75rem; margin-top:3px;">Sol esa noche</div>
+                    </div>
+                    <div style="background:linear-gradient(135deg,#1a0533,#2d0a5e); border-radius:14px; padding:14px; text-align:center; border:1px solid rgba(244,176,255,0.15);">
+                        <div style="font-size:1.6rem; margin-bottom:4px;">✨</div>
+                        <div style="color:#e8c9ff; font-weight:700; font-size:0.9rem;">~5,000</div>
+                        <div style="color:#a78bca; font-size:0.75rem; margin-top:3px;">Estrellas visibles</div>
+                    </div>
+                    <div style="background:linear-gradient(135deg,#1a0533,#2d0a5e); border-radius:14px; padding:14px; text-align:center; border:1px solid rgba(244,176,255,0.15);">
+                        <div style="font-size:1.6rem; margin-bottom:4px;">💜</div>
+                        <div style="color:#e8c9ff; font-weight:700; font-size:0.9rem;">1 amor</div>
+                        <div style="color:#a78bca; font-size:0.75rem; margin-top:3px;">El más brillante</div>
+                    </div>
+                </div>
+
+                <!-- Mensaje poético -->
+                <div style="margin-top:20px; padding:18px; background:linear-gradient(135deg,#f0e6ff,#ffe0f5); border-radius:16px; border-left:4px solid var(--primary); font-style:italic; color:var(--text); line-height:1.7; font-size:0.92rem;">
+                    "Esa noche el universo acomodó cada estrella para que pudiéramos encontrarnos. Cada punto de luz en este cielo fue testigo del inicio de algo que dura para siempre. Tú eres mi constelación favorita, Cleidis." 💜
+                </div>
+            </div>
+        </section>
+
+        <style>
+            #starCanvas { cursor: crosshair; }
+        </style>
+
+        <script>
+        // ── Pantalla completa del mapa estelar ──
+        function toggleStarFullscreen() {
+            const wrap = document.getElementById('star-wrap');
+            const isFs = document.fullscreenElement || document.webkitFullscreenElement;
+            if (!isFs) {
+                const req = wrap.requestFullscreen || wrap.webkitRequestFullscreen || wrap.mozRequestFullScreen;
+                if (req) req.call(wrap);
+            } else {
+                const ex = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen;
+                if (ex) ex.call(document);
+            }
+        }
+        ['fullscreenchange','webkitfullscreenchange','mozfullscreenchange'].forEach(ev => {
+            document.addEventListener(ev, () => {
+                const isFs  = !!(document.fullscreenElement || document.webkitFullscreenElement);
+                const icon  = document.getElementById('star-fs-icon');
+                const label = document.getElementById('star-fs-label');
+                if (icon)  icon.textContent  = isFs ? '✕' : '⛶';
+                if (label) label.textContent = isFs ? 'Salir' : 'Pantalla completa';
+                setTimeout(() => { if (typeof drawSky === 'function') drawSky(); }, 100);
+            });
+        });
+
+        (function() {
+            // ── Posiciones en coordenadas de pantalla normalizadas (x:0-1, y:0-1) ──
+            // Distribuidas manualmente para llenar bien el cielo y no amontonarse
+            // Norte arriba, Sur abajo, Este izq, Oeste der (vista al cielo nocturno)
+
+            const STARS = [
+                // ORIÓN — bien distribuido al centro-derecha
+                { n:"Betelgeuse",   x:0.52, y:0.38, mag:0.5,  t:"star" },  // 0
+                { n:"Rigel",        x:0.58, y:0.55, mag:0.1,  t:"star" },  // 1
+                { n:"Bellatrix",    x:0.46, y:0.40, mag:1.6,  t:"star" },  // 2
+                { n:"Saiph",        x:0.56, y:0.57, mag:2.1,  t:"star" },  // 3
+                { n:"Mintaka",      x:0.48, y:0.47, mag:2.2,  t:"star" },  // 4
+                { n:"Alnilam",      x:0.52, y:0.46, mag:1.7,  t:"star" },  // 5
+                { n:"Alnitak",      x:0.56, y:0.45, mag:1.8,  t:"star" },  // 6
+                // CANIS MAJOR — bajo derecha
+                { n:"Sirio",        x:0.64, y:0.62, mag:-1.5, t:"star" },  // 7
+                { n:"Adhara",       x:0.68, y:0.70, mag:1.5,  t:"star" },  // 8
+                // TAURO — arriba izquierda de Orión
+                { n:"Aldebarán",    x:0.40, y:0.30, mag:0.9,  t:"star" },  // 9
+                { n:"Elnath",       x:0.34, y:0.26, mag:1.7,  t:"star" },  // 10
+                // GÉMINIS — arriba
+                { n:"Cástor",       x:0.28, y:0.22, mag:1.6,  t:"star" },  // 11
+                { n:"Pólux",        x:0.33, y:0.24, mag:1.1,  t:"star" },  // 12
+                // LEO — izquierda media
+                { n:"Régulo",       x:0.20, y:0.42, mag:1.4,  t:"star" },  // 13
+                { n:"Denébola",     x:0.14, y:0.36, mag:2.1,  t:"star" },  // 14
+                // VIRGO — izquierda baja
+                { n:"Espiga",       x:0.12, y:0.60, mag:1.0,  t:"star" },  // 15
+                // ESCORPIÓN — bajo izquierda
+                { n:"Antares",      x:0.22, y:0.75, mag:1.1,  t:"star" },  // 16
+                // ERIDANUS / SUR
+                { n:"Achernar",     x:0.50, y:0.82, mag:0.5,  t:"star" },  // 17
+                // CRUZ DEL SUR — centro-bajo
+                { n:"Acrux",        x:0.44, y:0.74, mag:0.8,  t:"star" },  // 18
+                { n:"Mimosa",       x:0.40, y:0.70, mag:1.3,  t:"star" },  // 19
+                { n:"Gacrux",       x:0.44, y:0.66, mag:1.6,  t:"star" },  // 20
+                { n:"Delta Cru",    x:0.48, y:0.70, mag:2.8,  t:"star" },  // 21
+                // CENTAURO — bajo izquierda media
+                { n:"Alfa Cen",     x:0.36, y:0.76, mag:-0.3, t:"star" },  // 22
+                { n:"Beta Cen",     x:0.32, y:0.72, mag:0.6,  t:"star" },  // 23
+                // ESTRELLAS DISPERSAS
+                { n:"Capella",      x:0.26, y:0.14, mag:0.1,  t:"star" },  // 24
+                { n:"Procyon",      x:0.60, y:0.30, mag:0.4,  t:"star" },  // 25
+                { n:"Canopo",       x:0.62, y:0.78, mag:-0.7, t:"star" },  // 26
+                { n:"Fomalhaut",    x:0.76, y:0.68, mag:1.2,  t:"star" },  // 27
+                // PLANETAS — bien separados
+                { n:"Venus ♀",      x:0.80, y:0.45, mag:-4.0, t:"planet" }, // 28
+                { n:"Júpiter ♃",    x:0.75, y:0.28, mag:-2.0, t:"planet" }, // 29
+                { n:"Saturno ♄",    x:0.18, y:0.55, mag:0.8,  t:"planet" }, // 30
+                // ESTRELLA ESPECIAL CLEIDIS — centro-arriba, bien visible
+                { n:"💜 Cleidis",   x:0.50, y:0.18, mag:-3.0, t:"love"   }, // 31
+            ];
+
+            const CONSTELLATIONS = [
+                { name:"Orión",        lines:[[0,5],[5,6],[4,5],[2,4],[0,2],[1,6],[3,6],[1,3]] },
+                { name:"Cruz del Sur", lines:[[18,20],[19,21],[18,19]] },
+                { name:"Géminis",      lines:[[11,12],[12,10]] },
+                { name:"Tauro",        lines:[[9,10]] },
+                { name:"Canis Major",  lines:[[7,8]] },
+                { name:"Centauro",     lines:[[22,23]] },
+                { name:"Leo",          lines:[[13,14]] },
+            ];
+
+            function toXY(star, W, H) {
+                return { x: star.x * W, y: star.y * H };
+            }
+
+            // Radio visual de la estrella según magnitud
+            function starR(mag, scale) {
+                // mag negativa = muy brillante, mag 3 = débil
+                const base = Math.max(1.2, 3.8 - mag * 0.7);
+                return Math.min(base, 4.5) * scale;
+            }
+
+            // Exponer globalmente para que fullscreenchange pueda llamarla
+            window.drawSky = function drawSky() {
+                const canvas = document.getElementById('starCanvas');
+                if (!canvas) return;
+                const wrap = canvas.parentElement;
+                const isFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+
+                // En fullscreen usa toda la pantalla; si no, usa el ancho del contenedor
+                const cssW = isFs ? window.innerWidth  : Math.max(wrap.clientWidth  || 340, 200);
+                const cssH = isFs ? window.innerHeight : Math.round(cssW * 0.88);
+
+                // devicePixelRatio para pantallas AMOLED/Retina de Android — sin blur
+                const dpr = Math.min(window.devicePixelRatio || 1, 3);
+                canvas.width  = cssW * dpr;
+                canvas.height = cssH * dpr;
+                canvas.style.width  = cssW + 'px';
+                canvas.style.height = cssH + 'px';
+
+                const ctx = canvas.getContext('2d');
+                ctx.scale(dpr, dpr); // escalar todo por dpr
+                const W = cssW, H = cssH;
+                const scale = W / 400; // escala base
+
+                // — Fondo —
+                const bg = ctx.createRadialGradient(W*0.5, H*0.3, 0, W*0.5, H*0.6, Math.max(W,H));
+                bg.addColorStop(0,   '#0f0228');
+                bg.addColorStop(0.6, '#08011a');
+                bg.addColorStop(1,   '#030010');
+                ctx.fillStyle = bg;
+                ctx.fillRect(0, 0, W, H);
+
+                // — Vía Láctea sutil —
+                const ml = ctx.createLinearGradient(W*0.2, 0, W*0.8, H);
+                ml.addColorStop(0,   'rgba(160,120,240,0)');
+                ml.addColorStop(0.35,'rgba(160,120,240,0.04)');
+                ml.addColorStop(0.5, 'rgba(180,140,255,0.07)');
+                ml.addColorStop(0.65,'rgba(160,120,240,0.04)');
+                ml.addColorStop(1,   'rgba(160,120,240,0)');
+                ctx.fillStyle = ml;
+                ctx.fillRect(0, 0, W, H);
+
+                // — Estrellas de fondo pequeñas (seed fija) —
+                let seed = 137;
+                const rng = () => { seed = (seed * 1664525 + 1013904223) & 0xffffffff; return (seed >>> 0) / 0xffffffff; };
+                for (let i = 0; i < 320; i++) {
+                    const bx = rng() * W;
+                    const by = rng() * H;
+                    const br = rng() * 0.7 + 0.15;
+                    const bo = rng() * 0.55 + 0.15;
+                    ctx.beginPath();
+                    ctx.arc(bx, by, br, 0, Math.PI*2);
+                    ctx.fillStyle = `rgba(255,255,255,${bo.toFixed(2)})`;
+                    ctx.fill();
+                }
+
+                // — Líneas de constelaciones —
+                CONSTELLATIONS.forEach(con => {
+                    con.lines.forEach(([a, b]) => {
+                        const pa = toXY(STARS[a], W, H);
+                        const pb = toXY(STARS[b], W, H);
+                        ctx.beginPath();
+                        ctx.moveTo(pa.x, pa.y);
+                        ctx.lineTo(pb.x, pb.y);
+                        ctx.strokeStyle = 'rgba(180,130,255,0.22)';
+                        ctx.lineWidth = 0.7 * scale;
+                        ctx.stroke();
+                    });
+                });
+
+                // — Etiquetas de constelaciones —
+                ctx.textAlign = 'center';
+                CONSTELLATIONS.forEach(con => {
+                    const idxs = [...new Set(con.lines.flat())];
+                    const pts  = idxs.map(i => toXY(STARS[i], W, H));
+                    const lx   = pts.reduce((s,p) => s+p.x, 0) / pts.length;
+                    const ly   = pts.reduce((s,p) => s+p.y, 0) / pts.length - 10*scale;
+                    ctx.fillStyle = 'rgba(190,140,255,0.5)';
+                    ctx.font = `${Math.round(9*scale)}px sans-serif`;
+                    ctx.fillText(con.name, lx, ly);
+                });
+
+                // — Puntos cardinales —
+                const cards = [{l:'N',x:0.5,y:0.02},{l:'S',x:0.5,y:0.97},{l:'E',x:0.02,y:0.5},{l:'O',x:0.97,y:0.5}];
+                ctx.font = `bold ${Math.round(11*scale)}px sans-serif`;
+                cards.forEach(c => {
+                    ctx.fillStyle = 'rgba(200,155,255,0.5)';
+                    ctx.fillText(c.l, c.x*W, c.y*H);
+                });
+
+                // — Estrellas principales —
+                STARS.forEach(star => {
+                    const {x, y} = toXY(star, W, H);
+                    const r = starR(star.mag, scale);
+
+                    if (star.t === 'love') {
+                        // Halo exterior suave
+                        const halo = ctx.createRadialGradient(x, y, 0, x, y, r * 8);
+                        halo.addColorStop(0,   'rgba(244,176,255,0.35)');
+                        halo.addColorStop(0.5, 'rgba(200,100,255,0.12)');
+                        halo.addColorStop(1,   'rgba(200,100,255,0)');
+                        ctx.beginPath();
+                        ctx.arc(x, y, r*8, 0, Math.PI*2);
+                        ctx.fillStyle = halo;
+                        ctx.fill();
+                        // Destellos de 4 puntas delgadas
+                        ctx.save();
+                        ctx.translate(x, y);
+                        [0, 45, 90, 135].forEach(deg => {
+                            ctx.save();
+                            ctx.rotate(deg * Math.PI / 180);
+                            const grad = ctx.createLinearGradient(0, -r*6, 0, r*6);
+                            grad.addColorStop(0,   'rgba(244,176,255,0)');
+                            grad.addColorStop(0.5, 'rgba(244,176,255,0.8)');
+                            grad.addColorStop(1,   'rgba(244,176,255,0)');
+                            ctx.strokeStyle = grad;
+                            ctx.lineWidth = 0.8 * scale;
+                            ctx.beginPath();
+                            ctx.moveTo(0, -r*6);
+                            ctx.lineTo(0,  r*6);
+                            ctx.stroke();
+                            ctx.restore();
+                        });
+                        ctx.restore();
+                        // Núcleo
+                        const core = ctx.createRadialGradient(x, y, 0, x, y, r*1.5);
+                        core.addColorStop(0, 'rgba(255,255,255,1)');
+                        core.addColorStop(0.4,'rgba(244,176,255,0.9)');
+                        core.addColorStop(1, 'rgba(200,100,255,0)');
+                        ctx.beginPath();
+                        ctx.arc(x, y, r*1.5, 0, Math.PI*2);
+                        ctx.fillStyle = core;
+                        ctx.fill();
+                        // Etiqueta
+                        ctx.fillStyle = '#e8b4ff';
+                        ctx.font = `bold ${Math.round(12*scale)}px sans-serif`;
+                        ctx.textAlign = 'center';
+                        ctx.fillText('💜 Cleidis', x, y - r*7 - 2);
+
+                    } else if (star.t === 'planet') {
+                        // Halo pequeño amarillo
+                        const ph = ctx.createRadialGradient(x, y, 0, x, y, r*3);
+                        ph.addColorStop(0,   'rgba(255,220,80,0.5)');
+                        ph.addColorStop(0.6, 'rgba(255,200,50,0.15)');
+                        ph.addColorStop(1,   'rgba(255,200,50,0)');
+                        ctx.beginPath();
+                        ctx.arc(x, y, r*3, 0, Math.PI*2);
+                        ctx.fillStyle = ph;
+                        ctx.fill();
+                        // Disco del planeta
+                        ctx.beginPath();
+                        ctx.arc(x, y, r*1.1, 0, Math.PI*2);
+                        ctx.fillStyle = '#ffd84a';
+                        ctx.fill();
+
+                    } else {
+                        // Halo suave blanco-violeta
+                        const sh = ctx.createRadialGradient(x, y, 0, x, y, r*2.2);
+                        sh.addColorStop(0,   'rgba(255,255,255,0.9)');
+                        sh.addColorStop(0.5, 'rgba(220,200,255,0.25)');
+                        sh.addColorStop(1,   'rgba(220,200,255,0)');
+                        ctx.beginPath();
+                        ctx.arc(x, y, r*2.2, 0, Math.PI*2);
+                        ctx.fillStyle = sh;
+                        ctx.fill();
+                        // Núcleo
+                        ctx.beginPath();
+                        ctx.arc(x, y, r, 0, Math.PI*2);
+                        ctx.fillStyle = '#ffffff';
+                        ctx.fill();
+                    }
+                });
+            }
+
+            // — Tooltip interactivo —
+            let tooltipReady = false;
+            function setupTooltip() {
+                if (tooltipReady) return;
+                tooltipReady = true;
+                const canvas  = document.getElementById('starCanvas');
+                const tooltip = document.getElementById('star-tooltip');
+                if (!canvas || !tooltip) return;
+
+                function getPos(e) {
+                    const rect = canvas.getBoundingClientRect();
+                    const sx = canvas.width  / rect.width;
+                    const sy = canvas.height / rect.height;
+                    const cx = e.touches ? e.touches[0].clientX : e.clientX;
+                    const cy = e.touches ? e.touches[0].clientY : e.clientY;
+                    return { x: (cx - rect.left)*sx, y: (cy - rect.top)*sy };
+                }
+
+                function check(pos) {
+                    const W = canvas.width, H = canvas.height;
+                    const scale = W / 400;
+                    let best = null, bestD = 28 * scale;
+                    STARS.forEach(s => {
+                        const p = toXY(s, W, H);
+                        const d = Math.hypot(pos.x - p.x, pos.y - p.y);
+                        if (d < bestD) { bestD = d; best = { s, p }; }
+                    });
+                    if (best) {
+                        const rect = canvas.getBoundingClientRect();
+                        const tx = best.p.x * (rect.width  / W);
+                        const ty = best.p.y * (rect.height / H);
+                        const tl = best.s.t==='planet' ? '🪐 Planeta' : best.s.t==='love' ? '💜 Nuestra estrella' : '⭐ Estrella';
+                        const ml = best.s.t==='love'   ? 'La más brillante' : `Mag. ${best.s.mag.toFixed(1)}`;
+                        tooltip.innerHTML = `<strong>${best.s.n}</strong><br>${tl}<br><span style="opacity:.75;font-size:.72rem">${ml}</span>`;
+                        tooltip.style.display = 'block';
+                        tooltip.style.left = Math.min(tx+14, rect.width-165) + 'px';
+                        tooltip.style.top  = Math.max(ty-62, 4) + 'px';
+                    } else {
+                        tooltip.style.display = 'none';
+                    }
+                }
+
+                canvas.addEventListener('mousemove',  e => check(getPos(e)));
+                canvas.addEventListener('mouseleave', () => { tooltip.style.display='none'; });
+                canvas.addEventListener('touchstart', e => { e.preventDefault(); check(getPos(e)); }, { passive:false });
+                canvas.addEventListener('touchend',   () => setTimeout(() => { tooltip.style.display='none'; }, 2000));
+            }
+
+            let resizeHandled = false;
+            function initStarMap() {
+                window.drawSky();
+                setupTooltip();
+                if (!resizeHandled) {
+                    resizeHandled = true;
+                    // resize y orientationchange para Android al rotar pantalla
+                    const onResize = () => {
+                        if (document.getElementById('estrellas') &&
+                            document.getElementById('estrellas').style.display !== 'none') {
+                            setTimeout(window.drawSky, 80);
+                        }
+                    };
+                    window.addEventListener('resize', onResize);
+                    window.addEventListener('orientationchange', onResize);
+                }
+            }
+
+            function hookGo() {
+                if (typeof window.go === 'function') {
+                    const orig = window.go;
+                    window.go = function(id) {
+                        orig(id);
+                        if (id === 'estrellas') setTimeout(initStarMap, 150);
+                    };
+                } else {
+                    setTimeout(hookGo, 100);
+                }
+            }
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', hookGo);
+            } else {
+                setTimeout(hookGo, 200);
+            }
+        })();
+        </script>
 
     </div>
 
