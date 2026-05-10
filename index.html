@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Para Cleidis ❤️ Mi Amor Eterno</title>
+    <title>Para Cleidis ❤️ Mi Amor ARMY</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Great+Vibes&family=Playfair+Display:ital@1&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
@@ -14,19 +14,19 @@
     </script>
     <style>
         :root {
-            --primary: #e63946;
-            --secondary: #f77f88;
-            --bg: #fef5f7;
-            --text: #2a2a2a;
-            --accent: #d62828;
+            --primary: #8a3ab9;
+            --secondary: #f4b0ff;
+            --bg: #f9f0ff;
+            --text: #2f1d40;
+            --accent: #c08cff;
             --white: #ffffff;
-            --book-cover: #a4133c;
-            --paper: #fdf6e3;
-            --shadow: 0 8px 24px rgba(230, 57, 70, 0.12);
-            --shadow-lg: 0 16px 40px rgba(230, 57, 70, 0.15);
-            --gradient: linear-gradient(135deg, #e63946 0%, #f77f88 100%);
-            --light-gray: #f8f8f8;
-            --border-radius: 12px;
+            --book-cover: #7f3fbf;
+            --paper: #f6eefc;
+            --shadow: 0 10px 30px rgba(138, 58, 185, 0.12);
+            --shadow-lg: 0 18px 46px rgba(138, 58, 185, 0.18);
+            --gradient: linear-gradient(135deg, #8a3ab9 0%, #f4b0ff 100%);
+            --light-gray: #f5effe;
+            --border-radius: 16px;
             --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             --transition-slow: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -47,7 +47,7 @@
 
         body {
             font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(180deg, var(--bg) 0%, #fdebf0 100%);
+            background: radial-gradient(circle at top, var(--bg) 0%, #f7e8ff 40%, #fff0ff 100%);
             color: var(--text);
             overflow-x: hidden;
             min-height: 100vh;
@@ -64,7 +64,7 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: rgba(230, 57, 70, 0.05);
+            background: rgba(138, 58, 185, 0.08);
         }
 
         ::-webkit-scrollbar-thumb {
@@ -938,9 +938,45 @@
             font-family: 'Great Vibes', cursive;
             font-size: clamp(2.2rem, 8vw, 4.8rem);
             color: var(--primary);
-            text-shadow: 3px 3px 12px rgba(230, 57, 70, 0.1);
-            margin-bottom: 30px;
+            text-shadow: 3px 3px 18px rgba(138, 58, 185, 0.14);
+            margin-bottom: 20px;
             animation: fadeInDown 0.8s ease-out;
+        }
+
+        #hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.35) 0px, transparent 100px),
+                              radial-gradient(circle at 80% 10%, rgba(196,140,255,0.25) 0px, transparent 130px),
+                              radial-gradient(circle at 50% 70%, rgba(255,241,255,0.22) 0px, transparent 180px);
+            pointer-events: none;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            color: #5f3d8c;
+            font-weight: 600;
+            margin: 0 auto 20px;
+            max-width: 360px;
+            letter-spacing: 0.6px;
+            opacity: 0.9;
+        }
+
+        .kpop-banner {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 18px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.65);
+            border: 1px solid rgba(138, 58, 185, 0.15);
+            color: #4a2f6f;
+            font-weight: 700;
+            box-shadow: 0 10px 30px rgba(138, 58, 185, 0.08);
+            margin: 0 auto 18px;
+            max-width: 320px;
         }
 
         @keyframes fadeInDown {
@@ -1607,14 +1643,15 @@
 
     <!-- PANTALLA DE INICIO -->
     <div id="hero">
-        <h1 class="hero-title">Para mi hermosa Cleidis</h1>
+        <h1 class="hero-title">Para mi amor, mi ARMY favorita</h1>
+        <p class="hero-subtitle">Una página con estilo K-pop, Kuromi cute y la energía de BTS para ti.</p>
         <div class="envelope-container" onclick="unlockWeb()">
             <div class="envelope">
-                <div class="heart-icon">❤️</div>
+                <div class="heart-icon">💜</div>
             </div>
-            <p class="tap-hint">Toca para abrir mi corazón</p>
+            <p class="tap-hint">Toca para entrar al universo BTS</p>
         </div>
-        <p style="font-weight: 600; opacity: 0.7;" onclick="askAdmin()">Hecho con amor infinito</p>
+        <p style="font-weight: 600; opacity: 0.75;" onclick="askAdmin()">Listo para brillar como un MV de Corea</p>
     </div>
 
     <!-- PANEL ADMIN SECRETO -->
@@ -1634,9 +1671,10 @@
         <section id="inicio" class="section">
             <div class="card">
                 <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary); margin-bottom: 10px;">Hola, amor 💕</h2>
-                <p style="font-style: italic; opacity: 0.8; margin-bottom: 25px;">"Desde el 10 de Febrero mi vida cambió para siempre"</p>
+                <p style="font-style: italic; opacity: 0.8; margin-bottom: 25px;">"Desde que bailamos BTS juntas, mi mundo empezó a brillar"</p>
                 
-                <div style="font-size: 2.5rem; margin: 15px 0;">✨ 🌹 ✨</div>
+                <div style="font-size: 2.5rem; margin: 15px 0;">✨ 💜 BTS vibes 💜 ✨</div>
+                <div class="kpop-banner">ARMY + Kuromi style para Cleidis</div>
                 
                 <p style="font-weight: 600; margin-top: 20px; margin-bottom: 12px;">Llevamos juntos:</p>
                 
