@@ -156,8 +156,10 @@
             box-shadow: var(--shadow);
             justify-content: flex-start;
             gap: 10px;
-            overflow-x: auto;
-            white-space: nowrap;
+            flex-direction: column;
+            align-items: stretch;
+            max-height: calc(100vh - 90px);
+            overflow-y: auto;
             -webkit-overflow-scrolling: touch;
             border-radius: 0 0 16px 16px;
             pointer-events: auto;
@@ -176,76 +178,40 @@
         .nav-btn {
             background: none;
             border: none;
-            padding: 10px 16px;
-            font-size: 0.75rem;
+            padding: 14px 16px;
+            font-size: 0.95rem;
             font-weight: 600;
-            border-radius: 25px;
+            border-radius: 16px;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             pointer-events: auto;
             color: var(--text);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-        }
-
-        .nav-btn.active {
-            background: var(--gradient);
-            color: white;
-            box-shadow: var(--shadow);
-            transform: scale(1.05);
-        }
-
-        .nav-btn:hover:not(.active) {
-            background: rgba(230, 57, 70, 0.08);
-            color: var(--primary);
-        }
-
-        /* Elimina la regla de mostrar siempre en desktop para no saturar */
-        @media (min-width: 768px) {
-            .main-hamburger {
-                display: block;
-            }
-            .navbar {
-                display: none !important;
-            }
-        }
-
-
-        .navbar.open {
-            display: flex;
-        }
-
-        .nav-btn {
-            background: none;
-            border: none;
-            padding: 8px 12px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: 0.25s;
-            pointer-events: auto;
+            width: 100%;
+            text-align: left;
         }
 
         .nav-btn.active {
             background: var(--primary);
             color: white;
+            box-shadow: var(--shadow);
+        }
+
+        .nav-btn:hover:not(.active) {
+            background: rgba(138, 58, 185, 0.12);
+            color: var(--primary);
         }
 
         @media (min-width: 768px) {
             .main-hamburger {
-                display: none;
+                display: block;
             }
+
             .navbar {
-                display: flex !important;
-                position: fixed;
-                top: 10px;
-                left: 10px;
-                right: 10px;
-                background: rgba(255,255,255,0.95);
+                display: none !important;
             }
         }
-
 
         .navbar::-webkit-scrollbar { display: none; }
 
@@ -996,22 +962,6 @@
             max-width: 320px;
         }
 
-        .theme-toggle-btn {
-            background: rgba(255, 255, 255, 0.95);
-            color: var(--text);
-            border: 2px solid rgba(138, 58, 185, 0.18);
-            padding: 12px 20px;
-            border-radius: 999px;
-            font-weight: 700;
-            margin-top: 10px;
-            transition: background 0.3s ease, transform 0.3s ease;
-        }
-
-        .theme-toggle-btn:hover {
-            background: var(--white);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-        }
 
         @keyframes fadeInDown {
             from { opacity: 0; transform: translateY(-20px); }
@@ -1680,7 +1630,6 @@
         <h1 class="hero-title">Para mi amor, mi razón de sonreír</h1>
         <p class="hero-subtitle">Una página con estilo suave, moderno y llena de detalles bonitos.</p>
         <div class="hero-note">Bienvenida a tu espacio personal: dulce, brillante y lleno de amor 💜</div>
-        <button id="theme-btn" class="btn theme-toggle-btn" onclick="toggleTheme()">✨ Cambiar estilo</button>
         <div class="envelope-container" onclick="unlockWeb()">
             <div class="envelope">
                 <div class="heart-icon">💜</div>
@@ -2419,48 +2368,6 @@
         // CONFIGURACIÓN INICIAL
         const startDate = new Date(2026, 1, 10); // Meses en JS: 0=Ene, 1=Feb
         let currentSection = 'inicio';
-        let selectedTheme = localStorage.getItem('pageTheme') || 'pastel';
-
-        const themes = {
-            pastel: {
-                '--primary': '#8a3ab9',
-                '--secondary': '#f4b0ff',
-                '--bg': '#f9f0ff',
-                '--text': '#2f1d40',
-                '--accent': '#c08cff',
-                '--book-cover': '#7f3fbf',
-                '--paper': '#f6eefc'
-            },
-            glow: {
-                '--primary': '#6c3c9d',
-                '--secondary': '#d5b0ff',
-                '--bg': '#f2ecff',
-                '--text': '#2d1b43',
-                '--accent': '#ff9df4',
-                '--book-cover': '#7a4ab2',
-                '--paper': '#f6ebff'
-            }
-        };
-
-        function applyTheme(themeName) {
-            const theme = themes[themeName] || themes.pastel;
-            selectedTheme = themeName;
-            Object.entries(theme).forEach(([key, value]) => document.documentElement.style.setProperty(key, value));
-            localStorage.setItem('pageTheme', selectedTheme);
-            const btn = document.getElementById('theme-btn');
-            if (btn) {
-                btn.innerText = selectedTheme === 'pastel' ? '✨ Cambiar a estilo glow' : '✨ Cambiar a estilo pastel';
-            }
-        }
-
-        function toggleTheme() {
-            applyTheme(selectedTheme === 'pastel' ? 'glow' : 'pastel');
-            spawnBatch(20);
-        }
-
-        function loadTheme() {
-            applyTheme(selectedTheme);
-        }
 
         // DESBLOQUEAR WEB
         function unlockWeb() {
@@ -2946,7 +2853,6 @@
         }
 
         makeMiniPlayerDraggable();
-        loadTheme();
 
         function saveMusicPlayCount(songId) {
             if (!window.db || !window.dbRef || !window.dbSet || !window.dbGet) return;
