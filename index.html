@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Para Cleidis ❤️ Mi Amor ARMY</title>
+    <title>Para Cleidis ❤️ Mi Amor</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Great+Vibes&family=Playfair+Display:ital@1&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
@@ -980,7 +980,7 @@
             font-size: 0.95rem;
         }
 
-        .kpop-banner {
+        .style-banner {
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -994,6 +994,23 @@
             box-shadow: 0 10px 30px rgba(138, 58, 185, 0.08);
             margin: 0 auto 18px;
             max-width: 320px;
+        }
+
+        .theme-toggle-btn {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--text);
+            border: 2px solid rgba(138, 58, 185, 0.18);
+            padding: 12px 20px;
+            border-radius: 999px;
+            font-weight: 700;
+            margin-top: 10px;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .theme-toggle-btn:hover {
+            background: var(--white);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
         }
 
         @keyframes fadeInDown {
@@ -1660,16 +1677,17 @@
 
     <!-- PANTALLA DE INICIO -->
     <div id="hero">
-        <h1 class="hero-title">Para mi amor, mi ARMY favorita</h1>
-        <p class="hero-subtitle">Una página con estilo K-pop, Kuromi cute y la energía de BTS para ti.</p>
-        <div class="hero-note">Bienvenida a tu fanpage personal: BTS, Corea y mucho amor 💜</div>
+        <h1 class="hero-title">Para mi amor, mi razón de sonreír</h1>
+        <p class="hero-subtitle">Una página con estilo suave, moderno y llena de detalles bonitos.</p>
+        <div class="hero-note">Bienvenida a tu espacio personal: dulce, brillante y lleno de amor 💜</div>
+        <button id="theme-btn" class="btn theme-toggle-btn" onclick="toggleTheme()">✨ Cambiar estilo</button>
         <div class="envelope-container" onclick="unlockWeb()">
             <div class="envelope">
                 <div class="heart-icon">💜</div>
             </div>
-            <p class="tap-hint">Toca para entrar al universo BTS</p>
+            <p class="tap-hint">Toca para abrir mi corazón</p>
         </div>
-        <p style="font-weight: 600; opacity: 0.75;" onclick="askAdmin()">Listo para brillar como un MV de Corea</p>
+        <p style="font-weight: 600; opacity: 0.75;" onclick="askAdmin()">Un detalle pensado para ti, con todo mi cariño.</p>
     </div>
 
     <!-- PANEL ADMIN SECRETO -->
@@ -1688,11 +1706,11 @@
         <!-- SECCIÓN: INICIO -->
         <section id="inicio" class="section">
             <div class="card">
-                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary); margin-bottom: 10px;">Hola, mi ARMY Cleidis 💕</h2>
-                <p style="font-style: italic; opacity: 0.8; margin-bottom: 25px;">"Desde el 10 de Febrero, cada día se siente como una canción de BTS"</p>
+                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary); margin-bottom: 10px;">Hola, amor mío 💕</h2>
+                <p style="font-style: italic; opacity: 0.8; margin-bottom: 25px;">"Desde el 10 de Febrero, cada día se siente más especial contigo"</p>
                 
-                <div style="font-size: 2.5rem; margin: 15px 0;">✨ 💜 BTS vibes 💜 ✨</div>
-                <div class="kpop-banner">ARMY + Kuromi style para Cleidis</div>
+                <div style="font-size: 2.5rem; margin: 15px 0;">✨ Paleta suave y luminosa ✨</div>
+                <div class="style-banner">Tonos pastel violeta y rosa para darte alegría 💜</div>
                 
                 <p style="font-weight: 600; margin-top: 20px; margin-bottom: 12px;">Llevamos juntos:</p>
                 
@@ -2401,6 +2419,48 @@
         // CONFIGURACIÓN INICIAL
         const startDate = new Date(2026, 1, 10); // Meses en JS: 0=Ene, 1=Feb
         let currentSection = 'inicio';
+        let selectedTheme = localStorage.getItem('pageTheme') || 'pastel';
+
+        const themes = {
+            pastel: {
+                '--primary': '#8a3ab9',
+                '--secondary': '#f4b0ff',
+                '--bg': '#f9f0ff',
+                '--text': '#2f1d40',
+                '--accent': '#c08cff',
+                '--book-cover': '#7f3fbf',
+                '--paper': '#f6eefc'
+            },
+            glow: {
+                '--primary': '#6c3c9d',
+                '--secondary': '#d5b0ff',
+                '--bg': '#f2ecff',
+                '--text': '#2d1b43',
+                '--accent': '#ff9df4',
+                '--book-cover': '#7a4ab2',
+                '--paper': '#f6ebff'
+            }
+        };
+
+        function applyTheme(themeName) {
+            const theme = themes[themeName] || themes.pastel;
+            selectedTheme = themeName;
+            Object.entries(theme).forEach(([key, value]) => document.documentElement.style.setProperty(key, value));
+            localStorage.setItem('pageTheme', selectedTheme);
+            const btn = document.getElementById('theme-btn');
+            if (btn) {
+                btn.innerText = selectedTheme === 'pastel' ? '✨ Cambiar a estilo glow' : '✨ Cambiar a estilo pastel';
+            }
+        }
+
+        function toggleTheme() {
+            applyTheme(selectedTheme === 'pastel' ? 'glow' : 'pastel');
+            spawnBatch(20);
+        }
+
+        function loadTheme() {
+            applyTheme(selectedTheme);
+        }
 
         // DESBLOQUEAR WEB
         function unlockWeb() {
@@ -2886,6 +2946,7 @@
         }
 
         makeMiniPlayerDraggable();
+        loadTheme();
 
         function saveMusicPlayCount(songId) {
             if (!window.db || !window.dbRef || !window.dbSet || !window.dbGet) return;
