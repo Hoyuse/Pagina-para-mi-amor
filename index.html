@@ -225,8 +225,16 @@
             }
 
             .navbar {
-                display: none !important;
+                display: none;
             }
+
+            .navbar.open {
+                display: flex !important;
+            }
+        }
+
+        .main-hamburger.active {
+            transform: rotate(90deg) scale(1.08);
         }
 
         .navbar::-webkit-scrollbar { display: none; }
