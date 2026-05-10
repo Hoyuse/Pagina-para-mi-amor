@@ -2400,13 +2400,11 @@
             document.getElementById(id).style.display = 'block';
             document.getElementById('btn-' + id).classList.add('active');
             
-            // Cerrar menú hamburguesa automáticamente
+            // Cerrar menú hamburguesa automáticamente sin verificar
             const nav = document.getElementById('navbar');
             const hamb = document.getElementById('main-hamburger');
-            if (nav.classList.contains('open')) {
-                nav.classList.remove('open');
-                hamb.classList.remove('active');
-            }
+            nav.classList.remove('open');
+            hamb.classList.remove('active');
             
             window.scrollTo({top: 0, behavior: 'smooth'});
             spawnBatch(10);
