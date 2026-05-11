@@ -2286,9 +2286,24 @@
                 <div class="collapsible-section">
                     <button class="collapsible-btn" onclick="toggleCollapsible(this)">+ Ver Recuerdos 📚</button>
                     <div class="collapsible-content">
-                        <div id="memories-timeline" style="position: relative; max-width: 100%; margin: 12px auto; padding-left: 30px;">
+                        <div id="memories-timeline" style="
+                            position: relative;
+                            max-width: 100%;
+                            margin: 12px auto;
+                            padding-left: 30px;
+                            max-height: 420px;
+                            overflow-y: auto;
+                            overflow-x: hidden;
+                            -webkit-overflow-scrolling: touch;
+                            scroll-behavior: smooth;
+                            padding-right: 6px;
+                        ">
                             <div style="position: absolute; left: 0; top: 0; width: 2px; height: 100%; background: linear-gradient(to bottom, var(--primary), var(--secondary)); opacity: 0.3;"></div>
                             <!-- Los recuerdos se cargarán aquí dinámicamente -->
+                        </div>
+                        <!-- Indicador de scroll -->
+                        <div id="memories-scroll-hint" style="display:none; text-align:center; font-size:0.78rem; color:var(--primary); opacity:0.7; margin-top:6px; animation: bounce 1.5s infinite;">
+                            ↕ Desliza para ver más recuerdos
                         </div>
                         <div id="no-memories" style="text-align: center; padding: 30px 15px; color: #888; font-style: italic; font-size: 0.9rem;">
                             Aún no hay recuerdos guardados. ¡Agrega el primero! 💭
@@ -4080,8 +4095,10 @@
                 
                 if (snapshot.exists()) {
                     const memories = Object.values(snapshot.val()).sort((a, b) => b.timestamp - a.timestamp);
-                    
-                    timelineDiv.innerHTML = memories.map(memory => `
+
+                    timelineDiv.innerHTML = `
+                        <div style="position:absolute;left:0;top:0;width:2px;height:100%;background:linear-gradient(to bottom,var(--primary),var(--secondary));opacity:0.3;"></div>
+                    ` + memories.map(memory => `
                         <div class="timeline-item">
                             <div class="timeline-content">
                                 <div class="timeline-date">${formatDate(memory.fecha)}</div>
@@ -4091,8 +4108,21 @@
                             </div>
                         </div>
                     `).join('');
-                    
+
                     noMemoriesDiv.style.display = 'none';
+
+                    // Mostrar hint de scroll si el contenido supera el área visible
+                    setTimeout(() => {
+                        const hint = document.getElementById('memories-scroll-hint');
+                        if (hint && timelineDiv.scrollHeight > timelineDiv.clientHeight) {
+                            hint.style.display = 'block';
+                            // Ocultarlo al primer scroll
+                            timelineDiv.addEventListener('scroll', function hideHint() {
+                                hint.style.display = 'none';
+                                timelineDiv.removeEventListener('scroll', hideHint);
+                            }, { once: true });
+                        }
+                    }, 200);
                 } else {
                     timelineDiv.innerHTML = '';
                     noMemoriesDiv.style.display = 'block';
