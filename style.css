@@ -17,6 +17,37 @@
             --transition-slow: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
+[data-theme="dark"] {
+    --primary: #c08cff;
+    --secondary: #8a3ab9;
+    --bg: #120a1f;
+    --text: #f0e6ff;
+    --accent: #d4a5ff;
+    --white: #1e1333;
+    --book-cover: #4a2072;
+    --paper: #281940;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 18px 46px rgba(0, 0, 0, 0.6);
+    --light-gray: #201332;
+}
+
+[data-theme="dark"] body {
+    background: radial-gradient(circle at top, var(--bg) 0%, #160c26 40%, #0a0412 100%);
+}
+
+.theme-toggle-btn {
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+.theme-toggle-btn:hover {
+    transform: scale(1.1);
+}
+
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -1783,3 +1814,62 @@
             color: var(--primary);
             transform: translateX(5px);
         }
+
+/* --- REPRODUCTOR FLOTANTE EXPANDIBLE --- */
+.mini-player {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 320px;
+    background: var(--primary);
+    color: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    z-index: 5000;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    transition: width 0.3s, height 0.3s;
+}
+
+.mini-player.collapsed {
+    width: 260px;
+    height: 48px;
+}
+
+.mini-player:not(.collapsed) {
+    width: 340px;
+    height: 248px; /* 48 header + 200 body */
+}
+
+.player-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+    height: 48px;
+    cursor: grab;
+    background: linear-gradient(90deg, #8a3ab9, #6a2599);
+}
+
+.player-header:active {
+    cursor: grabbing;
+}
+
+.player-body {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.3s;
+}
+
+.mini-player:not(.collapsed) .player-body {
+    height: 200px;
+}
+
+@media (max-width: 600px) {
+    .mini-player:not(.collapsed) {
+        width: calc(100% - 40px);
+        left: 20px;
+        right: 20px;
+    }
+}

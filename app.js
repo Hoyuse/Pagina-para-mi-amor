@@ -1257,6 +1257,7 @@
                 hero.style.display = 'none';
                 document.querySelector('.main-nav-wrap').classList.add('visible');
                 go('inicio');
+                initTheme();
                 startCounter();
                 initFloating();
                 setDailyMessage();
@@ -1275,6 +1276,31 @@
         }
 
         // NAVEGACIÓN
+
+        // TEMA OSCURO / CLARO
+        function toggleTheme() {
+            const body = document.documentElement;
+            const btn = document.getElementById('theme-toggle');
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                btn.innerText = '🌙';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                btn.innerText = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                const btn = document.getElementById('theme-toggle');
+                if (btn) btn.innerText = '☀️';
+            }
+        }
+
         function go(id) {
             document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -1678,19 +1704,37 @@
             playerIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0`;
 
             // Mostrar el mini reproductor
-            miniPlayer.style.display = 'block';
+            miniPlayer.style.display = 'flex';
+            miniPlayer.classList.remove('collapsed');
+            document.getElementById('btn-expand-player').innerText = '▼';
             spawnBatch(15);
 
             // Guardar reproducciones en Firebase
             saveMusicPlayCount(num);
         }
 
-        function closeMiniPlayer() {
+        function toggleExpandPlayer(e) {
+            if(e) { e.stopPropagation(); e.preventDefault(); }
+            const player = document.getElementById('mini-player');
+            const btn = document.getElementById('btn-expand-player');
+            if (player.classList.contains('collapsed')) {
+                player.classList.remove('collapsed');
+                btn.innerText = '▼';
+            } else {
+                player.classList.add('collapsed');
+                btn.innerText = '▲';
+            }
+        }
+
+        function closeMiniPlayer(e) {
+            if(e) { e.stopPropagation(); e.preventDefault(); }
             const miniPlayer = document.getElementById('mini-player');
             const playerIframe = document.getElementById('player-iframe');
-
             miniPlayer.style.display = 'none';
             playerIframe.src = '';
+            // Reset to collapsed
+            miniPlayer.classList.add('collapsed');
+            document.getElementById('btn-expand-player').innerText = '▲';
         }
 
         // Mini reproductor arrastrable
