@@ -561,7 +561,6 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
-        }
 
         /* --- JUEGO MEMORIA --- */
         .memory-game {
@@ -607,7 +606,6 @@
             background: var(--white);
             transform: rotateY(180deg);
             box-shadow: inset 0 0 10px rgba(230, 57, 70, 0.1);
-        }
         }
 
         .memory-back img {
@@ -661,7 +659,7 @@
         /* --- BOTONES DE ABRAZOS --- */
         .hug-btn {
             background: linear-gradient(135deg, #ffb3c1, #ff85a1);
-            border: 2px sold var(--primary);
+            border: 2px solid var(--primary);
             border-radius: 16px;
             padding: 13px 10px;
             font-size: 0.8rem;
@@ -1248,49 +1246,244 @@
             color: #8b4513;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
+
+        /* --- GALERÍA POLAROID MEJORADA & FILTROS --- */
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 15px 0 25px;
         }
 
-        /* --- GALERÍA POLAROID --- */
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--text);
+            border: 2px solid rgba(138, 58, 185, 0.2);
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--gradient);
+            color: white;
+            border-color: transparent;
+            box-shadow: var(--shadow);
+            transform: translateY(-2px);
+        }
+
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 28px;
-            margin-top: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 22px;
+            margin-top: 15px;
         }
 
         .polaroid {
-            background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
-            padding: 16px 16px 55px 16px;
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-            transform: rotate(-2deg) translateZ(0);
-            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: linear-gradient(135deg, #ffffff 0%, #faf5ff 100%);
+            padding: 14px 14px 44px 14px;
+            box-shadow: 0 10px 30px rgba(138, 58, 185, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            border-radius: 14px;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             cursor: pointer;
             position: relative;
-            border: 1px solid rgba(0, 0, 0, 0.03);
-        }
-
-        .polaroid:nth-child(even) {
-            transform: rotate(2deg) translateZ(0);
+            border: 1px solid rgba(138, 58, 185, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .polaroid:hover {
-            transform: scale(1.08) rotate(0deg) translateY(-8px);
-            box-shadow: 0 20px 50px rgba(230, 57, 70, 0.2);
-            z-index: 10;
+            transform: scale(1.04) translateY(-6px);
+            box-shadow: 0 18px 45px rgba(138, 58, 185, 0.22);
+            z-index: 5;
         }
 
-        .polaroid img {
+        .polaroid img, .polaroid video {
             width: 100%;
-            height: 300px;
+            height: 240px;
             object-fit: cover;
-            border: 1px solid #eee;
+            border-radius: 10px;
+            display: block;
+            background: #f0e6ff;
+        }
+
+        .polaroid-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(30, 8, 60, 0.78);
+            color: #f4b0ff;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            backdrop-filter: blur(6px);
+            letter-spacing: 0.3px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            z-index: 2;
+        }
+
+        .video-indicator {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 52px;
+            height: 52px;
+            background: rgba(138, 58, 185, 0.88);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+            box-shadow: 0 0 25px rgba(244, 176, 255, 0.7);
+            pointer-events: none;
+            transition: transform 0.3s;
+            z-index: 2;
+        }
+
+        .polaroid:hover .video-indicator {
+            transform: translate(-50%, -50%) scale(1.15);
         }
 
         .caption {
             font-family: 'Dancing Script', cursive;
-            font-size: 1.5rem;
-            margin-top: 15px;
+            font-size: 1.4rem;
+            margin-top: 14px;
             color: var(--primary);
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        /* --- LIGHTBOX MODAL --- */
+        #lightbox-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 2, 24, 0.95);
+            backdrop-filter: blur(16px);
+            z-index: 4000;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.25s ease-out;
+            touch-action: pan-y;
+        }
+
+        #lightbox-modal.active {
+            display: flex;
+        }
+
+        .lightbox-content-wrap {
+            position: relative;
+            max-width: 92vw;
+            max-height: 82vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-media {
+            max-width: 100%;
+            max-height: 68vh;
+            object-fit: contain;
+            border-radius: 14px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(244, 176, 255, 0.2);
+        }
+
+        .lightbox-caption {
+            margin-top: 14px;
+            color: #f4b0ff;
+            font-size: 1.3rem;
+            font-family: 'Dancing Script', cursive;
+            text-align: center;
+        }
+
+        .lightbox-counter {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.82rem;
+            margin-top: 4px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .lightbox-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(45, 10, 94, 0.75);
+            color: #f4b0ff;
+            border: 1px solid rgba(244, 176, 255, 0.3);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            backdrop-filter: blur(8px);
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            z-index: 4005;
+        }
+
+        .lightbox-nav-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .lightbox-prev { left: 20px; }
+        .lightbox-next { right: 20px; }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(45, 10, 94, 0.75);
+            color: #fff;
+            border: 1px solid rgba(244, 176, 255, 0.3);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            backdrop-filter: blur(8px);
+            z-index: 4010;
+        }
+
+        .lightbox-close:hover {
+            background: #e53935;
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 600px) {
+            .lightbox-nav-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.3rem;
+            }
+            .lightbox-prev { left: 8px; }
+            .lightbox-next { right: 8px; }
+            .lightbox-close { top: 12px; right: 12px; }
         }
 
         /* --- PROMESAS REVELABLES --- */
@@ -1387,8 +1580,6 @@
 
         .btn:active {
             transform: translateY(-1px);
-        }
-            transform: translateY(-2px);
         }
 
         /* --- ELEMENTOS FLOTANTES --- */
@@ -1828,32 +2019,26 @@
         <!-- SECCIÓN: GALERÍA -->
         <section id="galeria" class="section">
             <div class="card">
-                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary);">Nuestros Recuerdos</h2>
-                <div class="gallery">
-                    <div class="polaroid">
-                        <img src="foto1.jpeg" alt="Nosotros">
-                        <p class="caption">Tu sonrisa me da vida ❤️</p>
-                    </div>
-                    <div class="polaroid">
-                        <img src="foto2.jpeg" alt="Nosotros">
-                        <p class="caption">Mi lugar favorito es a tu lado ✨</p>
-                    </div>
-                    <div class="polaroid">
-                        <img src="foto3.jpeg" alt="Nosotros">
-                        <p class="caption">Eres mi mundo entero 🌎</p>
-                    </div>
-                    <div class="polaroid">
-                        <img src="foto4.jpeg" alt="Nosotros">
-                        <p class="caption">Juntos por siempre 🌹</p>
-                    </div>
-                    <div class="polaroid">
-                        <img src="foto5.jpeg" alt="Nosotros">
-                        <p class="caption">Haciendo muecas juntos 😜</p>
-                    </div>
-                    <div class="polaroid">
-                        <img src="foto6.jpeg" alt="Nosotros">
-                        <p class="caption">Eres mi persona favorita ✨</p>
-                    </div>
+                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary);">Nuestros Recuerdos 💕</h2>
+                <p style="font-style: italic; opacity: 0.8; margin-bottom: 12px;">Cada foto y video guarda un pedacito de nuestra historia de amor</p>
+                
+                <!-- Filtros del Álbum -->
+                <div class="gallery-filters">
+                    <button class="filter-btn active" id="filter-all" onclick="filterGallery('all', this)">✨ Todos (111)</button>
+                    <button class="filter-btn" id="filter-image" onclick="filterGallery('image', this)">📸 Fotos (103)</button>
+                    <button class="filter-btn" id="filter-video" onclick="filterGallery('video', this)">🎥 Videos (8)</button>
+                </div>
+
+                <!-- Grid de Fotos y Videos -->
+                <div class="gallery" id="album-grid">
+                    <!-- Se renderiza dinámicamente con JavaScript -->
+                </div>
+
+                <!-- Botón Cargar Más -->
+                <div style="text-align: center; margin-top: 28px;">
+                    <button id="btn-load-more" class="btn" onclick="loadMoreMedia()" style="padding: 13px 28px; font-size: 0.9rem;">
+                        Ver más recuerdos (+18) 💜
+                    </button>
                 </div>
             </div>
         </section>
@@ -2838,6 +3023,19 @@
         </div>
     </section>
 
+    <!-- MODAL LIGHTBOX PARA FOTOS Y VIDEOS EN PANTALLA COMPLETA -->
+    <div id="lightbox-modal" onclick="onLightboxBgClick(event)">
+        <button class="lightbox-close" onclick="closeLightbox()" title="Cerrar (Esc)">✕</button>
+        <button class="lightbox-nav-btn lightbox-prev" onclick="lightboxPrev()" title="Anterior (←)">‹</button>
+        <button class="lightbox-nav-btn lightbox-next" onclick="lightboxNext()" title="Siguiente (→)">›</button>
+        
+        <div class="lightbox-content-wrap" id="lightbox-content-wrap">
+            <div id="lightbox-media-container"></div>
+            <div class="lightbox-caption" id="lightbox-caption"></div>
+            <div class="lightbox-counter" id="lightbox-counter"></div>
+        </div>
+    </div>
+
     <!-- MINI REPRODUCTOR FLOTANTE -->
     <div id="mini-player">
         <div class="player-header">
@@ -2855,7 +3053,7 @@
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-analytics.js";
-        import { getDatabase, ref, push, onValue, set, update, get } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
+        import { getDatabase, ref, push, onValue, set, update, get, remove } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
 
         // Your web app's Firebase configuration
         const firebaseConfig = {
@@ -2881,12 +3079,833 @@
         window.dbSet = set;
         window.dbUpdate = update;
         window.dbGet = get;
+        window.dbOnValue = onValue;
+        window.dbRemove = remove;
     </script>
 
     <script>
         // CONFIGURACIÓN INICIAL
         const startDate = new Date(2026, 1, 10); // Meses en JS: 0=Ene, 1=Feb
         let currentSection = 'inicio';
+        // ══════════════════════════════════════════════════
+        // COLECCIÓN COMPLETA DE RECUERDOS (111 FOTOS Y VIDEOS)
+        // ══════════════════════════════════════════════════
+        const albumMedia = [
+    {
+        "src": "El amor de mi vida/IMG_20260210_155213477.jpg",
+        "type": "image",
+        "date": "10 Feb 2026",
+        "caption": "Tu sonrisa ilumina mi vida ❤️"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260219_142510485_HDR.jpg",
+        "type": "image",
+        "date": "19 Feb 2026",
+        "caption": "Cada momento a tu lado es mágico ✨"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260219_142512986.jpg",
+        "type": "image",
+        "date": "19 Feb 2026",
+        "caption": "Mi lugar favorito es contigo 💑"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260219_142519947.jpg",
+        "type": "image",
+        "date": "19 Feb 2026",
+        "caption": "Eres mi felicidad entera 🌹"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260219_142521815.jpg",
+        "type": "image",
+        "date": "19 Feb 2026",
+        "caption": "Juntos en cada aventura 🌎"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260219_142524445.jpg",
+        "type": "image",
+        "date": "19 Feb 2026",
+        "caption": "Amor eterno y verdadero 💜"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260219_142534721.jpg",
+        "type": "image",
+        "date": "19 Feb 2026",
+        "caption": "Nuestra complicidad única 🥰"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260219_142536624.jpg",
+        "type": "image",
+        "date": "19 Feb 2026",
+        "caption": "Haciendo recuerdos inolvidables 📸"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260219_142545367.jpg",
+        "type": "image",
+        "date": "19 Feb 2026",
+        "caption": "Tu mirada que me enamora 💖"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260219_142559115.jpg",
+        "type": "image",
+        "date": "19 Feb 2026",
+        "caption": "Risas que llenan el corazón 😄"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260219_142606381.jpg",
+        "type": "image",
+        "date": "19 Feb 2026",
+        "caption": "Siempre de tu mano 🤝"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260219_142610619.jpg",
+        "type": "image",
+        "date": "19 Feb 2026",
+        "caption": "Mi princesa hermosa 👑"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260219_142613571.jpg",
+        "type": "image",
+        "date": "19 Feb 2026",
+        "caption": "El amor más bonito del mundo 💕"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260219_142615361.jpg",
+        "type": "image",
+        "date": "19 Feb 2026",
+        "caption": "Gracias por existir, mi vida 🌟"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260219_142622626_HDR.jpg",
+        "type": "image",
+        "date": "19 Feb 2026",
+        "caption": "Contigo todo es perfecto 🌷"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260219_142627922_HDR.jpg",
+        "type": "image",
+        "date": "19 Feb 2026",
+        "caption": "Un día inolvidable juntos ☀️"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260219_143437693_HDR.jpg",
+        "type": "image",
+        "date": "19 Feb 2026",
+        "caption": "Amándote cada día más 💘"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260308_162651873.jpg",
+        "type": "image",
+        "date": "8 Mar 2026",
+        "caption": "Nuestra historia favorita 📖"
+    },
+    {
+        "src": "El amor de mi vida/VID_20260310_153946255.mp4",
+        "type": "video",
+        "date": "10 Mar 2026",
+        "caption": "Eres mi sol en días nublados ☀️"
+    },
+    {
+        "src": "El amor de mi vida/VID_20260310_154133628.mp4",
+        "type": "video",
+        "date": "10 Mar 2026",
+        "caption": "Tú y yo por siempre 💫"
+    },
+    {
+        "src": "El amor de mi vida/VID_20260310_154204295.mp4",
+        "type": "video",
+        "date": "10 Mar 2026",
+        "caption": "Tu sonrisa ilumina mi vida ❤️"
+    },
+    {
+        "src": "El amor de mi vida/VID_20260310_154234627.mp4",
+        "type": "video",
+        "date": "10 Mar 2026",
+        "caption": "Cada momento a tu lado es mágico ✨"
+    },
+    {
+        "src": "El amor de mi vida/VID_20260310_154438853.mp4",
+        "type": "video",
+        "date": "10 Mar 2026",
+        "caption": "Mi lugar favorito es contigo 💑"
+    },
+    {
+        "src": "El amor de mi vida/VID_20260310_154601073.mp4",
+        "type": "video",
+        "date": "10 Mar 2026",
+        "caption": "Eres mi felicidad entera 🌹"
+    },
+    {
+        "src": "El amor de mi vida/VID_20260310_154638510.mp4",
+        "type": "video",
+        "date": "10 Mar 2026",
+        "caption": "Juntos en cada aventura 🌎"
+    },
+    {
+        "src": "El amor de mi vida/VID_20260310_154743528.mp4",
+        "type": "video",
+        "date": "10 Mar 2026",
+        "caption": "Amor eterno y verdadero 💜"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260313_164358492_HDR.jpg",
+        "type": "image",
+        "date": "13 Mar 2026",
+        "caption": "Nuestra complicidad única 🥰"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260313_164358492_HDR~2.jpg",
+        "type": "image",
+        "date": "13 Mar 2026",
+        "caption": "Haciendo recuerdos inolvidables 📸"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260313_164404817_HDR.jpg",
+        "type": "image",
+        "date": "13 Mar 2026",
+        "caption": "Tu mirada que me enamora 💖"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260411_174657314.jpg",
+        "type": "image",
+        "date": "11 Abr 2026",
+        "caption": "Risas que llenan el corazón 😄"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260411_174706500.jpg",
+        "type": "image",
+        "date": "11 Abr 2026",
+        "caption": "Siempre de tu mano 🤝"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260411_175831699.jpg",
+        "type": "image",
+        "date": "11 Abr 2026",
+        "caption": "Mi princesa hermosa 👑"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260411_175842333.jpg",
+        "type": "image",
+        "date": "11 Abr 2026",
+        "caption": "El amor más bonito del mundo 💕"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260421_153727918.jpg",
+        "type": "image",
+        "date": "21 Abr 2026",
+        "caption": "Gracias por existir, mi vida 🌟"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260421_153733603.jpg",
+        "type": "image",
+        "date": "21 Abr 2026",
+        "caption": "Contigo todo es perfecto 🌷"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260421_153739017.jpg",
+        "type": "image",
+        "date": "21 Abr 2026",
+        "caption": "Un día inolvidable juntos ☀️"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260421_153742915.jpg",
+        "type": "image",
+        "date": "21 Abr 2026",
+        "caption": "Amándote cada día más 💘"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260421_153745257.jpg",
+        "type": "image",
+        "date": "21 Abr 2026",
+        "caption": "Nuestra historia favorita 📖"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260421_153904156.jpg",
+        "type": "image",
+        "date": "21 Abr 2026",
+        "caption": "Eres mi sol en días nublados ☀️"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260421_153907436.jpg",
+        "type": "image",
+        "date": "21 Abr 2026",
+        "caption": "Tú y yo por siempre 💫"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260421_153912093_HDR.jpg",
+        "type": "image",
+        "date": "21 Abr 2026",
+        "caption": "Tu sonrisa ilumina mi vida ❤️"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260421_155720226.jpg",
+        "type": "image",
+        "date": "21 Abr 2026",
+        "caption": "Cada momento a tu lado es mágico ✨"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260421_155801128-COLLAGE.jpg",
+        "type": "image",
+        "date": "21 Abr 2026",
+        "caption": "Mi lugar favorito es contigo 💑"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260421_155801128.jpg",
+        "type": "image",
+        "date": "21 Abr 2026",
+        "caption": "Eres mi felicidad entera 🌹"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260421_155854643.jpg",
+        "type": "image",
+        "date": "21 Abr 2026",
+        "caption": "Juntos en cada aventura 🌎"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260421_160118899.jpg",
+        "type": "image",
+        "date": "21 Abr 2026",
+        "caption": "Amor eterno y verdadero 💜"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260421_160125625.jpg",
+        "type": "image",
+        "date": "21 Abr 2026",
+        "caption": "Nuestra complicidad única 🥰"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260421_160136221.jpg",
+        "type": "image",
+        "date": "21 Abr 2026",
+        "caption": "Haciendo recuerdos inolvidables 📸"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260421_160141539.jpg",
+        "type": "image",
+        "date": "21 Abr 2026",
+        "caption": "Tu mirada que me enamora 💖"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260422_134241295_HDR.jpg",
+        "type": "image",
+        "date": "22 Abr 2026",
+        "caption": "Risas que llenan el corazón 😄"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260422_134243060.jpg",
+        "type": "image",
+        "date": "22 Abr 2026",
+        "caption": "Siempre de tu mano 🤝"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260510_162936477.jpg",
+        "type": "image",
+        "date": "10 May 2026",
+        "caption": "Mi princesa hermosa 👑"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260510_162938304.jpg",
+        "type": "image",
+        "date": "10 May 2026",
+        "caption": "El amor más bonito del mundo 💕"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260510_162946104_HDR.jpg",
+        "type": "image",
+        "date": "10 May 2026",
+        "caption": "Gracias por existir, mi vida 🌟"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260510_164448530.jpg",
+        "type": "image",
+        "date": "10 May 2026",
+        "caption": "Contigo todo es perfecto 🌷"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260510_164454334_HDR.jpg",
+        "type": "image",
+        "date": "10 May 2026",
+        "caption": "Un día inolvidable juntos ☀️"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260510_164457121.jpg",
+        "type": "image",
+        "date": "10 May 2026",
+        "caption": "Amándote cada día más 💘"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260510_164500314.jpg",
+        "type": "image",
+        "date": "10 May 2026",
+        "caption": "Nuestra historia favorita 📖"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260510_164509543_HDR.jpg",
+        "type": "image",
+        "date": "10 May 2026",
+        "caption": "Eres mi sol en días nublados ☀️"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260510_164511286_HDR.jpg",
+        "type": "image",
+        "date": "10 May 2026",
+        "caption": "Tú y yo por siempre 💫"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260510_164513116_HDR.jpg",
+        "type": "image",
+        "date": "10 May 2026",
+        "caption": "Tu sonrisa ilumina mi vida ❤️"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260510_164514959_HDR.jpg",
+        "type": "image",
+        "date": "10 May 2026",
+        "caption": "Cada momento a tu lado es mágico ✨"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260510_164516467.jpg",
+        "type": "image",
+        "date": "10 May 2026",
+        "caption": "Mi lugar favorito es contigo 💑"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260510_164519222.jpg",
+        "type": "image",
+        "date": "10 May 2026",
+        "caption": "Eres mi felicidad entera 🌹"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260510_164631622_HDR.jpg",
+        "type": "image",
+        "date": "10 May 2026",
+        "caption": "Juntos en cada aventura 🌎"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260510_164634560_HDR.jpg",
+        "type": "image",
+        "date": "10 May 2026",
+        "caption": "Amor eterno y verdadero 💜"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260523_173312565.jpg",
+        "type": "image",
+        "date": "23 May 2026",
+        "caption": "Nuestra complicidad única 🥰"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260523_173313419.jpg",
+        "type": "image",
+        "date": "23 May 2026",
+        "caption": "Haciendo recuerdos inolvidables 📸"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260523_173318841.jpg",
+        "type": "image",
+        "date": "23 May 2026",
+        "caption": "Tu mirada que me enamora 💖"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260523_173319854.jpg",
+        "type": "image",
+        "date": "23 May 2026",
+        "caption": "Risas que llenan el corazón 😄"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260523_173325009.jpg",
+        "type": "image",
+        "date": "23 May 2026",
+        "caption": "Siempre de tu mano 🤝"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260719_144715399_HDR.jpg",
+        "type": "image",
+        "date": "19 Jul 2026",
+        "caption": "Mi princesa hermosa 👑"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260719_144729580.jpg",
+        "type": "image",
+        "date": "19 Jul 2026",
+        "caption": "El amor más bonito del mundo 💕"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260719_144734537.jpg",
+        "type": "image",
+        "date": "19 Jul 2026",
+        "caption": "Gracias por existir, mi vida 🌟"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260719_144735415.jpg",
+        "type": "image",
+        "date": "19 Jul 2026",
+        "caption": "Contigo todo es perfecto 🌷"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260719_144739155.jpg",
+        "type": "image",
+        "date": "19 Jul 2026",
+        "caption": "Un día inolvidable juntos ☀️"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260719_144743345_HDR.jpg",
+        "type": "image",
+        "date": "19 Jul 2026",
+        "caption": "Amándote cada día más 💘"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260719_144749431.jpg",
+        "type": "image",
+        "date": "19 Jul 2026",
+        "caption": "Nuestra historia favorita 📖"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260719_144850344.jpg",
+        "type": "image",
+        "date": "19 Jul 2026",
+        "caption": "Eres mi sol en días nublados ☀️"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260719_144857755_HDR.jpg",
+        "type": "image",
+        "date": "19 Jul 2026",
+        "caption": "Tú y yo por siempre 💫"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260802_162302712.jpg",
+        "type": "image",
+        "date": "2 Ago 2026",
+        "caption": "Tu sonrisa ilumina mi vida ❤️"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260802_162312703.jpg",
+        "type": "image",
+        "date": "2 Ago 2026",
+        "caption": "Cada momento a tu lado es mágico ✨"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260802_162341524_HDR.jpg",
+        "type": "image",
+        "date": "2 Ago 2026",
+        "caption": "Mi lugar favorito es contigo 💑"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260802_162346401.jpg",
+        "type": "image",
+        "date": "2 Ago 2026",
+        "caption": "Eres mi felicidad entera 🌹"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260802_162349498.jpg",
+        "type": "image",
+        "date": "2 Ago 2026",
+        "caption": "Juntos en cada aventura 🌎"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260802_162401329.jpg",
+        "type": "image",
+        "date": "2 Ago 2026",
+        "caption": "Amor eterno y verdadero 💜"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260802_162431407.jpg",
+        "type": "image",
+        "date": "2 Ago 2026",
+        "caption": "Nuestra complicidad única 🥰"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260802_162438828.jpg",
+        "type": "image",
+        "date": "2 Ago 2026",
+        "caption": "Haciendo recuerdos inolvidables 📸"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260802_162505194.jpg",
+        "type": "image",
+        "date": "2 Ago 2026",
+        "caption": "Tu mirada que me enamora 💖"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260802_162517178.jpg",
+        "type": "image",
+        "date": "2 Ago 2026",
+        "caption": "Risas que llenan el corazón 😄"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260808_170116426_HDR.jpg",
+        "type": "image",
+        "date": "8 Ago 2026",
+        "caption": "Siempre de tu mano 🤝"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260808_174438899_HDR.jpg",
+        "type": "image",
+        "date": "8 Ago 2026",
+        "caption": "Mi princesa hermosa 👑"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260808_174441003_HDR.jpg",
+        "type": "image",
+        "date": "8 Ago 2026",
+        "caption": "El amor más bonito del mundo 💕"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260808_174443177_HDR.jpg",
+        "type": "image",
+        "date": "8 Ago 2026",
+        "caption": "Gracias por existir, mi vida 🌟"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260808_174447089.jpg",
+        "type": "image",
+        "date": "8 Ago 2026",
+        "caption": "Contigo todo es perfecto 🌷"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260808_174448381_HDR.jpg",
+        "type": "image",
+        "date": "8 Ago 2026",
+        "caption": "Un día inolvidable juntos ☀️"
+    },
+    {
+        "src": "El amor de mi vida/20260810_174606-IMG_STYLE.jpg",
+        "type": "image",
+        "date": "10 Ago 2026",
+        "caption": "Amándote cada día más 💘"
+    },
+    {
+        "src": "El amor de mi vida/20260810_174857-IMG_STYLE.jpg",
+        "type": "image",
+        "date": "10 Ago 2026",
+        "caption": "Nuestra historia favorita 📖"
+    },
+    {
+        "src": "El amor de mi vida/2026-08-16-16-17-58-905.jpg",
+        "type": "image",
+        "date": "16 Ago 2026",
+        "caption": "Eres mi sol en días nublados ☀️"
+    },
+    {
+        "src": "El amor de mi vida/2026-08-16-16-18-08-267.jpg",
+        "type": "image",
+        "date": "16 Ago 2026",
+        "caption": "Tú y yo por siempre 💫"
+    },
+    {
+        "src": "El amor de mi vida/2026-08-16-16-34-10-116.jpg",
+        "type": "image",
+        "date": "16 Ago 2026",
+        "caption": "Tu sonrisa ilumina mi vida ❤️"
+    },
+    {
+        "src": "El amor de mi vida/2026-08-16-16-34-13-510.jpg",
+        "type": "image",
+        "date": "16 Ago 2026",
+        "caption": "Cada momento a tu lado es mágico ✨"
+    },
+    {
+        "src": "El amor de mi vida/2026-08-16-16-39-38-280.jpg",
+        "type": "image",
+        "date": "16 Ago 2026",
+        "caption": "Mi lugar favorito es contigo 💑"
+    },
+    {
+        "src": "El amor de mi vida/2026-08-16-16-39-40-049.jpg",
+        "type": "image",
+        "date": "16 Ago 2026",
+        "caption": "Eres mi felicidad entera 🌹"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260822_183300871.jpg",
+        "type": "image",
+        "date": "22 Ago 2026",
+        "caption": "Juntos en cada aventura 🌎"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260822_183304362.jpg",
+        "type": "image",
+        "date": "22 Ago 2026",
+        "caption": "Amor eterno y verdadero 💜"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260822_183311753.jpg",
+        "type": "image",
+        "date": "22 Ago 2026",
+        "caption": "Nuestra complicidad única 🥰"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260822_183324278.jpg",
+        "type": "image",
+        "date": "22 Ago 2026",
+        "caption": "Haciendo recuerdos inolvidables 📸"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260822_183337433.jpg",
+        "type": "image",
+        "date": "22 Ago 2026",
+        "caption": "Tu mirada que me enamora 💖"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260822_183340955.jpg",
+        "type": "image",
+        "date": "22 Ago 2026",
+        "caption": "Risas que llenan el corazón 😄"
+    },
+    {
+        "src": "El amor de mi vida/IMG_20260822_183342117.jpg",
+        "type": "image",
+        "date": "22 Ago 2026",
+        "caption": "Siempre de tu mano 🤝"
+    }
+];
+
+        let currentAlbumFilter = 'all';
+        let displayedAlbumCount = 18;
+        const ALBUM_BATCH_SIZE = 18;
+        let currentLightboxIndex = 0;
+        let activeFilteredMedia = [];
+
+        function getFilteredMedia() {
+            if (currentAlbumFilter === 'all') return albumMedia;
+            return albumMedia.filter(item => item.type === currentAlbumFilter);
+        }
+
+        function renderGallery(filter = null, reset = true) {
+            if (filter) currentAlbumFilter = filter;
+            if (reset) displayedAlbumCount = ALBUM_BATCH_SIZE;
+
+            const grid = document.getElementById('album-grid');
+            if (!grid) return;
+
+            activeFilteredMedia = getFilteredMedia();
+            const itemsToShow = activeFilteredMedia.slice(0, displayedAlbumCount);
+
+            grid.innerHTML = itemsToShow.map((item, idx) => {
+                const isVid = item.type === 'video';
+                return `
+                    <div class="polaroid" onclick="openLightbox(${idx})" title="Toca para ver en pantalla completa">
+                        <span class="polaroid-badge">${item.date}</span>
+                        ${isVid 
+                            ? `<video src="${item.src}" preload="metadata" muted playsinline></video>
+                               <div class="video-indicator">▶</div>` 
+                            : `<img src="${item.src}" alt="Recuerdo con Cleidis" loading="lazy" decoding="async">`
+                        }
+                        <p class="caption">${item.caption}</p>
+                    </div>
+                `;
+            }).join('');
+
+            const loadMoreBtn = document.getElementById('btn-load-more');
+            if (loadMoreBtn) {
+                if (displayedAlbumCount >= activeFilteredMedia.length) {
+                    loadMoreBtn.style.display = 'none';
+                } else {
+                    loadMoreBtn.style.display = 'inline-block';
+                    const remaining = activeFilteredMedia.length - displayedAlbumCount;
+                    loadMoreBtn.innerText = `Ver más recuerdos (+${Math.min(ALBUM_BATCH_SIZE, remaining)}) 💜`;
+                }
+            }
+        }
+
+        function loadMoreMedia() {
+            displayedAlbumCount += ALBUM_BATCH_SIZE;
+            renderGallery(null, false);
+            spawnBatch(8);
+        }
+
+        function filterGallery(type, btn) {
+            currentAlbumFilter = type;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            renderGallery(type, true);
+            spawnBatch(10);
+        }
+
+        // ── LIGHTBOX MODAL ──
+        function openLightbox(index) {
+            activeFilteredMedia = getFilteredMedia();
+            if (index < 0 || index >= activeFilteredMedia.length) return;
+            currentLightboxIndex = index;
+
+            const modal = document.getElementById('lightbox-modal');
+            const mediaContainer = document.getElementById('lightbox-media-container');
+            const captionEl = document.getElementById('lightbox-caption');
+            const counterEl = document.getElementById('lightbox-counter');
+
+            const item = activeFilteredMedia[index];
+            if (item.type === 'video') {
+                mediaContainer.innerHTML = `<video class="lightbox-media" src="${item.src}" controls autoplay playsinline></video>`;
+            } else {
+                mediaContainer.innerHTML = `<img class="lightbox-media" src="${item.src}" alt="${item.caption}">`;
+            }
+
+            captionEl.innerText = `${item.caption} (${item.date})`;
+            counterEl.innerText = `${index + 1} de ${activeFilteredMedia.length} recuerdos`;
+
+            modal.classList.add('active');
+            spawnBatch(6);
+        }
+
+        function closeLightbox() {
+            const modal = document.getElementById('lightbox-modal');
+            const mediaContainer = document.getElementById('lightbox-media-container');
+            if (mediaContainer) {
+                const vid = mediaContainer.querySelector('video');
+                if (vid) vid.pause();
+                mediaContainer.innerHTML = '';
+            }
+            if (modal) modal.classList.remove('active');
+        }
+
+        function lightboxNext() {
+            if (activeFilteredMedia.length === 0) return;
+            const nextIdx = (currentLightboxIndex + 1) % activeFilteredMedia.length;
+            openLightbox(nextIdx);
+        }
+
+        function lightboxPrev() {
+            if (activeFilteredMedia.length === 0) return;
+            const prevIdx = (currentLightboxIndex - 1 + activeFilteredMedia.length) % activeFilteredMedia.length;
+            openLightbox(prevIdx);
+        }
+
+        function onLightboxBgClick(e) {
+            if (e.target.id === 'lightbox-modal' || e.target.id === 'lightbox-content-wrap') {
+                closeLightbox();
+            }
+        }
+
+        // Teclado para Lightbox
+        document.addEventListener('keydown', (e) => {
+            const modal = document.getElementById('lightbox-modal');
+            if (!modal || !modal.classList.contains('active')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowRight') lightboxNext();
+            if (e.key === 'ArrowLeft') lightboxPrev();
+        });
+
+        // Gesto táctil Swipe para Lightbox en móvil
+        let touchStartX = 0;
+        let touchEndX = 0;
+        document.addEventListener('touchstart', (e) => {
+            const modal = document.getElementById('lightbox-modal');
+            if (modal && modal.classList.contains('active')) {
+                touchStartX = e.changedTouches[0].screenX;
+            }
+        }, { passive: true });
+
+        document.addEventListener('touchend', (e) => {
+            const modal = document.getElementById('lightbox-modal');
+            if (modal && modal.classList.contains('active')) {
+                touchEndX = e.changedTouches[0].screenX;
+                const diff = touchEndX - touchStartX;
+                if (Math.abs(diff) > 50) {
+                    if (diff < 0) lightboxNext();
+                    else lightboxPrev();
+                }
+            }
+        }, { passive: true });
+
 
         // DESBLOQUEAR WEB
         function unlockWeb() {
@@ -2901,6 +3920,7 @@
                 startCounter();
                 initFloating();
                 setDailyMessage();
+                renderGallery();
                 initMemoryGame();
                 loadKisses();
                 loadMusicStats();
@@ -2908,6 +3928,7 @@
                 updateHugCounter();
                 updateMoodHistory();
                 loadMemories();
+                loadBucketList();
                 updateMemoryStats();
                 setTimeout(showVisitCount, 500);
             }, 800);
@@ -2931,6 +3952,8 @@
             spawnBatch(10);
             
             if(id === 'inicio') setDailyMessage();
+            if(id === 'galeria') renderGallery();
+            if(id === 'conexion') loadBucketList();
         }
 
         function toggleMainNav() {
@@ -3054,8 +4077,12 @@
 
         function initMemoryGame() {
             const board = document.getElementById('memory-board');
-            const imgs = ['foto1.jpeg', 'foto2.jpeg', 'foto3.jpeg', 'foto4.jpeg', 'foto5.jpeg', 'foto6.jpeg'];
-            const cards = [...imgs, ...imgs];
+            const imagePool = (typeof albumMedia !== 'undefined' && albumMedia.length > 0)
+                ? albumMedia.filter(m => m.type === 'image').map(m => m.src)
+                : ['foto1.jpeg', 'foto2.jpeg', 'foto3.jpeg', 'foto4.jpeg', 'foto5.jpeg', 'foto6.jpeg'];
+            
+            const selectedImgs = [...imagePool].sort(() => Math.random() - 0.5).slice(0, 6);
+            const cards = [...selectedImgs, ...selectedImgs];
             cards.sort(() => Math.random() - 0.5);
             
             board.innerHTML = '';
@@ -3122,23 +4149,26 @@
             spawnBatch(1);
             
             // Guardar en Firebase
-            if (window.db && window.dbRef) {
+            if (window.db && window.dbRef && window.dbSet) {
                 const kissRef = window.dbRef(window.db, 'besos_contador');
-                import("https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js").then(m => {
-                    m.set(kissRef, kisses);
-                });
+                window.dbSet(kissRef, kisses);
             }
         }
 
         function loadKisses() {
             if (window.db && window.dbRef) {
                 const kissRef = window.dbRef(window.db, 'besos_contador');
-                import("https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js").then(m => {
-                    m.onValue(kissRef, (snapshot) => {
+                if (window.dbOnValue) {
+                    window.dbOnValue(kissRef, (snapshot) => {
                         kisses = snapshot.val() || 0;
                         document.getElementById('kiss-total').innerText = kisses;
                     });
-                });
+                } else if (window.dbGet) {
+                    window.dbGet(kissRef).then(snapshot => {
+                        kisses = snapshot.val() || 0;
+                        document.getElementById('kiss-total').innerText = kisses;
+                    });
+                }
             }
         }
 
@@ -3163,25 +4193,28 @@
             const container = document.getElementById('wishes-container');
             if (window.db && window.dbRef) {
                 const wishesRef = window.dbRef(window.db, 'deseos');
-                import("https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js").then(m => {
-                    m.onValue(wishesRef, (snapshot) => {
-                        const data = snapshot.val();
-                        container.innerHTML = "";
-                        if (data) {
-                            Object.values(data).reverse().forEach(wish => {
-                                const item = document.createElement('div');
-                                item.className = 'wish-list-item';
-                                item.innerHTML = `
-                                    <p>${wish.texto}</p>
-                                    <span class="wish-date">${wish.fecha}</span>
-                                `;
-                                container.appendChild(item);
-                            });
-                        } else {
-                            container.innerHTML = "<p>No hay deseos aún.</p>";
-                        }
-                    });
-                });
+                const renderWishes = (snapshot) => {
+                    const data = snapshot.val();
+                    container.innerHTML = "";
+                    if (data) {
+                        Object.values(data).reverse().forEach(wish => {
+                            const item = document.createElement('div');
+                            item.className = 'wish-list-item';
+                            item.innerHTML = `
+                                <p>${wish.texto}</p>
+                                <span class="wish-date">${wish.fecha}</span>
+                            `;
+                            container.appendChild(item);
+                        });
+                    } else {
+                        container.innerHTML = "<p>No hay deseos aún.</p>";
+                    }
+                };
+                if (window.dbOnValue) {
+                    window.dbOnValue(wishesRef, renderWishes);
+                } else if (window.dbGet) {
+                    window.dbGet(wishesRef).then(renderWishes);
+                }
             }
         }
 
@@ -3572,7 +4605,8 @@
             ];
             
             const randomCompliment = compliments[Math.floor(Math.random() * compliments.length)];
-            document.getElementById('compliment-display').innerText = randomCompliment;
+            const displayEl = document.getElementById('compliment-display');
+            if (displayEl) displayEl.innerText = randomCompliment;
             
             if (fromDropdown) {
                 document.getElementById('surprise-content').innerHTML = `
@@ -4012,14 +5046,44 @@
             }
         }
 
-        function toggleBucketItem(checkbox) {
-            const item = checkbox.parentElement;
+        function loadBucketList() {
+            if (!window.db || !window.dbRef) return;
+            const bucketRef = window.dbRef(window.db, 'lista_suenos');
+            const getFn = window.dbGet;
+            if (getFn) {
+                getFn(bucketRef).then(snapshot => {
+                    const bucketList = document.getElementById('bucket-list');
+                    if (!bucketList) return;
+                    bucketList.innerHTML = '';
+                    if (snapshot.exists()) {
+                        const data = snapshot.val();
+                        Object.entries(data).forEach(([key, item]) => {
+                            const div = document.createElement('div');
+                            div.className = 'bucket-item';
+                            div.innerHTML = `
+                                <div style="display: flex; align-items: center; gap: 10px; padding: 10px; background: var(--bg); border-radius: 10px; margin-bottom: 8px;">
+                                    <input type="checkbox" ${item.completado ? 'checked' : ''} onchange="toggleBucketItem('${key}', this)">
+                                    <span style="flex: 1; font-style: italic; ${item.completado ? 'opacity: 0.6; text-decoration: line-through;' : ''}">${item.sueno}</span>
+                                    <span style="font-size: 0.8rem; color: #888;">${item.fecha || ''}</span>
+                                </div>
+                            `;
+                            bucketList.appendChild(div);
+                        });
+                    }
+                });
+            }
+        }
+
+        function toggleBucketItem(key, checkbox) {
+            const itemSpan = checkbox.parentElement.querySelector('span');
             if (checkbox.checked) {
-                item.style.opacity = '0.6';
-                item.style.textDecoration = 'line-through';
+                if (itemSpan) { itemSpan.style.opacity = '0.6'; itemSpan.style.textDecoration = 'line-through'; }
             } else {
-                item.style.opacity = '1';
-                item.style.textDecoration = 'none';
+                if (itemSpan) { itemSpan.style.opacity = '1'; itemSpan.style.textDecoration = 'none'; }
+            }
+            if (window.db && window.dbRef && window.dbUpdate && key) {
+                const itemRef = window.dbRef(window.db, 'lista_suenos/' + key);
+                window.dbUpdate(itemRef, { completado: checkbox.checked });
             }
         }
 
