@@ -1,4 +1,4 @@
-const CACHE_NAME = 'nuestro-amor-v1';
+const CACHE_NAME = 'nuestro-amor-v2';
 const urlsToCache = [
   './',
   './index.html',
@@ -6,6 +6,7 @@ const urlsToCache = [
   './app.js',
   './firebase-init.js',
   './voice.js',
+  './particles.js',
   './manifest.json',
   'https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500;600&display=swap'
 ];
