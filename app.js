@@ -1691,7 +1691,14 @@
             9: 'Solamente Tu Amor',
             10: 'Viviendo Deprisa',
             11: 'Desde Cuando',
-            12: 'No Me Compares'
+            12: 'No Me Compares',
+            13: 'La Incondicional',
+            14: 'Hasta Que Me Olvides',
+            15: 'Entrégate',
+            16: 'Tengo Todo Excepto A Ti',
+            17: 'Sabes Una Cosa',
+            18: 'Mi Persona Favorita',
+            19: 'El Alma Al Aire'
         };
 
         function togglePlayer(num, videoId) {
