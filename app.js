@@ -1050,7 +1050,7 @@
             grid.innerHTML = itemsToShow.map((item, idx) => {
                 const isVid = item.type === 'video';
                 return `
-                    <div class="polaroid" onclick="openLightbox(${idx})" title="Toca para ver en pantalla completa">
+                    <div class="polaroid" style="animation: fadeInDown 0.6s ease forwards; animation-delay: ${(idx % ALBUM_BATCH_SIZE) * 0.15}s; opacity: 0;" onclick="openLightbox(${idx})" title="Toca para ver en pantalla completa">
                         <span class="polaroid-badge">${item.date}</span>
                         ${isVid 
                             ? `<video src="${item.src}" preload="metadata" muted playsinline></video>
