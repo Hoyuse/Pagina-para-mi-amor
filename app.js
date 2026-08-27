@@ -1248,6 +1248,26 @@
 
 
         // DESBLOQUEAR WEB
+
+        // NOVEDADES
+        function showNovedades() {
+            const modal = document.getElementById('novedades-modal');
+            if(modal) {
+                modal.style.display = 'flex';
+                spawnBatch(5);
+            } else {
+                unlockWeb();
+            }
+        }
+
+        function closeNovedadesAndUnlock() {
+            const modal = document.getElementById('novedades-modal');
+            if(modal) {
+                modal.style.display = 'none';
+            }
+            unlockWeb();
+        }
+
         function unlockWeb() {
             const hero = document.getElementById('hero');
             hero.style.transform = 'translateY(-100%)';
