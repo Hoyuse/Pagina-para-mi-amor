@@ -1050,17 +1050,43 @@
             grid.innerHTML = itemsToShow.map((item, idx) => {
                 const isVid = item.type === 'video';
                 return `
-                    <div class="polaroid" style="animation: fadeInDown 0.6s ease forwards; animation-delay: ${(idx % ALBUM_BATCH_SIZE) * 0.15}s; opacity: 0;" onclick="openLightbox(${idx})" title="Toca para ver en pantalla completa">
+                    <div class="polaroid" style="animation: fadeInDown 0.6s ease forwards; animation-delay: ${(idx % ALBUM_BATCH_SIZE) * 0.1}s; opacity: 0;" onclick="openLightbox(${idx})" title="Toca para ver en pantalla completa">
                         <span class="polaroid-badge">${item.date}</span>
                         ${isVid 
-                            ? `<video src="${item.src}" preload="metadata" muted playsinline></video>
+                            ? `<div style="width: 100%; height: 240px; background: #e0d4f5; display: flex; align-items: center; justify-content: center; border-radius: 10px;">
+                                 <div style="font-size: 3rem; opacity: 0.7;">🎬</div>
+                               </div>
                                <div class="video-indicator">▶</div>` 
-                            : `<img src="${item.src}" alt="Recuerdo con Cleidis" loading="lazy" decoding="async">`
+                            : `<img data-src="${item.src}" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Recuerdo con Cleidis" decoding="async" style="width: 100%; height: 240px; object-fit: cover; border-radius: 10px; background: #f0e6ff;">`
                         }
                         <p class="caption">${item.caption}</p>
                     </div>
                 `;
             }).join('');
+
+            // Intersection Observer para Lazy Loading estricto
+            if ('IntersectionObserver' in window) {
+                const imgObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            img.src = img.getAttribute('data-src');
+                            img.removeAttribute('data-src');
+                            observer.unobserve(img);
+                        }
+                    });
+                }, { rootMargin: "100px 0px" });
+
+                grid.querySelectorAll('img[data-src]').forEach(img => {
+                    imgObserver.observe(img);
+                });
+            } else {
+                // Fallback
+                grid.querySelectorAll('img[data-src]').forEach(img => {
+                    img.src = img.getAttribute('data-src');
+                    img.removeAttribute('data-src');
+                });
+            }
 
             const loadMoreBtn = document.getElementById('btn-load-more');
             if (loadMoreBtn) {
