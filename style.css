@@ -1314,6 +1314,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            content-visibility: auto;
+            contain-intrinsic-size: auto 300px;
         }
 
         .polaroid:hover {

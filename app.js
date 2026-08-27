@@ -1027,8 +1027,8 @@
 ];
 
         let currentAlbumFilter = 'all';
-        let displayedAlbumCount = 18;
-        const ALBUM_BATCH_SIZE = 18;
+        let displayedAlbumCount = 6;
+        const ALBUM_BATCH_SIZE = 6;
         let currentLightboxIndex = 0;
         let activeFilteredMedia = [];
 
