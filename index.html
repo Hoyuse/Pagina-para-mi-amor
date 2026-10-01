@@ -1194,56 +1194,35 @@
 
     <!-- MODAL DE NOVEDADES -->
     <div id="novedades-modal" style="display:none; position:fixed; inset:0; background:rgba(10,2,24,0.9); backdrop-filter:blur(10px); z-index:9999; align-items:center; justify-content:center; padding:20px; text-align:center; animation:fadeIn 0.3s ease;">
-        <div style="background: linear-gradient(135deg, #ffffff 0%, #faf5ff 100%); padding: 26px 22px; border-radius: 24px; max-width: 440px; width: 100%; box-shadow: 0 15px 40px rgba(138,58,185,0.4); border: 2px solid rgba(138,58,185,0.25); max-height: 90vh; overflow-y: auto;">
+        <div style="background: linear-gradient(135deg, #ffffff 0%, #faf5ff 100%); padding: 28px 24px; border-radius: 24px; max-width: 440px; width: 100%; box-shadow: 0 15px 40px rgba(138,58,185,0.4); border: 2px solid rgba(138,58,185,0.25); max-height: 90vh; overflow-y: auto;">
             <div style="font-size: 2.8rem; margin-bottom: 6px;">✨</div>
-            <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.4rem; color: var(--primary); margin-bottom: 8px;">¡Novedades para Ti!</h2>
-            <p style="color: var(--text); font-weight: 600; font-size: 0.9rem; margin-bottom: 18px;">He preparado estos nuevos detalles especiales con todo mi amor:</p>
+            <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.4rem; color: var(--primary); margin-bottom: 8px;">¡Novedades!</h2>
+            <p style="color: var(--text); font-weight: 700; font-size: 1rem; margin-bottom: 16px;">He añadido nuevas novedades para ti:</p>
             
-            <div style="text-align: left; margin-bottom: 20px;">
-                <!-- Tarjeta Novedad 1 -->
-                <div class="novedad-card-item">
-                    <div class="novedad-item-icon">📜</div>
-                    <div style="flex: 1;">
-                        <div class="novedad-item-title">Carta Viva</div>
-                        <div class="novedad-item-desc">Se escribe en vivo con pluma mágica y sello de amor.</div>
-                    </div>
-                    <button class="novedad-item-btn" onclick="closeNovedadesAndUnlock('carta')">Ver ➡️</button>
-                </div>
+            <ul style="text-align: left; margin-bottom: 20px; color: var(--text); font-size: 0.95rem; line-height: 1.6; list-style: none; padding: 0;">
+                <li style="margin-bottom: 10px; padding: 8px 12px; background: rgba(138,58,185,0.06); border-radius: 12px; border-left: 3px solid var(--primary);">
+                    📜 <b>Carta Viva:</b> Palabras que cobran vida en tiempo real con tinta del corazón y pluma mágica.
+                </li>
+                <li style="margin-bottom: 10px; padding: 8px 12px; background: rgba(255,117,140,0.08); border-radius: 12px; border-left: 3px solid #ff758c;">
+                    🌸 <b>El Jardín de Cleidis:</b> Riega y haz florecer nuestra rosa mágica con gotas de amor todos los días.
+                </li>
+                <li style="margin-bottom: 10px; padding: 8px 12px; background: rgba(138,58,185,0.06); border-radius: 12px; border-left: 3px solid var(--primary);">
+                    🎙️ <b>Mis Voces:</b> Mensajes grabados con amor para escuchar en cualquier momento.
+                </li>
+                <li style="margin-bottom: 10px; padding: 8px 12px; background: rgba(138,58,185,0.06); border-radius: 12px; border-left: 3px solid var(--primary);">
+                    ⭐ <b>Nuestras Estrellas:</b> El cielo exacto de nuestra noche del 10 de Febrero en La Dorada.
+                </li>
+                <li style="margin-bottom: 10px; padding: 8px 12px; background: rgba(138,58,185,0.06); border-radius: 12px; border-left: 3px solid var(--primary);">
+                    📸 <b>Álbum Completo:</b> Fotos y recuerdos de nuestra historia.
+                </li>
+            </ul>
 
-                <!-- Tarjeta Novedad 2 -->
-                <div class="novedad-card-item">
-                    <div class="novedad-item-icon">🌸</div>
-                    <div style="flex: 1;">
-                        <div class="novedad-item-title">El Jardín de Cleidis</div>
-                        <div class="novedad-item-desc">Riega y haz florecer nuestra rosa mágica cada día.</div>
-                    </div>
-                    <button class="novedad-item-btn" onclick="closeNovedadesAndUnlock('jardin')" style="background: linear-gradient(135deg, #ff758c, #ff7eb3);">Cuidar ➡️</button>
-                </div>
-
-                <!-- Tarjeta Novedad 3 -->
-                <div class="novedad-card-item">
-                    <div class="novedad-item-icon">🎙️</div>
-                    <div style="flex: 1;">
-                        <div class="novedad-item-title">Mis Voces para Ti</div>
-                        <div class="novedad-item-desc">Mensajes grabados con amor para escuchar cuando quieras.</div>
-                    </div>
-                    <button class="novedad-item-btn" onclick="closeNovedadesAndUnlock('voces')">Oír ➡️</button>
-                </div>
-
-                <!-- Tarjeta Novedad 4 -->
-                <div class="novedad-card-item">
-                    <div class="novedad-item-icon">⭐</div>
-                    <div style="flex: 1;">
-                        <div class="novedad-item-title">Nuestras Estrellas</div>
-                        <div class="novedad-item-desc">El cielo exacto de nuestra noche del 10 de Febrero.</div>
-                    </div>
-                    <button class="novedad-item-btn" onclick="closeNovedadesAndUnlock('estrellas')">Mirar ➡️</button>
-                </div>
+            <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px;">
+                <button class="btn" style="padding: 9px 14px; font-size: 0.85rem; background: var(--gradient);" onclick="closeNovedadesAndUnlock('carta')">Ir a Carta Viva 📜</button>
+                <button class="btn" style="padding: 9px 14px; font-size: 0.85rem; background: linear-gradient(135deg, #ff758c, #ff7eb3);" onclick="closeNovedadesAndUnlock('jardin')">Ir al Jardín 🌸</button>
             </div>
             
-            <div style="display: flex; gap: 10px;">
-                <button class="btn" style="flex: 1; font-size: 1rem; padding: 12px; background: var(--gradient);" onclick="closeNovedadesAndUnlock('inicio')">Entrar a Inicio 💕</button>
-            </div>
+            <button class="btn" style="width: 100%; font-size: 1.05rem; padding: 12px; background: var(--gradient);" onclick="closeNovedadesAndUnlock('inicio')">¡Entrar ahora! 💜</button>
         </div>
     </div>
 
@@ -1282,12 +1261,23 @@
     <script src="garden-letter.js"></script>
 
     <script>
-        // Registrar Service Worker para PWA
+        // Registrar Service Worker para PWA con detección de actualizaciones
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('ServiceWorker registrado con éxito: ', reg.scope))
+                    .then(reg => {
+                        console.log('ServiceWorker registrado con éxito: ', reg.scope);
+                        reg.update();
+                    })
                     .catch(err => console.log('Fallo al registrar el ServiceWorker: ', err));
+            });
+
+            let refreshing = false;
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                if (!refreshing) {
+                    refreshing = true;
+                    window.location.reload();
+                }
             });
         }
     </script>
