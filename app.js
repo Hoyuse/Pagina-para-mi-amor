@@ -1213,15 +1213,28 @@
             }
         }
 
-        function closeNovedadesAndUnlock() {
+        function closeNovedadesAndUnlock(targetSection) {
             const modal = document.getElementById('novedades-modal');
             if(modal) {
                 modal.style.display = 'none';
             }
-            unlockWeb();
+            const hero = document.getElementById('hero');
+            if(hero && hero.style.display !== 'none') {
+                unlockWeb(targetSection);
+            } else if (targetSection) {
+                go(targetSection);
+            }
         }
 
-        function unlockWeb() {
+        function showNovedadesModalOnly() {
+            const modal = document.getElementById('novedades-modal');
+            if(modal) {
+                modal.style.display = 'flex';
+                spawnBatch(6);
+            }
+        }
+
+        function unlockWeb(targetSection) {
             const hero = document.getElementById('hero');
             hero.style.transform = 'translateY(-100%)';
             hero.style.opacity = '0';
@@ -1229,7 +1242,7 @@
             setTimeout(() => {
                 hero.style.display = 'none';
                 document.querySelector('.main-nav-wrap').classList.add('visible');
-                go('inicio');
+                go(targetSection || 'inicio');
                 initTheme();
                 startCounter();
                 initFloating();
@@ -1293,6 +1306,8 @@
             if(id === 'inicio') setDailyMessage();
             if(id === 'galeria') renderGallery();
             if(id === 'conexion') loadBucketList();
+            if(id === 'carta' && window.onEnterCarta) window.onEnterCarta();
+            if(id === 'jardin' && window.onEnterJardin) window.onEnterJardin();
         }
 
         function toggleMainNav() {
